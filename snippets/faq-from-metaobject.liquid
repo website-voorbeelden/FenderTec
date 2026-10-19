@@ -1,0 +1,189 @@
+{%- comment -%}
+FAQ block for product or collection (Dawn-native typography)
+- Product/Collection metafield: custom.faq_rich_reference (Entry reference → metaobject `faq_rich`)
+- Metaobject Rich text field handle: faq_rich
+- Authoring: <h3>Question</h3> + answer paragraphs until next <h3>
+- Fallback: <strong>Question</strong> if no <h3>
+{%- endcomment -%}
+
+{%- assign entry = nil -%}
+{%- assign faq_html_raw = blank -%}
+{%- assign faq_html = blank -%}
+
+{%- if product and product.metafields.custom.faq_rich_reference and product.metafields.custom.faq_rich_reference.value -%}
+  {%- assign entry = product.metafields.custom.faq_rich_reference.value -%}
+{%- elsif collection and collection.metafields.custom.faq_rich_reference and collection.metafields.custom.faq_rich_reference.value -%}
+  {%- assign entry = collection.metafields.custom.faq_rich_reference.value -%}
+{%- endif -%}
+
+{%- if entry and entry.faq_rich != blank -%}
+  {%- assign faq_html_raw = entry.faq_rich | metafield_tag | to_s -%}
+  {%- assign faq_html = faq_html_raw
+      | replace: '&nbsp;', ' '
+      | replace: '\u00A0', ' '
+      | replace: '<H3', '<h3' | replace: '</H3', '</h3'
+      | replace: '<STRONG', '<strong' | replace: '</STRONG', '</strong'
+  -%}
+{%- endif -%}
+
+{%- comment -%} --- SHOW ONLY ON .COM + EN --- {%- endcomment -%}
+{%- if faq_html != blank -%}
+  {%- assign host = request.host | downcase -%}
+  {%- assign tld = host | split: '.' | last -%}
+  {%- assign current_lang = localization.language.iso_code | downcase | split: '-' | first -%}
+  {%- if tld != 'com' or current_lang != 'en' -%}
+    {%- assign faq_html = blank -%}
+  {%- endif -%}
+{%- endif -%}
+{%- comment -%} --- END GATE --- {%- endcomment -%}
+
+{%- assign qa_acc = '' -%}
+{%- if faq_html != blank -%}
+  {%- assign chunks = faq_html | split: '<h3' -%}
+  {%- for chunk in chunks -%}
+    {%- if forloop.first -%}{% continue %}{%- endif -%}
+    {%- assign tmp = chunk | replace_first: '>', ']|[' -%}
+    {%- assign halves = tmp | split: ']|[' -%}
+    {%- assign right = halves | last | default: '' -%}
+    {%- assign parts = right | split: '</h3>' -%}
+    {%- assign q_html = parts[0] | default: '' | strip -%}
+    {%- assign after_h3 = parts[1] | default: '' -%}
+    {%- assign a_html = after_h3 | split: '<h3' | first | strip -%}
+    {%- assign q_text = q_html | strip_html | strip -%}
+    {%- assign a_check = a_html | strip_html | strip -%}
+    {%- if q_text != blank and a_check != blank -%}
+      {%- assign qa_acc = qa_acc | append: '^^^' | append: q_text | append: '||' | append: a_html -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if qa_acc == '' and faq_html contains '<strong>' -%}
+    {%- assign chunks2 = faq_html | split: '<strong>' -%}
+    {%- for chunk in chunks2 -%}
+      {%- if forloop.first -%}{% continue %}{%- endif -%}
+      {%- assign parts2 = chunk | split: '</strong>' -%}
+      {%- assign q_html2 = parts2[0] | default: '' | strip -%}
+      {%- assign after2 = parts2[1] | default: '' -%}
+      {%- assign a_html2 = after2 | split: '<strong>' | first | strip -%}
+      {%- assign q_text2 = q_html2 | strip_html | strip -%}
+      {%- assign a_check2 = a_html2 | strip_html | strip -%}
+      {%- if q_text2 != blank and a_check2 != blank -%}
+        {%- assign qa_acc = qa_acc | append: '^^^' | append: q_text2 | append: '||' | append: a_html2 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign qa_items = qa_acc | remove_first: '^^^' | split: '^^^' -%}
+{%- if qa_items.size > 0 -%}
+  <style>
+/* Dawn-native: geen custom font-sizes; alles erft uit het thema */
+#faq-wrap { display:grid; place-items:center; margin: var(--spacer, 2rem) 0; }
+#faq {
+  width: min(1200px, 100% - 2rem);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+#faq .faq-header { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin:.25rem 0 1rem; }
+#faq .faq-heading { margin:0; }
+#faq .faq-tools { display:flex; gap:.5rem; }
+#faq .faq-btn {
+  border: 1px solid rgba(0,0,0,.1);
+  background: #fafafa;
+  padding: .5rem .75rem;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+#faq .faq-btn:hover { background:#f3f3f3; }
+#faq .faq-list { margin:.25rem 0 0; }
+#faq .faq-item { border-top:1px solid rgba(0,0,0,.06); }
+#faq .faq-item:first-of-type { border-top:0; }
+#faq .faq-item summary {
+  list-style:none; cursor:pointer;
+  display:flex; align-items:center; gap:.75rem;
+  padding: 1rem .9rem;
+  border-radius:8px;
+  transition: background .15s ease;
+  outline: none;
+  font: inherit;
+}
+#faq .faq-item summary:hover { background:#fafafa; }
+#faq .faq-item[open] summary { background:#f9f9f9; }
+#faq .faq-q { margin:0; flex:1 1 auto; font: inherit; color: inherit; font-weight: 500; }
+#faq .faq-a { padding:.4rem .9rem 1rem; color: inherit; font: inherit; line-height: 1.7; }
+#faq .faq-a p { margin:.6rem 0; }
+#faq .faq-a a { color: inherit; text-decoration: underline; }
+#faq .faq-a strong, #faq .faq-a b { font-weight: 600; color: inherit; }
+#faq .faq-item summary::-webkit-details-marker { display:none; }
+#faq .faq-item summary::marker { content:""; }
+#faq .faq-chevron {
+  width: 18px; height: 18px; flex: 0 0 18px;
+  transform: rotate(0deg); transition: transform .2s ease;
+  mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="%23000" d="M8.12 9.29L12 13.17l3.88-3.88a1 1 0 011.41 1.42l-4.59 4.58a1 1 0 01-1.41 0L6.7 10.7a1 1 0 111.42-1.41z"/></svg>') no-repeat center / contain;
+  background: currentColor;
+  opacity: .55;
+}
+#faq .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+  </style>
+
+  <div id="faq-wrap">
+    <section id="faq" class="faq-block" aria-labelledby="faq__heading">
+      <div class="faq-header">
+        <h2 id="faq__heading" class="h2">FAQ</h2>
+        <div class="faq-tools" aria-label="FAQ controls">
+          <button type="button" class="faq-btn" data-faq-action="open">Open all</button>
+          <button type="button" class="faq-btn" data-faq-action="close">Close all</button>
+        </div>
+      </div>
+
+      <div class="faq-list" role="list">
+        {%- for it in qa_items -%}
+          {%- assign q = it | split: '||' | first -%}
+          {%- assign a = it | split: '||' | last  -%}
+          <details class="faq-item" role="listitem">
+            <summary class="faq-summary">
+              <span class="faq-q">{{ q }}</span>
+              <span class="faq-chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">{{ a }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      var root = document.currentScript.previousElementSibling;
+      if (!root) return;
+      var faq = root.querySelector('#faq');
+      if (!faq) return;
+      var openBtn  = faq.querySelector('[data-faq-action="open"]');
+      var closeBtn = faq.querySelector('[data-faq-action="close"]');
+      var items    = faq.querySelectorAll('.faq-item');
+      if (openBtn)  openBtn.addEventListener('click', function(){ items.forEach(function(d){ d.open = true; }); });
+      if (closeBtn) closeBtn.addEventListener('click', function(){ items.forEach(function(d){ d.open = false; }); });
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": {{ localization.language.iso_code | json }},
+    "mainEntity": [
+      {%- for it in qa_items -%}
+        {%- assign q = it | split: '||' | first | strip -%}
+        {%- assign a = it | split: '||' | last  | strip | strip_html | strip -%}
+        {
+          "@type": "Question",
+          "name": {{ q | json }},
+          "acceptedAnswer": { "@type": "Answer", "text": {{ a | json }} }
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}

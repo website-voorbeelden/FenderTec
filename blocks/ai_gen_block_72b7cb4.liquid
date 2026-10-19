@@ -1,0 +1,274 @@
+{% doc %}
+  @prompt
+    Create a PDF viewer that embeds a PDF file directly in a page
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .pdf-viewer-container-{{ ai_gen_id }} {
+    width: 100%;
+    margin: 0auto;
+    max-width: {{ block.settings.viewer_width }}px;}
+
+  .pdf-viewer-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-top: {{ block.settings.aspect_ratio }}%;
+    overflow: hidden;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;box-shadow: {% if block.settings.show_shadow %}0 4px 8px rgba(0, 0, 0, 0.1){% else %}none{% endif %};border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+  }
+
+  .pdf-viewer-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pdf-fallback-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.background_color }};
+    padding: 20px;
+    text-align: center;}
+
+  .pdf-fallback-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  .pdf-fallback-title-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .pdf-fallback-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .pdf-fallback-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;transition: background-color 0.2s;
+  }
+
+  .pdf-fallback-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .pdf-viewer-container-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+    .pdf-viewer-wrapper-{{ ai_gen_id }} {
+      padding-top: {{ block.settings.aspect_ratio_mobile }}%;
+    }
+  }
+{% endstyle %}
+
+<div class="pdf-viewer-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.pdf_url != blank %}
+    <div class="pdf-viewer-wrapper-{{ ai_gen_id }}">
+      <object
+        class="pdf-viewer-{{ ai_gen_id }}" 
+        data="{{ block.settings.pdf_url }}" 
+        type="application/pdf">
+        <div class="pdf-fallback-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="{{ block.settings.text_color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M142H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <div class="pdf-fallback-title-{{ ai_gen_id }}">{{ block.settings.fallback_title }}</div>
+          <div class="pdf-fallback-text-{{ ai_gen_id }}">{{ block.settings.fallback_text }}</div>
+          <a href="{{ block.settings.pdf_url }}" class="pdf-fallback-button-{{ ai_gen_id }}" target="_blank" rel="noopener">
+            {{ block.settings.fallback_button_text }}
+          </a>
+        </div>
+      </object>
+    </div>
+  {% else %}
+    <div class="pdf-viewer-wrapper-{{ ai_gen_id }}">
+      <div class="pdf-fallback-{{ ai_gen_id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="{{ block.settings.text_color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <div class="pdf-fallback-title-{{ ai_gen_id }}">No PDF Selected</div>
+        <div class="pdf-fallback-text-{{ ai_gen_id }}">Please add a PDF URL in the block settings</div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "PDF Viewer",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "PDF Content"
+    },
+    {
+      "type": "url",
+      "id": "pdf_url",
+      "label": "PDF URL",
+      "info": "Enter the full URL to your PDF file"
+    },
+    {
+      "type": "header",
+      "content": "Viewer Settings"
+    },
+    {
+      "type": "range",
+      "id": "viewer_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Viewer width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "aspect_ratio",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Aspect ratio",
+      "default": 130,
+      "info": "Controls the height of the viewer (percentage of width)"
+    },
+    {
+      "type": "range",
+      "id": "aspect_ratio_mobile",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile aspect ratio",
+      "default": 150,
+      "info": "Controls the height of the viewer on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Fallback Content"
+    },
+    {
+      "type": "text",
+      "id": "fallback_title",
+      "label": "Fallback title",
+      "default": "PDF Viewer Not Available"
+    },
+    {
+      "type": "text",
+      "id": "fallback_text",
+      "label": "Fallback text",
+      "default": "Your browser doesn't support embedded PDFs. Click the button below to view the document."
+    },
+    {
+      "type": "text",
+      "id": "fallback_button_text",
+      "label": "Fallback button text",
+      "default": "Open PDF"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDF Viewer"
+    }
+  ]
+}
+{% endschema %}

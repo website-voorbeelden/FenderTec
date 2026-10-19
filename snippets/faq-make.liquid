@@ -1,0 +1,240 @@
+{%- comment -%}
+FAQ block for product or collection (Dawn-native typography)
+- Product/Collection metafield: custom.faq_rich_html (Multi-line text)
+- Authoring: <h3>Question</h3> + answer paragraphs until next <h3>
+- Fallback: <strong>Question</strong> if no <h3>
+- Simplified: NO "Open all / Close all" controls, no extra JS (keeps it clean for SEO)
+
+LANG-SAFE (marker-based) — accepted markers (place at TOP of metafield content):
+- EN (optional): <!-- lang:en --> OR <!--lang:en--> OR <!---EN---->
+- NL:          <!-- lang:nl --> OR <!--lang:nl--> OR <!---NL---->
+- DE:          <!-- lang:de --> OR <!--lang:de--> OR <!---DE---->
+- Non-EN: renders ONLY if correct marker is present (prevents mixed languages)
+
+DEBUG:
+- Add ?faqdebug=1 to show why it's hidden
+{%- endcomment -%}
+
+{%- assign faq_html_raw = blank -%}
+{%- assign faq_html = blank -%}
+{%- assign qa_acc = '' -%}
+
+{%- assign current_lang = localization.language.iso_code | downcase | split: '-' | first -%}
+{%- assign current_lang_upper = current_lang | upcase -%}
+{%- assign required_marker_short = '<!---' | append: current_lang_upper | append: '---->' -%}
+
+{%- assign debug_on = false -%}
+{%- if request.query_string contains 'faqdebug=1' -%}
+  {%- assign debug_on = true -%}
+{%- endif -%}
+
+{%- comment -%} Fetch multi-line text metafield from product or collection {%- endcomment -%}
+{%- if product and product.metafields.custom.faq_rich_html != blank -%}
+  {%- assign faq_html_raw = product.metafields.custom.faq_rich_html.value | to_s -%}
+{%- elsif collection and collection.metafields.custom.faq_rich_html != blank -%}
+  {%- assign faq_html_raw = collection.metafields.custom.faq_rich_html.value | to_s -%}
+{%- endif -%}
+
+{%- comment -%} --- MARKER GATE (LANG-SAFE, supports multiple marker styles) --- {%- endcomment -%}
+{%- if faq_html_raw != blank -%}
+  {%- assign raw = faq_html_raw -%}
+  {%- assign raw_upper = raw | upcase -%}
+  {%- assign raw_nospace = raw | replace: ' ', '' -%}
+
+  {%- comment -%}
+    Accept these marker formats:
+    1) <!-- lang:xx -->   (with spaces)
+    2) <!--lang:xx-->     (no spaces)
+    3) <!---XX---->       (short marker, uppercase)
+  {%- endcomment -%}
+
+  {%- assign marker_spaced = '<!-- lang:' | append: current_lang | append: ' -->' -%}
+  {%- assign marker_compact = '<!--lang:' | append: current_lang | append: '-->' -%}
+  {%- assign marker_short = required_marker_short -%}
+
+  {%- assign ok_for_lang = false -%}
+  {%- if raw contains marker_spaced or raw_nospace contains marker_compact or raw_upper contains marker_short -%}
+    {%- assign ok_for_lang = true -%}
+  {%- endif -%}
+
+  {%- comment -%}
+    Detect if ANY language marker exists at all.
+    If EN and a non-EN marker exists, we block EN unless EN marker matches.
+    This prevents EN showing NL/DE content.
+  {%- endcomment -%}
+  {%- assign has_any_lang_marker = false -%}
+  {%- if raw contains '<!-- lang:' or raw contains '<!--lang:' or raw contains '<!---' -%}
+    {%- assign has_any_lang_marker = true -%}
+  {%- endif -%}
+
+  {%- if current_lang == 'en' -%}
+    {%- if has_any_lang_marker and ok_for_lang == false -%}
+      {%- if debug_on -%}
+        <div style="border:1px dashed #d00; padding:10px; margin:12px 0; font-size:14px;">
+          <strong>FAQ hidden</strong><br>
+          Language: <code>{{ current_lang }}</code><br>
+          Reason: content has a language marker, but not EN.<br>
+          Allowed EN markers:<br>
+          <code>{{ '<!-- lang:en -->' | escape }}</code> or <code>{{ '<!--lang:en-->' | escape }}</code> or <code>{{ '<!---EN---->' | escape }}</code>
+        </div>
+      {%- endif -%}
+      {%- assign faq_html_raw = blank -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- unless ok_for_lang -%}
+      {%- if debug_on -%}
+        <div style="border:1px dashed #d00; padding:10px; margin:12px 0; font-size:14px;">
+          <strong>FAQ hidden</strong><br>
+          Language: <code>{{ current_lang }}</code><br>
+          Allowed markers (place at top of metafield):<br>
+          <code>{{ marker_spaced | escape }}</code> or <code>{{ marker_compact | escape }}</code> or <code>{{ marker_short | escape }}</code>
+        </div>
+      {%- endif -%}
+      {%- assign faq_html_raw = blank -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endif -%}
+{%- comment -%} --- END MARKER GATE --- {%- endcomment -%}
+
+{%- if faq_html_raw != blank -%}
+  {%- assign faq_html = faq_html_raw
+    | replace: '&nbsp;', ' '
+    | replace: '\u00A0', ' '
+    | replace: '<H3', '<h3' | replace: '</H3', '</h3'
+    | replace: '<STRONG', '<strong' | replace: '</STRONG', '</strong'
+  -%}
+{%- endif -%}
+
+{%- if faq_html != blank -%}
+  {%- comment -%} Parse <h3>Q</h3>Answer... until next <h3> {%- endcomment -%}
+  {%- assign chunks = faq_html | split: '<h3' -%}
+  {%- for chunk in chunks -%}
+    {%- if forloop.first -%}{% continue %}{%- endif -%}
+    {%- assign tmp = chunk | replace_first: '>', ']|[' -%}
+    {%- assign halves = tmp | split: ']|[' -%}
+    {%- assign right = halves | last | default: '' -%}
+    {%- assign parts = right | split: '</h3>' -%}
+    {%- assign q_html = parts[0] | default: '' | strip -%}
+    {%- assign after_h3 = parts[1] | default: '' -%}
+    {%- assign a_html = after_h3 | split: '<h3' | first | strip -%}
+
+    {%- assign q_text = q_html | strip_html | strip -%}
+    {%- assign a_check = a_html | strip_html | strip -%}
+
+    {%- if q_text != blank and a_check != blank -%}
+      {%- assign qa_acc = qa_acc | append: '^^^' | append: q_text | append: '||' | append: a_html -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%} Fallback: <strong>Q</strong>Answer... {%- endcomment -%}
+  {%- if qa_acc == '' and faq_html contains '<strong>' -%}
+    {%- assign chunks2 = faq_html | split: '<strong>' -%}
+    {%- for chunk in chunks2 -%}
+      {%- if forloop.first -%}{% continue %}{%- endif -%}
+      {%- assign parts2 = chunk | split: '</strong>' -%}
+      {%- assign q_html2 = parts2[0] | default: '' | strip -%}
+      {%- assign after2 = parts2[1] | default: '' -%}
+      {%- assign a_html2 = after2 | split: '<strong>' | first | strip -%}
+
+      {%- assign q_text2 = q_html2 | strip_html | strip -%}
+      {%- assign a_check2 = a_html2 | strip_html | strip -%}
+
+      {%- if q_text2 != blank and a_check2 != blank -%}
+        {%- assign qa_acc = qa_acc | append: '^^^' | append: q_text2 | append: '||' | append: a_html2 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign qa_items = qa_acc | remove_first: '^^^' | split: '^^^' -%}
+
+{%- comment -%}
+IMPORTANT:
+- Render nothing if no items exist (no HTML, no style/script, no whitespace).
+- All visible output is inside the if below.
+{%- endcomment -%}
+{%- if qa_items.size > 0 -%}
+  <style>
+/* Dawn-native: inherit theme typography */
+#faq-wrap { display:grid; place-items:center; margin: var(--spacer, 2rem) 0; }
+#faq {
+  width: min(1200px, 100% - 2rem);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+#faq .faq-header { margin:.25rem 0 1rem; }
+#faq .faq-heading { margin:0; }
+#faq .faq-list { margin:.25rem 0 0; }
+#faq .faq-item { border-top:1px solid rgba(0,0,0,.06); }
+#faq .faq-item:first-of-type { border-top:0; }
+#faq .faq-item summary {
+  list-style:none; cursor:pointer;
+  display:flex; align-items:center; gap:.75rem;
+  padding: 1rem .9rem;
+  border-radius:8px;
+  transition: background .15s ease;
+  outline: none;
+  font: inherit;
+}
+#faq .faq-item summary:hover { background:#fafafa; }
+#faq .faq-item[open] summary { background:#f9f9f9; }
+#faq .faq-q { margin:0; flex:1 1 auto; font: inherit; color: inherit; font-weight: 500; }
+#faq .faq-a { padding:.4rem .9rem 1rem; color: inherit; font: inherit; line-height: 1.7; }
+#faq .faq-a p { margin:.6rem 0; }
+#faq .faq-a a { color: inherit; text-decoration: underline; }
+#faq .faq-a strong, #faq .faq-a b { font-weight: 600; color: inherit; }
+#faq .faq-item summary::-webkit-details-marker { display:none; }
+#faq .faq-item summary::marker { content:""; }
+#faq .faq-chevron {
+  width: 18px; height: 18px; flex: 0 0 18px;
+  transform: rotate(0deg); transition: transform .2s ease;
+  mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="%23000" d="M8.12 9.29L12 13.17l3.88-3.88a1 1 0 011.41 1.42l-4.59 4.58a1 1 0 01-1.41 0L6.7 10.7a1 1 0 111.42-1.41z"/></svg>') no-repeat center / contain;
+  background: currentColor;
+  opacity: .55;
+}
+#faq .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+  </style>
+
+  <div id="faq-wrap">
+    <section id="faq" class="faq-block" aria-labelledby="faq__heading">
+      <div class="faq-header">
+        <h2 id="faq__heading" class="h2">FAQ</h2>
+      </div>
+
+      <div class="faq-list" role="list">
+        {%- for it in qa_items -%}
+          {%- assign q = it | split: '||' | first -%}
+          {%- assign a = it | split: '||' | last  -%}
+          <details class="faq-item" role="listitem">
+            <summary class="faq-summary">
+              <span class="faq-q">{{ q }}</span>
+              <span class="faq-chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">{{ a }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": {{ localization.language.iso_code | json }},
+    "mainEntity": [
+      {%- for it in qa_items -%}
+        {%- assign q = it | split: '||' | first | strip -%}
+        {%- assign a = it | split: '||' | last  | strip | strip_html | strip -%}
+        {
+          "@type": "Question",
+          "name": {{ q | json }},
+          "acceptedAnswer": { "@type": "Answer", "text": {{ a | json }} }
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}

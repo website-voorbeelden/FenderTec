@@ -1,0 +1,505 @@
+{% doc %}
+  @prompt
+    Create a product page thumbnail carousel that properly displays non-square images without distortion. The carousel should maintain aspect ratios and provide a clean, professional appearance for rectangular product images.
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-thumbnail-carousel-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .ai-thumbnail-main-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    margin-bottom: {{ block.settings.spacing }}px;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-thumbnail-main-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+  }
+
+  .ai-thumbnail-main-image-{{ ai_gen_id }} img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: {{ block.settings.image_fit }};
+    object-position: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-thumbnails-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: {{ block.settings.spacing }}px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;padding-bottom: 5px;
+  }
+
+  .ai-thumbnails-container-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-thumbnail-item-{{ ai_gen_id }} {
+    flex: 0 0 {{ block.settings.thumbnail_width }}px;
+    height: {{ block.settings.thumbnail_height }}px;
+    position: relative;
+    cursor: pointer;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    background-color: {{ block.settings.background_color }};border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  .ai-thumbnail-item-{{ ai_gen_id }}.active {
+    border-color: {{ block.settings.active_border_color }};
+  }
+
+  .ai-thumbnail-item-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ block.settings.image_fit }};
+    object-position: center;
+  }
+
+  .ai-navigation-buttons-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }} {
+    width: 40px;
+    height: 40px;
+    background-color: {{ block.settings.nav_button_color }};
+    color: {{ block.settings.nav_button_text_color }};
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }}.prev {
+    margin-left: 10px;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }}.next {
+    margin-right: 10px;
+  }
+
+  .ai-nav-button-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ai-zoom-icon-{{ ai_gen_id }} {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: {{ block.settings.nav_button_color }};
+    color: {{ block.settings.nav_button_text_color }};
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;z-index: 2;
+  }
+
+  .ai-zoom-icon-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-zoom-icon-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-thumbnail-item-{{ ai_gen_id }} {
+      flex: 0 0 {{ block.settings.thumbnail_width_mobile }}px;
+      height: {{ block.settings.thumbnail_height_mobile }}px;
+    }
+    
+    .ai-nav-button-{{ ai_gen_id }} {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .ai-zoom-icon-{{ ai_gen_id }} {
+      width: 36px;
+      height: 36px;
+    }
+  }
+{% endstyle %}
+
+<product-thumbnail-carousel-{{ ai_gen_id }} 
+  class="ai-thumbnail-carousel-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-thumbnail-main-{{ ai_gen_id }}">
+    <div class="ai-thumbnail-main-image-{{ ai_gen_id }}">
+      {% if product.featured_media != blank %}
+        <img 
+          src="{{ product.featured_media | img_url:'master' }}" 
+          alt="{{ product.featured_media.alt | escape }}"
+          loading="lazy"
+          id="ai-main-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-thumbnail-placeholder-{{ ai_gen_id }}">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+    
+    {% if block.settings.show_zoom_icon %}
+      <div class="ai-zoom-icon-{{ ai_gen_id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </div>
+    {% endif %}
+    {% if block.settings.show_navigation_buttons %}
+      <div class="ai-navigation-buttons-{{ ai_gen_id }}">
+        <button class="ai-nav-button-{{ ai_gen_id }} prev" aria-label="Previous image">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="ai-nav-button-{{ ai_gen_id }} next" aria-label="Next image">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-thumbnails-container-{{ ai_gen_id }}">
+    {% if product.media.size > 0 %}
+      {% for media in product.media %}
+        <div class="ai-thumbnail-item-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-media-id="{{ media.id }}">
+          <img 
+            src="{{ media | img_url: '200x' }}" 
+            alt="{{ media.alt | escape }}"
+            loading="lazy"
+          >
+        </div>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..4) %}
+        <div class="ai-thumbnail-item-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}">
+          {{ 'product-' | append: i | placeholder_svg_tag }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</product-thumbnail-carousel-{{ ai_gen_id }}><script>
+  (function() {
+    class ProductThumbnailCarousel extends HTMLElement {
+      constructor() {
+        super();
+        this.mainImage = this.querySelector('#ai-main-image-{{ ai_gen_id }}');
+        this.thumbnails = this.querySelectorAll('.ai-thumbnail-item-{{ ai_gen_id }}');
+        this.thumbnailsContainer = this.querySelector('.ai-thumbnails-container-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-nav-button-{{ ai_gen_id }}.prev');
+        this.nextButton = this.querySelector('.ai-nav-button-{{ ai_gen_id }}.next');
+        this.zoomIcon = this.querySelector('.ai-zoom-icon-{{ ai_gen_id }}');
+        this.currentIndex = 0;}
+
+      connectedCallback() {
+        this.setupEventListeners();
+        this.updateNavigationButtons();
+      }
+
+      setupEventListeners() {
+        // Thumbnail click events
+        this.thumbnails.forEach((thumbnail, index) => {
+          thumbnail.addEventListener('click', () => {
+            this.setActiveImage(index);
+          });
+        });
+
+        // Navigation button events
+        if (this.prevButton && this.nextButton) {
+          this.prevButton.addEventListener('click', () => {
+            this.navigateImages(-1);
+          });
+          
+          this.nextButton.addEventListener('click', () => {
+            this.navigateImages(1);
+          });
+        }
+
+        // Zoom icon event
+        if (this.zoomIcon && this.mainImage) {
+          this.zoomIcon.addEventListener('click', () => {
+            this.openZoomModal();
+          });
+        }
+      }
+
+      setActiveImage(index) {
+        if (index < 0|| index >= this.thumbnails.length) return;
+        
+        this.currentIndex = index;
+        // Update thumbnails
+        this.thumbnails.forEach((thumbnail, i) => {
+          if (i === index) {
+            thumbnail.classList.add('active');
+          } else {
+            thumbnail.classList.remove('active');
+          }
+        });
+
+        // Update main image
+        if (this.mainImage) {
+          const activeThumbnail = this.thumbnails[index];
+          const thumbnailImg = activeThumbnail.querySelector('img');
+          
+          if (thumbnailImg) {
+            const newSrc = thumbnailImg.src.replace('_200x', '');
+            // Create a new image to preload
+            const newImage = new Image();
+            newImage.onload = () => {
+              this.mainImage.src = newSrc;
+            };
+            newImage.src = newSrc;
+          }
+        }
+
+        // Scroll thumbnail into view
+        this.scrollThumbnailIntoView(index);
+        
+        // Update navigation buttons
+        this.updateNavigationButtons();
+      }
+
+      navigateImages(direction) {
+        const newIndex = this.currentIndex + direction;
+        if (newIndex >= 0 && newIndex < this.thumbnails.length) {
+          this.setActiveImage(newIndex);
+        }
+      }
+
+      scrollThumbnailIntoView(index) {
+        if (!this.thumbnailsContainer) return;
+        
+        const thumbnail = this.thumbnails[index];
+        if (!thumbnail) return;
+        
+        const containerRect = this.thumbnailsContainer.getBoundingClientRect();
+        const thumbnailRect = thumbnail.getBoundingClientRect();
+        
+        const isInView = (
+          thumbnailRect.left >= containerRect.left &&
+          thumbnailRect.right <= containerRect.right
+        );
+        
+        if (!isInView) {
+          const scrollLeft = thumbnail.offsetLeft - (containerRect.width / 2) + (thumbnailRect.width / 2);
+          this.thumbnailsContainer.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth'
+          });
+        }
+      }
+
+      updateNavigationButtons() {
+        if (!this.prevButton || !this.nextButton) return;
+        
+        this.prevButton.disabled = this.currentIndex === 0;
+        this.nextButton.disabled = this.currentIndex === this.thumbnails.length - 1;
+      }
+
+      openZoomModal() {
+        if (!this.mainImage) return;
+        
+        // This is a simplified zoom implementation
+        // In a real implementation, you might want to create a modal with a zoomed image
+        const currentSrc = this.mainImage.src;
+        window.open(currentSrc, '_blank');
+      }
+    }
+
+    customElements.define('product-thumbnail-carousel-{{ ai_gen_id }}', ProductThumbnailCarousel);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Thumbnails",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image Display"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Contain (show entire image)"
+        },
+        {
+          "value": "cover",
+          "label": "Cover (fill space)"
+        }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Image background color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Thumbnails"
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_width",
+      "min": 60,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Thumbnail width",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_height",
+      "min": 60,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Thumbnail height",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_width_mobile",
+      "min": 50,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Thumbnail width (mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_height_mobile",
+      "min": 50,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Thumbnail height (mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Spacing",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "active_border_color",
+      "label": "Active thumbnail border",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation_buttons",
+      "label": "Show navigation buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_zoom_icon",
+      "label": "Show zoom icon",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_text_color",
+      "label": "Button icon color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Thumbnails"
+    }
+  ]
+}
+{% endschema %}
