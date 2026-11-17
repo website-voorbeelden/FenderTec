@@ -7,12 +7,43 @@
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
-{%- if section.settings.menu_type_desktop == 'mega' -%}
-  <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
-{%- endif -%}
-
-
 <style>
+  @media screen and (width < 990px) {
+    .section-header header-drawer { display: block !important; }
+    .section-header #menu-drawer { width: min(100%, 40rem); background: #f6f5f3; }
+    .section-header #menu-drawer .menu-drawer__navigation-container {
+      overscroll-behavior: contain;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .section-header #menu-drawer .menu-drawer__navigation { padding-block: 1rem; }
+    .section-header #menu-drawer .ft-mobile-drawer-list li { margin-bottom: 0; }
+    .section-header #menu-drawer .ft-mobile-drawer-list > li + li,
+    .section-header #menu-drawer .ft-mobile-products__links > li { border-top: 1px solid #e4e1de; }
+    .ft-mobile-products__links .menu-drawer__menu-item { display: flex; align-items: center; gap: 1.2rem; padding: .6rem 2rem .6rem 3rem; min-height: 44px; font-size: 1.6rem; }
+    .ft-mobile-drawer-list .menu-drawer__menu-item { min-height: 44px; overflow-wrap: anywhere; }
+    .ft-mobile-products__links img { width: min(90px, 24vw); height: auto; aspect-ratio: 1; flex: none; object-fit: contain; background: #fff; }
+    .ft-mobile-products-row { position: relative; }
+    .ft-mobile-products-row > a { padding-inline-end: 5.2rem; }
+    .ft-mobile-products > summary.menu-drawer__menu-item {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 1.2rem;
+      display: grid;
+      place-items: center;
+      width: 4.4rem;
+      height: 4.4rem;
+      padding: 0;
+    }
+    .ft-mobile-products > summary .icon-caret { display: block; width: 1.2rem; }
+    .ft-mobile-products[open] > summary .icon-caret { transform: rotate(180deg); }
+  }
+  @media screen and (width < 750px) {
+    .section-header #menu-drawer { width: 100%; }
+  }
+  @media screen and (min-width: 990px) {
+    .section-header header-drawer,
+    .section-header .ft-mobile-search { display: none; }
+  }
   header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
@@ -21,14 +52,6 @@
   {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
     .scrolled-past-header .header__heading-logo-wrapper {
       width: 75%;
-    }
-  {%- endif -%}
-
-  {%- if section.settings.menu_type_desktop != "drawer" -%}
-    @media screen and (min-width: 990px) {
-      header-drawer {
-        display: none;
-      }
     }
   {%- endif -%}
 
@@ -119,16 +142,19 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
-    {%- liquid
-      if section.settings.menu != blank
-        render 'header-drawer'
-      endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
-    -%}
+  {%- liquid
+    assign menu_root = routes.root_url
+    assign root_tail = menu_root | slice: -1
+    unless root_tail == '/'
+      assign menu_root = menu_root | append: '/'
+    endunless
+    assign products_fallback = menu_root | append: 'collections/product-overview'
+    assign markets_fallback = menu_root | append: 'pages/markets'
+    assign products_url = collections['product-overview'].url | default: products_fallback
+    assign markets_url = pages['markets'].url | default: markets_fallback
+  -%}
+  <header class="header ft-yoko-header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width header--has-menu{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+    {% render 'header-drawer', products_url: products_url, markets_url: markets_url %}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
@@ -160,15 +186,7 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- liquid
-      if section.settings.menu != blank
-        if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
-        elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
-        endif
-      endif
-    %}
+    {% render 'yokohama-desktop-navigation', products_url: products_url, markets_url: markets_url %}
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
@@ -224,7 +242,9 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      <a class="ft-mobile-search header__icon header__icon--search link focus-inset" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t | escape }}">
+        <span class="svg-wrapper">{{ 'icon-search.svg' | inline_asset_content | replace: 'class="icon icon-search"', 'class="icon" style="width:20px;height:20px"' }}</span>
+      </a>
 
       {%- if shop.customer_accounts_enabled -%}
         <a
@@ -287,7 +307,7 @@
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
 
 {%- if settings.cart_type == "notification" -%}
-  {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
+  {%- render 'cart-notification', color_scheme: section.settings.color_scheme -%}
 {%- endif -%}
 
 {% javascript %}
@@ -395,7 +415,7 @@
 
     closeSearchModal() {
       this.searchModal = this.searchModal || this.header.querySelector('details-modal');
-      this.searchModal.close(false);
+      this.searchModal?.close(false);
     }
   }
 

@@ -705,6 +705,22 @@ summary::-webkit-details-marker {
   width: 100%;
 }
 
+.ft-breadcrumb-chevron {
+  display: inline-block;
+  flex: none;
+  align-self: center;
+  inline-size: 0.45em;
+  block-size: 0.45em;
+  margin-inline: 0.1em;
+  border-block-start: 1.5px solid currentColor;
+  border-inline-end: 1.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.ft-breadcrumb-chevron--back {
+  transform: rotate(-135deg);
+}
+
 /* base-focus */
 /*
   Focus ring - default (with offset)

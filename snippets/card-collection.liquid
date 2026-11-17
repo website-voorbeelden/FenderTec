@@ -14,11 +14,26 @@
 {% endcomment %}
 
 {%- liquid
+  assign use_yokohama_image = false
+  unless template.name == 'page' and template.suffix == 'markets'
+    assign yokohama_collection = collections['pneumatic-fenders-and-yokohama-type-fenders']
+    if yokohama_collection != blank and card_collection.id == yokohama_collection.id
+      assign use_yokohama_image = true
+    endif
+  endunless
+  assign has_image = false
+  if card_collection.featured_image or use_yokohama_image
+    assign has_image = true
+  endif
   assign ratio = 1
-  if card_collection.featured_image and media_aspect_ratio == 'portrait'
+  if has_image and media_aspect_ratio == 'portrait'
     assign ratio = 0.8
-  elsif card_collection.featured_image and media_aspect_ratio == 'adapt'
-    assign ratio = card_collection.featured_image.aspect_ratio
+  elsif has_image and media_aspect_ratio == 'adapt'
+    if use_yokohama_image
+      assign ratio = 4.0 | divided_by: 3
+    else
+      assign ratio = card_collection.featured_image.aspect_ratio
+    endif
   endif
   if ratio == 0 or ratio == null
     assign ratio = 1
@@ -36,20 +51,23 @@
     class="
       card
       card--{{ card_style }}
-      {% if card_collection.featured_image %} card--media{% else %} card--text{% endif %}
+      {% if has_image %} card--media{% else %} card--text{% endif %}
       {% if card_style == 'card' %} color-{{ card_color_scheme }} gradient{% endif %}
       {% if extend_height %} card--extend-height{% endif %}
-      {% if card_collection.featured_image == nil and card_style == 'card' %} ratio{% endif %}
+      {% if has_image == false and card_style == 'card' %} ratio{% endif %}
     "
     style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
   >
     <div
-      class="card__inner {% if card_style == 'standard' %}color-{{ card_color_scheme }} gradient{% endif %}{% if card_collection.featured_image or card_style == 'standard' %} ratio{% endif %}"
+      class="card__inner {% if card_style == 'standard' %}color-{{ card_color_scheme }} gradient{% endif %}{% if has_image or card_style == 'standard' %} ratio{% endif %}"
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
-      {%- if card_collection.featured_image -%}
+      {%- if has_image -%}
         <div class="card__media">
           <div class="media media--transparent media--hover-effect">
+            {%- if use_yokohama_image -%}
+              {% render 'yokohama-collection-image', image_class: 'motion-reduce' %}
+            {%- else -%}
             <img
               srcset="
                 {%- if card_collection.featured_image.width >= 165 -%}{{ card_collection.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
@@ -73,6 +91,7 @@
               loading="lazy"
               class="motion-reduce"
             >
+            {%- endif -%}
           </div>
         </div>
       {%- endif -%}
@@ -116,7 +135,7 @@
         </div>
       {%- endif -%}
     </div>
-    {%- if card_collection != blank and card_style == 'card' or card_collection.featured_image -%}
+    {%- if card_collection != blank and card_style == 'card' or has_image -%}
       <div class="card__content">
         <div class="card__information">
           <h3 class="card__heading">
@@ -133,14 +152,14 @@
               {%- else -%}
                 {{ 'onboarding.collection_title' | t }}
               {%- endif -%}
-              {%- if card_collection.featured_image or card_collection.description == blank -%}
+              {%- if has_image or card_collection.description == blank -%}
                 <span class="icon-wrap">
                   {{- 'icon-arrow.svg' | inline_asset_content -}}
                 </span>
               {%- endif %}
             </a>
           </h3>
-          {%- if card_collection.featured_image == null and card_collection.description != blank -%}
+          {%- if has_image == false and card_collection.description != blank -%}
             <p class="card__caption">
               {{- card_collection.description | strip_html | truncatewords: 12 -}}
               <span class="icon-wrap">

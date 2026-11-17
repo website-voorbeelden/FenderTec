@@ -31,7 +31,7 @@
       endif
     -%}
 
-    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+    {%- form 'contact', id: 'ContactForm', class: contact_form_class, data-ft-contact: 'true' -%}
       {%- if form.posted_successfully? -%}
         <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
           {{- 'icon-success.svg' | inline_asset_content -}}
@@ -44,14 +44,9 @@
             {{ 'templates.contact.form.error_heading' | t }}
           </h2>
         </div>
-        <ul class="form-status-list caption-large" role="list">
-          <li>
-            <a href="#ContactForm-email" class="link">
-              {{ form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email }}
-            </a>
-          </li>
-        </ul>
+        <div class="form-status-list caption-large">
+          {{ form.errors | default_errors }}
+        </div>
       {%- endif -%}
 
       <div class="contact__fields">
@@ -61,8 +56,8 @@
             autocomplete="name"
             type="text"
             id="ContactForm-name"
-            name="contact[{{ 'templates.contact.form.name' | t }}]"
-            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            name="contact[name]"
+            value="{{ form.name | default: customer.name | escape }}"
             placeholder="{{ 'templates.contact.form.name' | t }}"
           >
           <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
@@ -77,8 +72,8 @@
             name="contact[email]"
             spellcheck="false"
             autocapitalize="off"
-            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-            aria-required="true"
+            value="{{ form.email | default: customer.email | escape }}"
+            required
             {% if form.errors contains 'email' %}
               aria-invalid="true"
               aria-describedby="ContactForm-email-error"
@@ -110,9 +105,8 @@
           id="ContactForm-phone"
           class="field__input"
           autocomplete="tel"
-          name="contact[{{ 'templates.contact.form.phone' | t }}]"
-          pattern="[0-9\-]*"
-          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          name="contact[phone]"
+          value="{{ form.phone | default: customer.phone | escape }}"
           placeholder="{{ 'templates.contact.form.phone' | t }}"
         >
         <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
@@ -123,81 +117,15 @@
           rows="10"
           id="ContactForm-body"
           class="text-area field__input"
-          name="contact[{{ 'templates.contact.form.comment' | t }}]"
+          name="contact[body]"
           placeholder="{{ 'templates.contact.form.comment' | t }}"
-        >{{- form.body -}}</textarea>
+          required
+        >{{- form.body | escape -}}</textarea>
         <label class="form__label field__label" for="ContactForm-body">
           {{- 'templates.contact.form.comment' | t -}}
+          <span aria-hidden="true">*</span>
         </label>
       </div>
-
-      {%- comment -%}
-        Extra verborgen velden + script om de exacte pagina-URL (incl. UTM/GCLID),
-        referrer en user agent mee te sturen met het standaard contactformulier.
-      {%- endcomment -%}
-      <input type="hidden" name="contact[landing_url]"   id="ContactLandingURL">
-      <input type="hidden" name="contact[referrer]"      id="ContactReferrer">
-      <input type="hidden" name="contact[user_agent]"    id="ContactUserAgent">
-
-      <input type="hidden" name="contact[utm_source]"    id="ContactUtmSource">
-      <input type="hidden" name="contact[utm_medium]"    id="ContactUtmMedium">
-      <input type="hidden" name="contact[utm_campaign]"  id="ContactUtmCampaign">
-      <input type="hidden" name="contact[utm_content]"   id="ContactUtmContent">
-      <input type="hidden" name="contact[utm_term]"      id="ContactUtmTerm">
-      <input type="hidden" name="contact[gclid]"         id="ContactGclid">
-
-      <script>
-      (function() {
-        var form = document.getElementById('ContactForm');
-        if (!form) return;
-
-        function getParam(name, url) {
-          var u = url || window.location.href;
-          name = name.replace(/[\\[\\]]/g, "\\$&");
-          var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-          var results = regex.exec(u);
-          if (!results) return "";
-          if (!results[2]) return "";
-          return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-
-        var keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid"];
-
-        // Sla UTM/GCLID op bij binnenkomst (blijft bestaan over pagina's)
-        try {
-          keys.forEach(function(k){
-            var v = getParam(k);
-            if (v) localStorage.setItem("sw_"+k, v);
-          });
-        } catch(e) {}
-
-        // Lees actuele of eerder opgeslagen waarden
-        var utm = {};
-        keys.forEach(function(k){
-          try {
-            utm[k] = getParam(k) || localStorage.getItem("sw_"+k) || "";
-          } catch(e) {
-            utm[k] = getParam(k) || "";
-          }
-        });
-
-        function setVal(id, val){
-          var el = form.querySelector('#' + id);
-          if (el) el.value = val || "";
-        }
-
-        setVal("ContactLandingURL", window.location.href);
-        setVal("ContactReferrer", document.referrer || "");
-        setVal("ContactUserAgent", navigator.userAgent || "");
-
-        setVal("ContactUtmSource",   utm.utm_source);
-        setVal("ContactUtmMedium",   utm.utm_medium);
-        setVal("ContactUtmCampaign", utm.utm_campaign);
-        setVal("ContactUtmContent",  utm.utm_content);
-        setVal("ContactUtmTerm",     utm.utm_term);
-        setVal("ContactGclid",       utm.gclid);
-      })();
-      </script>
 
       <div class="contact__button">
         <button type="submit" class="button">

@@ -39,6 +39,7 @@ if (!customElements.get('localization-form')) {
       }
 
       hidePanel() {
+        if (this.elements.panel.hidden) return;
         this.elements.button.setAttribute('aria-expanded', 'false');
         this.elements.panel.setAttribute('hidden', true);
         if (this.elements.search) {
@@ -46,15 +47,18 @@ if (!customElements.get('localization-form')) {
           this.filterCountries();
           this.elements.search.setAttribute('aria-activedescendant', '');
         }
-        document.body.classList.remove('overflow-hidden-mobile');
-        document.querySelector('.menu-drawer').classList.remove('country-selector-open');
-        this.header.preventHide = false;
+        if (this.lockedMobileScroll) document.body.classList.remove('overflow-hidden-mobile');
+        this.lockedMobileScroll = false;
+        this.closest('.menu-drawer')?.classList.remove('country-selector-open');
+        if (this.hasAttribute('data-prevent-hide') && this.header) this.header.preventHide = false;
       }
 
       onContainerKeyDown(event) {
+        if (this.elements.panel.hidden || !['ArrowUp', 'ArrowDown'].includes(event.key)) return;
         const focusableItems = Array.from(this.querySelectorAll('a')).filter(
-          (item) => !item.parentElement.classList.contains('hidden')
+          (item) => item.getClientRects().length
         );
+        if (!focusableItems.length) return;
         let focusedItemIndex = focusableItems.findIndex((item) => item === document.activeElement);
         let itemToFocus;
 
@@ -86,23 +90,16 @@ if (!customElements.get('localization-form')) {
       }
 
       onContainerKeyUp(event) {
+        if (event.key !== 'Escape' || this.elements.panel.hidden) return;
         event.preventDefault();
-
-        switch (event.code.toUpperCase()) {
-          case 'ESCAPE':
-            if (this.elements.button.getAttribute('aria-expanded') == 'false') return;
-            this.hidePanel();
-            event.stopPropagation();
-            this.elements.button.focus();
-            break;
-          case 'SPACE':
-            if (this.elements.button.getAttribute('aria-expanded') == 'true') return;
-            this.openSelector();
-            break;
-        }
+        event.stopPropagation();
+        this.hidePanel();
+        this.elements.button.focus();
       }
 
       onItemClick(event) {
+        if (event.currentTarget.hasAttribute('data-preview-language')) return;
+
         event.preventDefault();
         const form = this.querySelector('form');
         this.elements.input.value = event.currentTarget.dataset.value;
@@ -111,21 +108,23 @@ if (!customElements.get('localization-form')) {
 
       openSelector() {
         this.elements.button.focus();
-        this.elements.panel.toggleAttribute('hidden');
-        this.elements.button.setAttribute(
-          'aria-expanded',
-          (this.elements.button.getAttribute('aria-expanded') === 'false').toString()
-        );
-        if (!document.body.classList.contains('overflow-hidden-tablet')) {
+        if (!this.elements.panel.hidden) {
+          this.hidePanel();
+          return;
+        }
+        this.elements.panel.hidden = false;
+        this.elements.button.setAttribute('aria-expanded', 'true');
+        if (!this.mql.matches && !document.body.classList.contains('overflow-hidden-tablet')) {
+          this.lockedMobileScroll = !document.body.classList.contains('overflow-hidden-mobile');
           document.body.classList.add('overflow-hidden-mobile');
         }
         if (this.elements.search && this.mql.matches) {
           this.elements.search.focus();
         }
-        if (this.hasAttribute('data-prevent-hide')) {
+        if (this.hasAttribute('data-prevent-hide') && this.header) {
           this.header.preventHide = true;
         }
-        document.querySelector('.menu-drawer').classList.add('country-selector-open');
+        this.closest('.menu-drawer')?.classList.add('country-selector-open');
       }
 
       closeSelector(event) {
@@ -149,7 +148,7 @@ if (!customElements.get('localization-form')) {
         const searchValue = this.normalizeString(this.elements.search.value);
         const popularCountries = this.querySelector('.popular-countries');
         const allCountries = this.querySelectorAll('a');
-        let visibleCountries = allCountries.length;
+        let visibleCountries = 0;
 
         this.elements.resetButton.classList.toggle('hidden', !searchValue);
 
@@ -164,7 +163,6 @@ if (!customElements.get('localization-form')) {
             visibleCountries++;
           } else {
             item.parentElement.classList.add('hidden');
-            visibleCountries--;
           }
         });
 

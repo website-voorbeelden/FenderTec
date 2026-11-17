@@ -1,0 +1,228 @@
+{% assign ft_stock_host = request.host | downcase | split: ':' | first %}
+{% assign ft_stock_domain = ft_stock_host | split: '.' | last %}
+{% if theme.role == 'development' %}
+  {% if request.locale.iso_code == 'de' or request.locale.iso_code == 'nl' %}
+    {% assign ft_stock_domain = request.locale.iso_code %}
+  {% endif %}
+{% endif %}
+{% assign ft_stock_map = '' %}
+{% assign ft_stock_heading = section.settings.heading %}
+{% assign ft_stock_photo_count = 6 %}
+{% case ft_stock_domain %}
+  {% when 'nl' %}
+    {% assign ft_stock_map = 'fendertec-location-papendrecht.png' %}
+    {% assign ft_stock_map_alt = 'Kaart van Nederland met de FenderTec-locatie in Papendrecht' %}
+    {% assign ft_stock_heading = section.settings.heading_nl %}
+    {% assign ft_stock_photo_count = 6 %}
+  {% when 'de' %}
+    {% assign ft_stock_map = 'fendertec-location-oberhausen.jpg' %}
+    {% assign ft_stock_map_alt = 'Deutschlandkarte mit dem FenderTec-Standort in Oberhausen' %}
+    {% assign ft_stock_heading = section.settings.heading_de %}
+    {% assign ft_stock_photo_count = 6 %}
+{% endcase %}
+{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}
+  {% case ft_stock_domain %}
+    {% when 'nl' %}
+      {% assign ft_stock_heading = 'fendertec_yokohama.stock.heading_nl' | t %}
+      {% assign ft_stock_map_alt = 'fendertec_yokohama.stock.map_nl_alt' | t %}
+    {% when 'de' %}
+      {% assign ft_stock_heading = 'fendertec_yokohama.stock.heading_de' | t %}
+      {% assign ft_stock_map_alt = 'fendertec_yokohama.stock.map_de_alt' | t %}
+    {% else %}
+      {% assign ft_stock_heading = 'fendertec_yokohama.stock.heading' | t %}
+  {% endcase %}
+{% endif %}
+<section class="ft-photo-carousel ft-stock-gallery page-width" aria-labelledby="ft-stock-heading-{{ section.id }}">
+  {% if ft_stock_map != blank %}<h2 class="h2" id="ft-stock-heading-{{ section.id }}">{{ ft_stock_heading | escape }}</h2>{% endif %}
+  <div class="ft-stock-gallery__grid ft-stock-gallery__grid--map{% if ft_stock_map == blank %} ft-stock-gallery__grid--international{% endif %}">
+    {% if ft_stock_map == blank %}
+      <div class="ft-stock-gallery__location ft-stock-gallery__location--international">
+        <h2 class="h2" id="ft-stock-heading-{{ section.id }}">{{ ft_stock_heading | escape }}</h2>
+        <p class="ft-stock-gallery__intro">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.stock.international_intro' | t }}{% else %}{{ section.settings.international_intro | escape }}{% endif %}</p>
+        <p class="ft-stock-gallery__intro">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.stock.international_availability' | t }}{% else %}{{ section.settings.international_availability | escape }}{% endif %}</p>
+      </div>
+    {% endif %}
+    {% if ft_stock_map != blank %}
+      <div class="ft-stock-gallery__location"><img class="ft-stock-gallery__map" src="{{ ft_stock_map | asset_url }}" alt="{{ ft_stock_map_alt | escape }}" width="{% if ft_stock_domain == 'nl' %}1122{% else %}1145{% endif %}" height="{% if ft_stock_domain == 'nl' %}1402{% else %}1374{% endif %}" loading="lazy" decoding="async"><p class="ft-stock-gallery__intro">
+        {% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}
+          {% if ft_stock_domain == 'nl' %}{{ 'fendertec_yokohama.stock.nl_intro' | t }}{% else %}{{ 'fendertec_yokohama.stock.de_intro' | t }}{% endif %}
+        {% elsif ft_stock_domain == 'nl' %}
+          {{ section.settings.nl_intro | escape }}
+        {% else %}
+          {{ section.settings.de_intro | escape }}
+        {% endif %}
+      </p></div>
+    {% endif %}
+    {% assign ft_stock_photos = 'carousel-yokohama-tire-net-stock.jpg,carousel-yokohama-sling-fenders-stock.jpg,carousel-yokohama-tire-net-fender-yard.jpg,carousel-yokohama-large-fenders-flat-rack.jpg,carousel-yokohama-warehouse-stock.jpg,carousel-yokohama-fender-size-range.jpg' | split: ',' %}
+    {% assign ft_stock_alts = 'Pneumatic fenders with tire nets in stock,Pneumatic sling fenders on pallets,Pneumatic fender with a chain and tire net,Large pneumatic fenders secured for transport,Pneumatic fenders stored in the warehouse,Pneumatic fenders in different sizes' | split: ',' %}
+    {% for ft_stock_photo in ft_stock_photos limit: ft_stock_photo_count %}
+      {% assign ft_stock_photo_alt = ft_stock_alts[forloop.index0] | escape %}
+      {% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}
+        {% assign ft_stock_alt_key = 'fendertec_yokohama.stock.photo_alt_' | append: forloop.index %}
+        {% assign ft_stock_photo_alt = ft_stock_alt_key | t %}
+      {% endif %}
+      <img class="ft-stock-gallery__photo ft-stock-gallery__photo--{{ forloop.index }}" src="{{ ft_stock_photo | asset_url }}" alt="{{ ft_stock_photo_alt }}" width="600" height="450" loading="lazy" decoding="async">
+    {% endfor %}
+  </div>
+</section>
+<style>
+.ft-stock-gallery__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.ft-stock-gallery__photo{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;min-width:0}
+.ft-stock-gallery__grid--map{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(3,minmax(0,1fr));height:480px}
+.ft-stock-gallery__map{grid-column:1;grid-row:1/4;display:block;width:100%;height:100%;min-height:0;object-fit:contain}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{height:100%;min-height:0;aspect-ratio:auto}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--1{grid-column:2;grid-row:1}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--2{grid-column:2;grid-row:2}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--3{grid-column:3;grid-row:1}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--4{grid-column:3;grid-row:2}
+@media(max-width:749px){
+.ft-stock-gallery__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ft-stock-gallery__grid:not(.ft-stock-gallery__grid--map) .ft-stock-gallery__photo:first-child{grid-column:1/-1}
+.ft-stock-gallery__grid--map{height:auto;grid-template-rows:auto}
+.ft-stock-gallery__map{grid-column:1/-1;grid-row:1;width:100%;height:300px}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{grid-column:auto;grid-row:auto;height:auto;aspect-ratio:4/3}
+}
+</style>
+
+{% if ft_stock_map == blank and theme.role == 'development' %}
+<template id="ft-stock-preview-nl-{{ section.id }}"><div class="ft-stock-gallery__location"><img class="ft-stock-gallery__map" src="{{ 'fendertec-location-papendrecht.png' | asset_url }}" alt="Kaart van Nederland met de FenderTec-locatie in Papendrecht" width="1122" height="1402" loading="lazy" decoding="async"><p class="ft-stock-gallery__intro">{{ section.settings.nl_intro | escape }}</p></div></template>
+<template id="ft-stock-preview-de-{{ section.id }}"><div class="ft-stock-gallery__location"><img class="ft-stock-gallery__map" src="{{ 'fendertec-location-oberhausen.jpg' | asset_url }}" alt="Deutschlandkarte mit dem FenderTec-Standort in Oberhausen" width="1145" height="1374" loading="lazy" decoding="async"><p class="ft-stock-gallery__intro">{{ section.settings.de_intro | escape }}</p></div></template>
+<template id="ft-stock-preview-extra-{{ section.id }}"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--4" src="{{ 'carousel-yokohama-large-fenders-flat-rack.jpg' | asset_url }}" alt="Large pneumatic fenders secured for transport" width="600" height="450" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--5" src="{{ 'carousel-yokohama-warehouse-stock.jpg' | asset_url }}" alt="Pneumatic fenders stored in the warehouse" width="450" height="600" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--6" src="{{ 'carousel-yokohama-fender-size-range.jpg' | asset_url }}" alt="Pneumatic fenders in different sizes" width="600" height="450" loading="lazy" decoding="async"></template>
+<script>
+(()=>{
+const host=location.hostname;
+if(host!=='127.0.0.1'&&host!=='localhost'&&!host.endsWith('.myshopify.com')&&{{ theme.role | json }}!=='unpublished')return;
+const region=new URLSearchParams(location.search).get('stock_region');
+if(region!=='nl'&&region!=='de')return;
+const template=document.getElementById('ft-stock-preview-'+region+'-{{ section.id }}');
+const heading=document.getElementById('ft-stock-heading-{{ section.id }}');
+const root=heading?.closest('section');
+const grid=root?.querySelector('.ft-stock-gallery__grid');
+if(!template||!grid)return;
+grid.classList.add('ft-stock-gallery__grid--map');
+grid.classList.remove('ft-stock-gallery__grid--international');
+root.prepend(heading);
+grid.querySelector('.ft-stock-gallery__location--international')?.remove();
+grid.prepend(template.content.cloneNode(true));
+
+heading.textContent=region==='nl'?{{ section.settings.heading_nl | json }}:{{ section.settings.heading_de | json }};
+})();
+</script>
+{% endif %}
+
+<style>
+.ft-stock-gallery__location{grid-column:1;grid-row:1/4;display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0}
+.ft-stock-gallery__location .ft-stock-gallery__map{flex:1;width:100%;height:0;min-height:0;object-fit:contain}
+.ft-stock-gallery__intro{margin:0}
+@media(max-width:749px){
+.ft-stock-gallery__location{grid-column:1/-1;grid-row:1;gap:16px;margin-bottom:8px}
+.ft-stock-gallery__location .ft-stock-gallery__map{flex:none;height:260px}
+}
+</style>
+
+<style>
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--5{grid-column:2;grid-row:3}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--6{grid-column:3;grid-row:3}
+@media(max-width:749px){.ft-stock-gallery__grid--map .ft-stock-gallery__photo--5,.ft-stock-gallery__grid--map .ft-stock-gallery__photo--6{grid-column:auto;grid-row:auto}}
+</style>
+
+<style>
+.ft-stock-gallery__photo{aspect-ratio:1/1}
+.ft-stock-gallery__grid--map{height:auto;grid-template-rows:repeat(3,auto)}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{height:auto;aspect-ratio:1/1}
+.ft-stock-gallery__location .ft-stock-gallery__map{flex:none;height:auto;max-height:400px}
+@media(max-width:749px){.ft-stock-gallery__location .ft-stock-gallery__map{height:260px}.ft-stock-gallery__grid--map .ft-stock-gallery__photo{aspect-ratio:1/1}}
+</style>
+
+<style>
+@media(min-width:750px){
+.ft-stock-gallery__grid--map{height:480px;grid-template-columns:minmax(0,1fr) 149.33px 149.33px;grid-template-rows:repeat(3,minmax(0,1fr))}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{width:100%;height:100%;aspect-ratio:1/1}
+.ft-stock-gallery__location{flex-direction:column;align-items:stretch;gap:16px}
+.ft-stock-gallery__location .ft-stock-gallery__map{width:100%;height:340px;max-height:340px;flex:none}
+.ft-stock-gallery__intro{flex:none;min-width:0}
+}
+</style>
+
+<style>
+@media(min-width:750px){
+.ft-stock-gallery__grid--map{height:480px;grid-template-columns:minmax(0,1.1fr) repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+.ft-stock-gallery__grid--map .ft-stock-gallery__location{grid-column:1;grid-row:1/3}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{width:100%;height:100%;min-height:0;aspect-ratio:auto}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--1{grid-column:2;grid-row:1}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--2{grid-column:3;grid-row:1}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--3{grid-column:4;grid-row:1}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--4{grid-column:2;grid-row:2}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--5{grid-column:3;grid-row:2}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo--6{grid-column:4;grid-row:2}
+}
+</style>
+
+<style>
+@media(min-width:750px){
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{width:94%;height:94%;align-self:center;justify-self:center}
+}
+</style>
+
+<style>.ft-stock-gallery__location .ft-stock-gallery__intro{order:-1}</style>
+
+<style>
+@media(min-width:750px){
+.ft-stock-gallery__grid--map{height:440px;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:8px 10px}
+.ft-stock-gallery__grid--map .ft-stock-gallery__photo{width:100%;height:100%;align-self:stretch;justify-self:stretch}
+.ft-stock-gallery__grid--map .ft-stock-gallery__location{gap:16px;padding-right:16px;box-sizing:border-box}
+.ft-stock-gallery__location .ft-stock-gallery__map{flex:1;width:100%;height:0;min-height:0;max-height:340px}
+}
+@media(max-width:749px){.ft-stock-gallery__grid{gap:8px}}
+</style>
+
+<style>
+.ft-stock-gallery__location--international{justify-content:center}
+.ft-stock-gallery__location--international .ft-stock-gallery__intro{order:0}
+@media(max-width:749px){.ft-stock-gallery__location--international{margin-bottom:8px}}
+</style>
+
+<style>.ft-stock-gallery__location--international>h2{margin:0 0 8px}</style>
+
+{% schema %}
+{
+  "name": "Yokohama stock",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_nl",
+      "label": "Heading nl"
+    },
+    {
+      "type": "text",
+      "id": "heading_de",
+      "label": "Heading de"
+    },
+    {
+      "type": "textarea",
+      "id": "international_intro",
+      "label": "International intro"
+    },
+    {
+      "type": "textarea",
+      "id": "international_availability",
+      "label": "International availability"
+    },
+    {
+      "type": "textarea",
+      "id": "nl_intro",
+      "label": "Nl intro"
+    },
+    {
+      "type": "textarea",
+      "id": "de_intro",
+      "label": "De intro"
+    }
+  ]
+}
+{% endschema %}

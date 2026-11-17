@@ -5,6 +5,28 @@
     - localPosition: pass in the position in which the form is coming up to create specific IDs
 {%- endcomment -%}
 
+{%- liquid
+  assign preview_languages = false
+  assign language_options = localization.available_languages
+  if theme.role == 'development' and template.name == 'collection' and template.suffix == 'yokohama-fender' and request.design_mode == false
+    assign preview_languages = true
+  endif
+-%}
+{%- if preview_languages -%}
+  {%- capture preview_language_routes -%}
+    en|English|/collections/pneumatic-fenders-and-yokohama-type-fenders,
+    de|Deutsch|/de/collections/pneumatische-fender-und-yokohama-fender,
+    es|Español|/es/collections/defensas-neumaticas-y-defensas-tipo-yokohama,
+    fr|Français|/fr/collections/defenses-pneumatiques-et-defenses-type-yokohama,
+    it|Italiano|/it/collections/parabordi-pneumatici-e-parabordi-tipo-yokohama,
+    nl|Nederlands|/nl/collections/yokohama-type-en-drijvende-fenders,
+    nb|Norsk (bokmål)|/nb/collections/pneumatiske-fendere-og-yokohama-type-fendere,
+    da|Dansk|/da/collections/pneumatiske-fendere-og-yokohama-typer,
+    sv|Svenska|/sv/collections/pneumatiska-fender-och-fender-av-yokohama-typ
+  {%- endcapture -%}
+  {%- assign language_options = preview_language_routes | split: ',' -%}
+{%- endif -%}
+
 <div class="disclosure">
   <button
     type="button"
@@ -18,27 +40,39 @@
   </button>
   <div class="disclosure__list-wrapper language-selector" hidden>
     <ul id="{{ localPosition }}List" role="list" class="disclosure__list list-unstyled">
-      {%- for language in localization.available_languages -%}
+      {%- for language in language_options -%}
+        {%- liquid
+          assign language_code = language.iso_code
+          assign language_label = language.endonym_name | capitalize
+          assign language_url = '#'
+          if preview_languages
+            assign fields = language | strip | split: '|'
+            assign language_code = fields[0]
+            assign language_label = fields[1]
+            assign language_url = fields[2] | append: '?view=yokohama-fender'
+          endif
+        -%}
         <li class="disclosure__item" tabindex="-1">
           <a
             class="link link--text disclosure__link caption-large focus-inset"
-            href="#"
-            hreflang="{{ language.iso_code }}"
-            lang="{{ language.iso_code }}"
-            {% if language.iso_code == localization.language.iso_code %}
+            href="{{ language_url | escape }}"
+            hreflang="{{ language_code }}"
+            lang="{{ language_code }}"
+            {% if preview_languages %}data-preview-language{% endif %}
+            {% if language_code == localization.language.iso_code %}
               aria-current="true"
             {% endif %}
-            data-value="{{ language.iso_code }}"
+            data-value="{{ language_code }}"
           >
             <span
-              {% if language.iso_code != localization.language.iso_code %}
+              {% if language_code != localization.language.iso_code %}
                 class="visibility-hidden"
               {% endif %}
             >
               {{- 'icon-checkmark.svg' | inline_asset_content -}}
             </span>
             <span>
-              {{ language.endonym_name | capitalize }}
+              {{ language_label | escape }}
             </span>
           </a>
         </li>

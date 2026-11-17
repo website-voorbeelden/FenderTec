@@ -12,13 +12,28 @@
 <div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
+      {%- unless template.suffix == 'yokohama-fender' -%}
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
       </h1>
+      {%- endunless -%}
 
       {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {%- assign collection_description = collection.description -%}
+        {%- if template.suffix == 'yokohama-fender' -%}
+          {%- if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'es' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' -%}
+            {%- capture collection_description -%}
+              {{- 'fendertec_yokohama.page.definition_html' | t -}}
+              {{- 'fendertec_yokohama.page.applications_html' | t -}}
+              {{- 'fendertec_yokohama.page.selection_html' | t -}}
+            {%- endcapture -%}
+          {%- elsif theme.role == 'development' -%}
+            {%- assign legacy_collection = collections['yokohama-type-pneumatic-fenders'] -%}
+            {%- assign collection_description = legacy_collection.description | default: collection_description -%}
+          {%- endif -%}
+        {%- endif -%}
+        <div class="collection-hero__description rte">{{ collection_description }}</div>
       {%- endif -%}
     </div>
 

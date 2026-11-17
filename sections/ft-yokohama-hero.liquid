@@ -1,0 +1,801 @@
+
+{% assign hero_title = collection.title | default: 'Yokohama Pneumatic Fenders' %}
+{% if theme.role == 'development' and request.locale.iso_code != 'da' and request.locale.iso_code != 'en' and request.locale.iso_code != 'de' and request.locale.iso_code != 'es' and request.locale.iso_code != 'fr' and request.locale.iso_code != 'it' and request.locale.iso_code != 'nl' and request.locale.iso_code != 'nb' and request.locale.iso_code != 'sv' %}
+  {% assign legacy_collection = collections['yokohama-type-pneumatic-fenders'] %}
+  {% assign hero_title = legacy_collection.title | default: hero_title %}
+{% endif %}
+
+<div class="ft-yoko-hero">
+
+
+  <div class="page-width ft-yoko-hero__inner">
+
+    <!-- LEFT CONTENT -->
+    <div class="ft-yoko-hero__left">
+  <!-- FULL-WIDTH HERO IMAGE -->
+  <div class="ft-yoko-hero__background">
+    <img
+      src="{{ 'yokohama-fender-stock-hero.jpg' | asset_url }}"
+      alt="{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.image_alt' | t }}{% else %}{{ section.settings.image_alt | escape }}{% endif %}"
+      loading="eager"
+      fetchpriority="high"
+      class="ft-yoko-hero__image"
+      width="1179" height="876"
+    >
+    <div class="ft-yoko-hero__overlay"></div>
+  </div>
+
+
+      <!-- ISO CERTIFICATION -->
+      <div class="ft-yoko-hero__certification">
+<h1 class="ft-yoko-hero__title h0">
+        {{ hero_title | escape }}
+      </h1>
+
+        <img src="{{ 'iso-9001-certificeringsbadge.png' | asset_url }}" alt="ISO 9001" width="1864" height="843" loading="lazy" class="ft-yoko-hero__iso-logo">
+
+<span class="ft-yoko-hero__iso-text">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.intro' | t }}{% else %}{{ section.settings.intro | escape }}{% endif %}</span>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT QUOTE FORM -->
+    <div class="ft-yoko-hero__form-card">
+
+      <div class="ft-yoko-hero__form-header">
+        <h3 class="h3">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.quote_heading' | t }}{% else %}{{ section.settings.quote_heading | escape }}{% endif %}</h3>
+        
+      </div>
+
+      {% form 'contact', id: 'FenderTecYokohamaQuote', data-ft-quote-theme-role: theme.role %}
+
+        {% if form.posted_successfully? %}
+          <div class="ft-yoko-hero__success" role="status" data-ft-quote-success>
+            {% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.success_message' | t }}{% else %}{{ section.settings.success_message | escape }}{% endif %}
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="ft-yoko-hero__error" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        <input
+          type="hidden"
+          name="contact[Product interest]"
+          value="{{ hero_title | escape }}"
+        >
+
+        <div class="ft-yoko-hero__form-grid">
+
+          <div class="ft-yoko-hero__field">
+            <label class="visually-hidden" for="ft-yoko-name">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.name_label' | t }}{% else %}{{ section.settings.name_label | escape }}{% endif %}</label>
+            <input
+              id="ft-yoko-name"
+              type="text"
+              name="contact[name]"
+              value="{{ form.name | escape }}"
+              autocomplete="name"
+              placeholder="{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.name_label' | t }}{% else %}{{ section.settings.name_label | escape }}{% endif %}"
+              required
+            >
+          </div>
+
+          
+
+          <div class="ft-yoko-hero__field">
+            <label class="visually-hidden" for="ft-yoko-email">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.email_label' | t }}{% else %}{{ section.settings.email_label | escape }}{% endif %}</label>
+            <input
+              id="ft-yoko-email"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email | escape }}"
+              autocomplete="email"
+              placeholder="{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.email_label' | t }}{% else %}{{ section.settings.email_label | escape }}{% endif %}"
+              required
+            >
+          </div>
+
+          
+
+          <div class="ft-yoko-hero__field ft-yoko-hero__field--full">
+            <label class="visually-hidden" for="ft-yoko-message">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.message_label' | t }}{% else %}{{ section.settings.message_label | escape }}{% endif %}</label>
+            <textarea
+              id="ft-yoko-message"
+              name="contact[body]"
+              rows="3"
+              placeholder="{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.message_label' | t }}{% else %}{{ section.settings.message_label | escape }}{% endif %}"
+            >{{ form.body | escape }}</textarea>
+          </div>
+
+        </div>
+
+        <button
+          type="submit"
+          class="ft-yoko-hero__submit"
+        >
+          {% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.hero.submit_label' | t }}{% else %}{{ section.settings.submit_label | escape }}{% endif %}
+          
+        </button>
+
+      {% endform %}
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* OUTER FULL-WIDTH SECTION */
+  .ft-yoko-hero {
+    position: relative;
+    isolation: isolate;
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    margin-bottom: 35px;
+    
+  }
+
+  /* HERO BACKGROUND */
+  .ft-yoko-hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 370px;
+    overflow: hidden;
+    z-index: 0;
+    background: #252525;
+  }
+
+  .ft-yoko-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 48%;
+    display: block;
+  }
+
+  .ft-yoko-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0,0,0,0.75) 0%,
+      rgba(0,0,0,0.55) 35%,
+      rgba(0,0,0,0.20) 75%,
+      rgba(0,0,0,0.12) 100%
+    );
+  }
+
+  /* DAWN PAGE WIDTH */
+  .ft-yoko-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: clamp(25px, 4vw, 65px);
+    align-items: start;
+  }
+
+  /* LEFT SIDE */
+  .ft-yoko-hero__left {
+    padding-top: 72px;
+    padding-bottom: 40px;
+    min-width: 0;
+    color: #ffffff;
+  }
+
+  .ft-yoko-hero__eyebrow {
+    color: #ffffff;
+    
+    
+    
+    
+    margin-bottom: 13px;
+  }
+
+  .ft-yoko-hero__title {
+    color: #ffffff;
+    
+    
+    
+    max-width: 700px;
+    margin: 0 0 26px;
+  }
+
+  /* BROCHURE BUTTONS */
+  .ft-yoko-hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 27px;
+  }
+
+  .ft-yoko-hero__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 18px;
+    min-height: 45px;
+    
+    
+    
+    border-radius: 5px;
+    transition: background .2s ease, transform .2s ease;
+  }
+
+  .ft-yoko-hero__button:hover {
+    transform: translateY(-2px);
+  }
+
+  .ft-yoko-hero__button--primary {
+    color: #ffffff;
+    background: var(--ft-brand-red);
+    border: 1px solid var(--ft-brand-red);
+  }
+
+  .ft-yoko-hero__button--primary:hover {
+    color: #ffffff;
+    background: var(--ft-brand-red);
+  }
+
+  .ft-yoko-hero__button--outline {
+    color: #ffffff;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.85);
+  }
+
+  .ft-yoko-hero__button--outline:hover {
+    color: #222222;
+    background: #ffffff;
+  }
+
+  /* ISO CERTIFICATION */
+  .ft-yoko-hero__certification {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ft-yoko-hero__iso-logo {
+    display: block;
+    width: auto;
+    height: 44px;
+    max-width: 130px;
+    object-fit: contain;
+  }
+
+  .ft-yoko-hero__iso-text {
+    
+    
+    
+    color: #ffffff;
+  }
+
+  /* FLOATING FORM CARD */
+  .ft-yoko-hero__form-card {
+    margin-top: 36px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.18);
+    color: #222222;
+  }
+
+  .ft-yoko-hero__form-header {
+    margin-bottom: 18px;
+  }
+
+  .ft-yoko-hero__form-header h2 {
+    
+    
+    color: #222222;
+    
+    margin: 0 0 5px;
+  }
+
+  .ft-yoko-hero__form-header p {
+    
+    color: #777777;
+    margin: 0;
+  }
+
+  /* FORM FIELDS */
+  .ft-yoko-hero__form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 13px 12px;
+  }
+
+  .ft-yoko-hero__field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 5px;
+  }
+
+  .ft-yoko-hero__field--full {
+    grid-column: 1 / -1;
+  }
+
+  .ft-yoko-hero__field label {
+    color: #333333;
+    
+    
+    
+  }
+
+  .ft-yoko-hero__field input,
+  .ft-yoko-hero__field textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #222222;
+    
+    
+    padding: 10px 11px;
+    outline: none;
+    transition: border-color .2s ease;
+  }
+
+  .ft-yoko-hero__field input {
+    height: 41px;
+  }
+
+  .ft-yoko-hero__field textarea {
+    min-height: 79px;
+    resize: vertical;
+  }
+
+  .ft-yoko-hero__field input:focus,
+  .ft-yoko-hero__field textarea:focus {
+    border-color: #8b8d8f;
+    box-shadow: 0 0 0 1px #8b8d8f;
+  }
+
+  .ft-yoko-hero__field input::placeholder,
+  .ft-yoko-hero__field textarea::placeholder {
+    color: #999999;
+    opacity: 1;
+  }
+
+  /* SUBMIT BUTTON */
+  .ft-yoko-hero__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 45px;
+    margin-top: 17px;
+    border: 0;
+    border-radius: 5px;
+    background: var(--ft-brand-red);
+    color: #ffffff;
+    
+    
+    
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+
+  .ft-yoko-hero__submit:hover {
+    background: var(--ft-brand-red);
+  }
+
+  .ft-yoko-hero__success {
+    background: #edf7ed;
+    color: #20672b;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 15px;
+    
+  }
+
+  .ft-yoko-hero__error {
+    color: var(--ft-brand-red);
+    
+    margin-bottom: 15px;
+  }
+
+  /* TABLET */
+  @media screen and (max-width: 989px) {
+    .ft-yoko-hero__inner {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 25px;
+    }
+
+    .ft-yoko-hero__title {
+      
+    }
+
+    .ft-yoko-hero__left {
+      padding-top: 55px;
+    }
+
+    .ft-yoko-hero__buttons {
+      gap: 9px;
+    }
+
+    .ft-yoko-hero__button {
+      padding: 10px 12px;
+      
+    }
+  }
+
+  /* MOBILE */
+  @media screen and (max-width: 749px) {
+    .ft-yoko-hero {
+      margin-bottom: 25px;
+    }
+
+    .ft-yoko-hero__background {
+      height: 420px;
+    }
+
+    .ft-yoko-hero__image {
+      object-position: center;
+    }
+
+    .ft-yoko-hero__overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.68) 0%,
+        rgba(0,0,0,.50) 100%
+      );
+    }
+
+    .ft-yoko-hero__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ft-yoko-hero__left {
+      width: 100%;
+      min-height: 390px;
+      box-sizing: border-box;
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    .ft-yoko-hero__eyebrow {
+      
+      margin-bottom: 12px;
+    }
+
+    .ft-yoko-hero__title {
+      
+      
+      margin-bottom: 23px;
+    }
+
+    .ft-yoko-hero__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .ft-yoko-hero__button {
+      
+      min-height: 43px;
+      padding: 10px 12px;
+    }
+
+    .ft-yoko-hero__certification {
+      gap: 10px;
+    }
+
+    .ft-yoko-hero__iso-logo {
+      height: 35px;
+      max-width: 100px;
+    }
+
+    .ft-yoko-hero__iso-text {
+      
+    }
+
+    .ft-yoko-hero__form-card {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: -20px;
+      padding: 21px;
+      border-radius: 9px;
+    }
+
+    .ft-yoko-hero__form-header h2 {
+      
+    }
+
+    .ft-yoko-hero__form-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .ft-yoko-hero__field--full {
+      grid-column: auto;
+    }
+  }
+
+  @media screen and (max-width: 380px) {
+    .ft-yoko-hero__background {
+      height: 455px;
+    }
+
+    .ft-yoko-hero__left {
+      min-height: 425px;
+    }
+
+    .ft-yoko-hero__buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+<style>
+.ft-yoko-hero__title{max-width:800px;}
+.ft-yoko-hero__iso-logo{height:68px;max-width:180px}
+.ft-yoko-hero__iso-text{}
+.ft-yoko-hero__certification{gap:18px}
+@media(max-width:989px){.ft-yoko-hero__title{}.ft-yoko-hero__iso-logo{height:58px;max-width:150px}.ft-yoko-hero__iso-text{}}
+@media(max-width:749px){.ft-yoko-hero__title{}.ft-yoko-hero__iso-logo{height:52px;max-width:140px}.ft-yoko-hero__iso-text{}.ft-yoko-hero__certification{gap:14px}}
+</style>
+
+<style>
+.ft-yoko-hero__iso-logo{height:92px;max-width:240px}
+.ft-yoko-hero__iso-text{}
+.ft-yoko-hero__certification{gap:22px}
+@media(max-width:989px){.ft-yoko-hero__iso-logo{height:78px;max-width:200px}.ft-yoko-hero__iso-text{}}
+@media(max-width:749px){.ft-yoko-hero__iso-logo{height:70px;max-width:180px}.ft-yoko-hero__iso-text{}.ft-yoko-hero__certification{gap:16px}}
+</style>
+
+<style>.ft-yoko-hero__image{transform:scaleX(-1)}</style>
+
+<style>
+.ft-yoko-hero__form-header h2{}
+.ft-yoko-hero input,.ft-yoko-hero textarea,.ft-yoko-hero button{}
+</style>
+
+<style>
+.ft-yoko-hero__background{height:320px}
+.ft-yoko-hero__left{padding-top:52px;padding-bottom:28px}
+@media(max-width:989px){.ft-yoko-hero__left{padding-top:40px}}
+@media(max-width:749px){.ft-yoko-hero__background{height:350px}.ft-yoko-hero__left{min-height:330px;padding-top:36px;padding-bottom:36px}}
+@media(max-width:389px){.ft-yoko-hero__background{height:370px}.ft-yoko-hero__left{min-height:350px}}
+</style>
+
+<style>
+.ft-yoko-hero__left{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:320px;padding-top:28px;padding-bottom:28px}
+.ft-yoko-hero__title{width:100%;max-width:none;margin:0 0 24px;text-align:left}
+.ft-yoko-hero__certification{margin:0;max-width:100%}
+@media(max-width:989px){.ft-yoko-hero__left{padding-top:24px;padding-bottom:24px}}
+@media(max-width:749px){.ft-yoko-hero__left{min-height:330px;padding-top:24px;padding-bottom:36px}}
+@media(max-width:389px){.ft-yoko-hero__left{min-height:350px}}
+</style>
+
+<style>
+.ft-yoko-hero__field input,.ft-yoko-hero__field textarea{font:inherit}
+.ft-yoko-hero__field input::placeholder,.ft-yoko-hero__field textarea::placeholder{font:inherit}
+</style>
+
+<style>
+.ft-yoko-hero__form-header{text-align:center;margin:0 0 20px}
+.ft-yoko-hero__form-header h3{margin:0}
+</style>
+
+<style>
+.ft-yoko-hero__overlay{background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.64) 35%,rgba(0,0,0,.30) 75%,rgba(0,0,0,.22) 100%)}
+@media(max-width:749px){.ft-yoko-hero__overlay{background:linear-gradient(180deg,rgba(0,0,0,.76),rgba(0,0,0,.60))}}
+</style>
+
+<style>
+.ft-yoko-hero__form-card{margin-top:24px}
+@media(max-width:749px){.ft-yoko-hero__form-card{margin-top:-20px}}
+</style>
+
+<style>
+.ft-yoko-hero__submit{background:#ff7300}
+.ft-yoko-hero__submit:hover{background:#e66700}
+</style>
+
+<style>
+.ft-yoko-hero__submit,.ft-yoko-hero__submit:hover{background:rgb(var(--color-button));color:rgb(var(--color-button-text))}
+</style>
+
+<style>
+.ft-yoko-hero__overlay{background:linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.76) 40%,rgba(0,0,0,.42) 75%,rgba(0,0,0,.30) 100%)}
+@media(max-width:749px){.ft-yoko-hero__overlay{background:linear-gradient(180deg,rgba(0,0,0,.84),rgba(0,0,0,.70))}}
+</style>
+
+<style>.ft-yoko-hero__iso-text{font-size:calc(var(--font-heading-scale)*2rem)}@media(min-width:750px){.ft-yoko-hero__iso-text{font-size:calc(var(--font-heading-scale)*2.4rem)}}</style>
+
+<style>.ft-yoko-hero__certification{flex-direction:column;align-items:flex-start;gap:12px}</style>
+
+<style>
+.ft-yoko-hero__certification{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:16px 22px;width:100%}
+.ft-yoko-hero__iso-logo{grid-column:1;grid-row:1}
+.ft-yoko-hero__certification .ft-yoko-hero__title{grid-column:2;grid-row:1;margin:0;text-align:left}
+.ft-yoko-hero__iso-text{grid-column:1/-1;grid-row:2}
+@media(max-width:749px){.ft-yoko-hero__certification{gap:14px}.ft-yoko-hero__certification .ft-yoko-hero__iso-logo{max-width:105px;height:auto;max-height:70px}}
+</style>
+
+<style>
+.ft-yoko-hero__certification{grid-template-columns:auto minmax(0,1fr);gap:24px 20px;align-items:center}
+.ft-yoko-hero__certification .ft-yoko-hero__title{grid-column:1/-1;grid-row:1;text-align:center;margin:0;width:100%}
+.ft-yoko-hero__certification .ft-yoko-hero__iso-logo{grid-column:1;grid-row:2}
+.ft-yoko-hero__certification .ft-yoko-hero__iso-text{grid-column:2;grid-row:2;text-align:left}
+@media(max-width:749px){.ft-yoko-hero__certification{gap:20px 14px}}
+</style>
+
+<style>.ft-yoko-hero__left{padding-top:60px;padding-bottom:0}@media(max-width:749px){.ft-yoko-hero__left{padding-top:48px;padding-bottom:12px}}</style>
+
+<style>
+.ft-yoko-hero__certification{grid-template-columns:auto auto;justify-content:center;column-gap:20px}
+.ft-yoko-hero__certification .ft-yoko-hero__title{justify-self:center}
+.ft-yoko-hero__certification .ft-yoko-hero__iso-logo{justify-self:end}
+.ft-yoko-hero__certification .ft-yoko-hero__iso-text{justify-self:start;max-width:24ch}
+@media(max-width:749px){.ft-yoko-hero__certification{column-gap:14px}}
+</style>
+
+<style>.ft-yoko-hero__certification{row-gap:10px}@media(max-width:749px){.ft-yoko-hero__certification{row-gap:8px}}</style>
+
+<style>
+.ft-yoko-hero__iso-text{font:inherit;letter-spacing:inherit}
+.ft-yoko-hero__iso-text small{font:inherit;letter-spacing:inherit}
+.ft-yoko-hero__overlay{background:linear-gradient(90deg,rgba(0,0,0,.91) 0%,rgba(0,0,0,.82) 40%,rgba(0,0,0,.50) 75%,rgba(0,0,0,.38) 100%)}
+@media(max-width:749px){.ft-yoko-hero__overlay{background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(0,0,0,.76))}}
+</style>
+
+<style>
+@media(min-width:750px) and (max-width:1199px){
+.ft-yoko-hero__background{height:100%}
+.ft-yoko-hero__left{min-height:360px;padding-top:40px;padding-bottom:40px}
+.ft-yoko-hero__inner{padding-bottom:24px}
+}
+@media(max-width:749px){
+.ft-yoko-hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:0;padding-bottom:0}
+.ft-yoko-hero__background{height:100%}
+.ft-yoko-hero__left{position:relative;isolation:isolate;min-height:350px;padding-top:40px;padding-bottom:48px}
+.ft-yoko-hero__form-card{position:relative;margin-top:0;margin-bottom:24px;width:100%}
+.ft-yoko-hero__certification{width:100%;grid-template-columns:auto minmax(0,1fr)}
+.ft-yoko-hero__certification .ft-yoko-hero__title{overflow-wrap:anywhere}
+}
+</style>
+
+<style>.ft-yoko-hero__certification .ft-yoko-hero__iso-text{max-width:36ch;width:100%}</style>
+
+<style>
+.ft-yoko-hero__certification{row-gap:4px}
+.ft-yoko-hero__certification .ft-yoko-hero__title{margin-bottom:0}
+.ft-yoko-hero__background{height:350px}
+.ft-yoko-hero__left{min-height:350px}
+@media(min-width:750px) and (max-width:1199px){.ft-yoko-hero__background{height:100%}.ft-yoko-hero__left{min-height:380px}}
+@media(max-width:749px){.ft-yoko-hero__background{height:100%}.ft-yoko-hero__left{min-height:370px}.ft-yoko-hero__certification{row-gap:4px}}
+</style>
+
+<style>
+@media(min-width:750px){.ft-yoko-hero__inner{padding-bottom:32px}.ft-yoko-hero__form-card{align-self:end;margin-top:24px;margin-bottom:0;transform:translateY(48px)}.ft-yoko-hero__background{height:calc(100% - 48px)}}
+@media(max-width:749px){.ft-yoko-hero__background{height:calc(100% - 48px)}.ft-yoko-hero__form-card{margin-bottom:0;transform:none}.ft-yoko-hero__inner{padding-bottom:0}}
+</style>
+
+<style>
+@media(min-width:750px){.ft-yoko-hero__left{min-height:375px}.ft-yoko-hero__inner{padding-bottom:16px}.ft-yoko-hero__form-card{transform:translateY(24px)}.ft-yoko-hero__background{height:calc(100% - 16px)}}
+@media(min-width:750px) and (max-width:1199px){.ft-yoko-hero__left{min-height:400px}}
+@media(max-width:749px){.ft-yoko-hero__left{min-height:390px}.ft-yoko-hero__background{height:calc(100% - 24px)}}
+</style>
+
+<style>
+.ft-yoko-hero__overlay{background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.87) 40%,rgba(0,0,0,.58) 75%,rgba(0,0,0,.46) 100%)}
+@media(max-width:749px){.ft-yoko-hero__overlay{background:linear-gradient(180deg,rgba(0,0,0,.91),rgba(0,0,0,.82))}}
+</style>
+
+<style>
+.ft-yoko-hero__overlay{background:linear-gradient(90deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.91) 40%,rgba(0,0,0,.66) 75%,rgba(0,0,0,.54) 100%)}
+@media(max-width:749px){.ft-yoko-hero__overlay{background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.885))}}
+</style>
+
+<style>
+.ft-yoko-hero .ft-yoko-hero__form-card{background:#f3f3f3;border-radius:0}
+.ft-yoko-hero .ft-yoko-hero__field input,.ft-yoko-hero .ft-yoko-hero__field textarea,.ft-yoko-hero .ft-yoko-hero__submit{border-radius:0}
+</style>
+
+<style>
+.ft-yoko-hero .ft-yoko-hero__field input,.ft-yoko-hero .ft-yoko-hero__field textarea,.ft-yoko-hero .ft-yoko-hero__submit{border-radius:5px}
+</style>
+
+<style>.ft-yoko-hero .ft-yoko-hero__form-card{background:#fff}</style>
+
+<style>
+.ft-yoko-hero__image{filter:brightness(.88)}
+</style>
+
+<style>.ft-yoko-hero__background{box-shadow:0 10px 22px rgba(0,0,0,.22)}</style>
+
+<style>.ft-yoko-hero .ft-yoko-hero__form-card{border-radius:10px}@media(max-width:749px){.ft-yoko-hero .ft-yoko-hero__form-card{border-radius:9px}}</style>
+
+<style>
+@media screen and (max-width:749px){
+  .ft-yoko-hero__left{position:relative;isolation:isolate;padding-bottom:40px}
+  .ft-yoko-hero__left .ft-yoko-hero__background{top:0;left:50%;right:auto;width:100vw;height:100%;transform:translateX(-50%);z-index:-1}
+  .ft-yoko-hero__left .ft-yoko-hero__image{position:absolute;top:50%;bottom:auto;left:0;width:100%;height:176%;max-width:none;object-fit:cover;object-position:center;transform:translateY(-56%) scaleX(-1)}
+  .ft-yoko-hero__form-card{margin-top:-16px;transform:none}
+}
+</style>
+
+<style>
+@media screen and (min-width:750px){
+  .ft-yoko-hero__left .ft-yoko-hero__background{top:0;left:50%;right:auto;width:100vw;height:calc(100% - 16px);transform:translateX(-50%);z-index:-1}
+}
+@media screen and (max-width:749px){
+  .ft-yoko-hero__certification{grid-template-columns:minmax(0,1fr);row-gap:12px;justify-items:center}
+  .ft-yoko-hero__certification .ft-yoko-hero__title{grid-column:1;grid-row:1}
+  .ft-yoko-hero__certification .ft-yoko-hero__iso-logo{grid-column:1;grid-row:3;justify-self:center}
+  .ft-yoko-hero__certification .ft-yoko-hero__iso-text{grid-column:1;grid-row:2;justify-self:center;text-align:center}
+}
+</style>
+
+<style>@media screen and (max-width:749px){.ft-yoko-hero__certification .ft-yoko-hero__title{margin-bottom:0}.ft-yoko-hero__certification .ft-yoko-hero__iso-text{margin-top:-6px}}</style>
+
+<style>@media screen and (max-width:749px){.ft-yoko-hero__certification{row-gap:0}.ft-yoko-hero__certification .ft-yoko-hero__title{font-size:calc(var(--font-heading-scale)*3.6rem)}.ft-yoko-hero__certification .ft-yoko-hero__iso-text{margin-top:0}.ft-yoko-hero__certification .ft-yoko-hero__iso-logo{margin-top:12px}}</style>
+
+<style>@media screen and (max-width:749px){.ft-yoko-hero__certification .ft-yoko-hero__iso-logo{width:135px;max-width:135px;height:auto;max-height:none}}</style>
+
+<style>.ft-yoko-hero__title{text-transform:uppercase}</style>
+
+{% schema %}
+{
+  "name": "Yokohama hero and quote",
+  "settings": [
+    {
+      "type": "text",
+      "id": "intro",
+      "label": "Hero introduction"
+    },
+    {
+      "type": "text",
+      "id": "quote_heading",
+      "label": "Quote heading"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name label"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message label"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit label"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt"
+    }
+  ]
+}
+{% endschema %}

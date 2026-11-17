@@ -1,3 +1,17 @@
+{%- liquid
+  if request.page_type == 'product' and product != blank
+    assign quote_block = section.blocks | where: 'type', 'buy_buttons' | first
+    if quote_block != blank
+      assign quote_intro = section.blocks | where: 'id', 'text_VeNzgQ' | first
+      assign quote_anchor = quote_intro | default: quote_block
+      assign quote_quantity = section.blocks | where: 'type', 'quantity_selector' | first
+    endif
+  endif
+  assign use_variant_price = true
+  if quote_block != blank and product.selected_variant == blank
+    assign use_variant_price = false
+  endif
+-%}
 <product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -26,6 +40,64 @@
   {%- endif -%}
 
   {%- style -%}
+    {%- if product.id == 14902259089757 -%}
+      :root { --ft-product-panel-background: #f6f5f3; }
+      #MainProduct-{{ section.id }} .product__title > h1 { font-size: calc(var(--font-heading-scale) * 2.8rem); }
+      body:has(#MainProduct-{{ section.id }}) .usp-text { font-family: var(--font-body-family); }
+      #MainContent:has(#MainProduct-{{ section.id }}) .rt-wrap .rt-left h3 {
+        font-size: calc(var(--font-heading-scale) * 1.7rem);
+      }
+      @media screen and (min-width: 750px) {
+        #MainProduct-{{ section.id }} .product__title > h1 { font-size: calc(var(--font-heading-scale) * 3.6rem); }
+        #MainContent:has(#MainProduct-{{ section.id }}) .rt-wrap .rt-left h3 {
+          font-size: calc(var(--font-heading-scale) * 1.8rem);
+        }
+      }
+      .custom-table-container[data-ft-quote-size-table],
+      [data-ft-quote-size-table] .custom-table-container {
+        background-color: var(--ft-product-panel-background);
+      }
+      @media (max-width: 768px) {
+        .custom-table-container[data-ft-quote-size-table],
+        [data-ft-quote-size-table] .custom-table-container {
+          background-color: var(--ft-product-panel-background) !important;
+        }
+      }
+    {%- endif -%}
+    {%- if quote_block != blank -%}
+      #MainProduct-{{ section.id }} .ft-product-contact {
+        padding: clamp(1.2rem, 2vw, 2rem);
+        background: #f6f5f3;
+      }
+      #MainProduct-{{ section.id }} .ft-product-contact form { display: grid; gap: 1.2rem; }
+      #MainProduct-{{ section.id }} .ft-product-contact__size-label {
+        position: static;
+        display: block;
+        margin-bottom: .4rem;
+        pointer-events: auto;
+        font: inherit;
+        letter-spacing: inherit;
+      }
+      #MainProduct-{{ section.id }} .ft-product-contact__size .select__select {
+        min-height: 4.8rem;
+        padding-inline-end: 4.2rem;
+        border: 0;
+        font-size: 1.6rem;
+        color: rgb(var(--color-foreground));
+      }
+      #MainProduct-{{ section.id }} .ft-product-contact__size .select > .svg-wrapper {
+        inset-block-start: 50%;
+        inset-inline: auto 1.6rem;
+        width: 1.2rem;
+        height: 0.72rem;
+        color: rgb(var(--color-foreground) / 0.65);
+        transform: translateY(-50%);
+      }
+      #MainProduct-{{ section.id }} .ft-product-contact__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+      #MainProduct-{{ section.id }} .ft-product-contact .text-area { min-height: 9rem; }
+      #MainProduct-{{ section.id }} .ft-product-contact .button { justify-self: start; }
+    {%- endif -%}
+
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -84,18 +156,16 @@
           class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
+          {%- if request.page_type == 'product' and product != blank -%}
+            {% render 'fendertec-product-breadcrumbs', product: product, current_collection: collection %}
+          {%- endif -%}
 
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'text' -%}
-                <p
-                  class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{- block.settings.text -}}
-                </p>
+                {% render 'product-info-text', block: block %}
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
@@ -109,7 +179,7 @@
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
                     product: product,
-                    use_variant: true,
+                    use_variant: use_variant_price,
                     show_badges: true,
                     price_class: 'price--large'
                   -%}
@@ -228,6 +298,7 @@
                   </details>
                 </div>
               {%- when 'quantity_selector' -%}
+                {%- if quote_block != blank -%}{%- continue -%}{%- endif -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"
                   class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
@@ -462,15 +533,19 @@
                 %}
 
               {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {%- if quote_block == blank -%}
+                  {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {%- endif -%}
               {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons',
-                  block: block,
-                  product: product,
-                  product_form_id: product_form_id,
-                  section_id: section.id,
-                  show_pickup_availability: true
-                -%}
+                {%- if quote_block == blank -%}
+                  {%- render 'buy-buttons',
+                    block: block,
+                    product: product,
+                    product_form_id: product_form_id,
+                    section_id: section.id,
+                    show_pickup_availability: true
+                  -%}
+                {%- endif -%}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -511,7 +586,7 @@
                 {%- endif -%}
               {%- when 'complementary' -%}
                 <product-recommendations
-                  class="complementary-products quick-add-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if block.settings.enable_quick_add %} complementary-products-contains-quick-add{% endif %}"
+                  class="complementary-products quick-add-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if block.settings.enable_quick_add and quote_block == blank %} complementary-products-contains-quick-add{% endif %}"
                   data-url="{{ routes.product_recommendations_url }}?limit={{ block.settings.product_list_limit }}&intent=complementary"
                   data-section-id="{{ section.id }}"
                   data-product-id="{{ product.id }}"
@@ -573,7 +648,7 @@
                                     offset: continue
                                   -%}
                                     <li>
-                                      {%- if block.settings.enable_quick_add -%}
+                                      {%- if block.settings.enable_quick_add and quote_block == blank -%}
                                         {% assign quick_add = 'standard' %}
                                       {%- else -%}
                                         {% assign quick_add = 'none' %}
@@ -653,7 +728,7 @@
                   {%- endif -%}
                   {{ 'component-card.css' | asset_url | stylesheet_tag }}
                   {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
-                  {%- if block.settings.enable_quick_add -%}
+                  {%- if block.settings.enable_quick_add and quote_block == blank -%}
                     {{ 'quick-add.css' | asset_url | stylesheet_tag }}
                     <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
                   {%- endif -%}
@@ -661,6 +736,14 @@
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
             {%- endcase -%}
+            {%- if quote_block != blank and block.id == quote_anchor.id -%}
+              {% render 'yokohama-product-contact',
+                product: product,
+                section_id: section.id,
+                block: quote_block,
+                quantity_block: quote_quantity
+              %}
+            {%- endif -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
             {{ 'products.product.view_full_details' | t }}
@@ -710,16 +793,6 @@
       <script src="{{ 'product-model.js' | asset_url }}" defer></script>
     {%- endif -%}
 
-    {%- liquid
-      if product.selected_or_first_available_variant.featured_media
-        assign seo_media = product.selected_or_first_available_variant.featured_media
-      else
-        assign seo_media = product.featured_media
-      endif
-    -%}
-
-    <script type="application/ld+json">
-    </script>
   </div>
 </product-info>
 

@@ -87,25 +87,17 @@ document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
 const trapFocusHandlers = {};
 
 function trapFocus(container, elementToFocus = container) {
-  var elements = getFocusableElements(container);
-  var first = elements[0];
-  var last = elements[elements.length - 1];
-
   removeTrapFocus();
 
-  trapFocusHandlers.focusin = (event) => {
-    if (event.target !== container && event.target !== last && event.target !== first) return;
-
-    document.addEventListener('keydown', trapFocusHandlers.keydown);
-  };
-
-  trapFocusHandlers.focusout = function () {
-    document.removeEventListener('keydown', trapFocusHandlers.keydown);
-  };
-
   trapFocusHandlers.keydown = function (event) {
-    if (event.code.toUpperCase() !== 'TAB') return; // If not TAB key
-    // On the last focusable element and tab forward, focus the first element.
+    if (event.key !== 'Tab' || !container.contains(event.target)) return;
+    const elements = getFocusableElements(container).filter(
+      (element) => element.getClientRects().length && getComputedStyle(element).visibility === 'visible'
+    );
+    const first = elements[0];
+    const last = elements.at(-1);
+    if (!first) return;
+
     if (event.target === last && !event.shiftKey) {
       event.preventDefault();
       first.focus();
@@ -118,8 +110,7 @@ function trapFocus(container, elementToFocus = container) {
     }
   };
 
-  document.addEventListener('focusout', trapFocusHandlers.focusout);
-  document.addEventListener('focusin', trapFocusHandlers.focusin);
+  document.addEventListener('keydown', trapFocusHandlers.keydown);
 
   elementToFocus.focus();
 
@@ -195,9 +186,7 @@ function pauseAllMedia() {
 }
 
 function removeTrapFocus(elementToFocus = null) {
-  document.removeEventListener('focusin', trapFocusHandlers.focusin);
-  document.removeEventListener('focusout', trapFocusHandlers.focusout);
-  document.removeEventListener('keydown', trapFocusHandlers.keydown);
+  if (trapFocusHandlers.keydown) document.removeEventListener('keydown', trapFocusHandlers.keydown);
 
   if (elementToFocus) elementToFocus.focus();
 }
@@ -443,15 +432,21 @@ class MenuDrawer extends HTMLElement {
 
     const openDetailsElement = event.target.closest('details[open]');
     if (!openDetailsElement) return;
+    if (openDetailsElement.hasAttribute('data-ft-inline-drawer')) {
+      openDetailsElement.open = false;
+      openDetailsElement.querySelector('summary')?.focus();
+      return;
+    }
 
     openDetailsElement === this.mainDetailsToggle
-      ? this.closeMenuDrawer(event, this.mainDetailsToggle.querySelector('summary'))
+      ? this.closeMenuDrawer(this.mainDetailsToggle.querySelector('summary'))
       : this.closeSubmenu(openDetailsElement);
   }
 
   onSummaryClick(event) {
     const summaryElement = event.currentTarget;
     const detailsElement = summaryElement.parentNode;
+    if (detailsElement.hasAttribute('data-ft-inline-drawer')) return;
     const parentMenuElement = detailsElement.closest('.has-submenu');
     const isOpen = detailsElement.hasAttribute('open');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -463,11 +458,10 @@ class MenuDrawer extends HTMLElement {
 
     if (detailsElement === this.mainDetailsToggle) {
       if (isOpen) event.preventDefault();
-      isOpen ? this.closeMenuDrawer(event, summaryElement) : this.openMenuDrawer(summaryElement);
-
-      if (window.matchMedia('(max-width: 990px)')) {
+      if (window.matchMedia('(max-width: 990px)').matches) {
         document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
       }
+      isOpen ? this.closeMenuDrawer(summaryElement) : this.openMenuDrawer(summaryElement);
     } else {
       setTimeout(() => {
         detailsElement.classList.add('menu-opening');
@@ -482,17 +476,21 @@ class MenuDrawer extends HTMLElement {
 
   openMenuDrawer(summaryElement) {
     setTimeout(() => {
-      this.mainDetailsToggle.classList.add('menu-opening');
+      if (this.mainDetailsToggle.open && summaryElement.getAttribute('aria-expanded') === 'true') {
+        this.mainDetailsToggle.classList.add('menu-opening');
+      }
     });
     summaryElement.setAttribute('aria-expanded', true);
     trapFocus(this.mainDetailsToggle, summaryElement);
     document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
   }
 
-  closeMenuDrawer(event, elementToFocus = false) {
-    if (event === undefined) return;
+  closeMenuDrawer(elementToFocus = null) {
+    const summary = this.mainDetailsToggle.querySelector('summary');
+    summary.setAttribute('aria-expanded', 'false');
 
     this.mainDetailsToggle.classList.remove('menu-opening');
+    this.mainDetailsToggle.open = false;
     this.mainDetailsToggle.querySelectorAll('details').forEach((details) => {
       details.removeAttribute('open');
       details.classList.remove('menu-opening');
@@ -502,9 +500,6 @@ class MenuDrawer extends HTMLElement {
     });
     document.body.classList.remove(`overflow-hidden-${this.dataset.breakpoint}`);
     removeTrapFocus(elementToFocus);
-    this.closeAnimation(this.mainDetailsToggle);
-
-    if (event instanceof KeyboardEvent) elementToFocus?.setAttribute('aria-expanded', false);
   }
 
   onFocusOut() {
@@ -561,38 +556,67 @@ class HeaderDrawer extends MenuDrawer {
 
   openMenuDrawer(summaryElement) {
     this.header = this.header || document.querySelector('.section-header');
-    this.borderOffset =
-      this.borderOffset || this.closest('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
+    this.borderOffset = this.closest('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
     document.documentElement.style.setProperty(
       '--header-bottom-position',
       `${parseInt(this.header.getBoundingClientRect().bottom - this.borderOffset)}px`
     );
     this.header.classList.add('menu-open');
 
-    setTimeout(() => {
-      this.mainDetailsToggle.classList.add('menu-opening');
-    });
-
-    summaryElement.setAttribute('aria-expanded', true);
+    super.openMenuDrawer(summaryElement);
     window.addEventListener('resize', this.onResize);
-    trapFocus(this.mainDetailsToggle, summaryElement);
-    document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
+    if (this.closest('.ft-yoko-header')) {
+      window.visualViewport?.addEventListener('resize', this.onResize);
+      this.watchConsentBanner();
+      this.onResize();
+    }
   }
 
-  closeMenuDrawer(event, elementToFocus) {
-    if (!elementToFocus) return;
-    super.closeMenuDrawer(event, elementToFocus);
-    this.header.classList.remove('menu-open');
+  closeMenuDrawer(elementToFocus) {
+    this.querySelectorAll('localization-form').forEach((selector) => selector.hidePanel?.());
+    super.closeMenuDrawer(elementToFocus);
+    this.header?.classList.remove('menu-open');
     window.removeEventListener('resize', this.onResize);
+    if (this.closest('.ft-yoko-header')) window.visualViewport?.removeEventListener('resize', this.onResize);
+    this.consentBannerResize?.disconnect();
+    this.consentBannerMount?.disconnect();
+    this.consentBanner?.removeEventListener('transitionend', this.onResize);
+  }
+
+  watchConsentBanner() {
+    const observeBanner = () => {
+      this.consentBanner = document.getElementById('shopify-pc__banner');
+      if (!this.consentBanner) return false;
+      this.consentBannerMount?.disconnect();
+      this.consentBannerResize ||= new ResizeObserver(this.onResize);
+      this.consentBannerResize.observe(this.consentBanner);
+      this.consentBanner.addEventListener('transitionend', this.onResize);
+      return true;
+    };
+    if (!observeBanner()) {
+      this.consentBannerMount = new MutationObserver(observeBanner);
+      this.consentBannerMount.observe(document.body, { childList: true, subtree: true });
+    }
   }
 
   onResize = () => {
+    if (this.closest('.ft-yoko-header') && window.matchMedia('(min-width: 990px)').matches) {
+      this.closeMenuDrawer();
+      return;
+    }
     this.header &&
       document.documentElement.style.setProperty(
         '--header-bottom-position',
         `${parseInt(this.header.getBoundingClientRect().bottom - this.borderOffset)}px`
       );
-    document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
+    const viewport = this.closest('.ft-yoko-header') && window.visualViewport;
+    const viewportBottom = viewport ? viewport.height + viewport.offsetTop : window.innerHeight;
+    const banner = this.consentBanner?.getBoundingClientRect();
+    const drawerWidth = this.querySelector('.menu-drawer').offsetWidth;
+    const drawerBottom = banner?.height && banner.right > 0 && banner.left < drawerWidth
+      ? Math.min(viewportBottom, banner.top)
+      : viewportBottom;
+    document.documentElement.style.setProperty('--viewport-height', `${drawerBottom}px`);
   };
 }
 

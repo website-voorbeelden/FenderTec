@@ -1,0 +1,12 @@
+{% doc %}
+  Renders the original Yokohama collection photo for cards and navigation.
+  @param {string} [image_class] - Optional CSS class for the image
+{% enddoc %}
+<img
+  src="{{ 'yokohama-collection-card.jpg' | asset_url }}"
+  alt=""
+  width="960"
+  height="720"
+  loading="lazy"
+  {% if image_class != blank %}class="{{ image_class | escape }}"{% endif %}
+>

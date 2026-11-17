@@ -1,0 +1,114 @@
+{% doc %}
+  Shows the product's collection and current page, with a shorter trail on mobile.
+  @param {product} product - The current product
+  @param {collection} [current_collection] - Collection context when the product was opened from a collection
+{% enddoc %}
+{%- liquid
+  assign yokohama_collection = collections['pneumatic-fenders-and-yokohama-type-fenders']
+  assign legacy_collection = collections['yokohama-type-pneumatic-fenders']
+  assign parent_collection = product.metafields.custom.collectie.value
+
+  if parent_collection == blank and yokohama_collection != blank
+    assign product_collection_ids = product.collections | map: 'id'
+    if product_collection_ids contains yokohama_collection.id or product_collection_ids contains legacy_collection.id
+      assign parent_collection = yokohama_collection
+    endif
+  endif
+
+  case template.suffix
+    when 'tow-protectors'
+      assign top_collection = collections['tow-wire-protectors']
+    when 'd-fender-all-types'
+      assign top_collection = collections['rubber-fenders']
+  endcase
+
+  if parent_collection == blank
+    if template.suffix == 'tow-protectors'
+      assign parent_collection = current_collection | default: top_collection
+    else
+      assign parent_collection = current_collection | default: product.collections.first
+    endif
+  endif
+
+  if legacy_collection != blank and parent_collection.id == legacy_collection.id and yokohama_collection != blank
+    assign parent_collection = yokohama_collection
+  endif
+
+  assign parent_title = 'fendertec_navigation.products' | t
+  assign parent_link = collections['product-overview'].url | default: routes.collections_url
+  if parent_collection != blank
+    assign parent_title = parent_collection.title
+    assign parent_link = parent_collection.url
+    if theme.role == 'development' and parent_collection.id == yokohama_collection.id and request.locale.iso_code != 'da' and request.locale.iso_code != 'en' and request.locale.iso_code != 'de' and request.locale.iso_code != 'es' and request.locale.iso_code != 'fr' and request.locale.iso_code != 'it' and request.locale.iso_code != 'nl' and request.locale.iso_code != 'nb' and request.locale.iso_code != 'sv'
+      assign parent_title = legacy_collection.title | default: parent_title
+    endif
+  endif
+
+  assign breadcrumb_label = 'fendertec_yokohama.navigation.breadcrumb' | t
+  case request.locale.iso_code
+    when 'nl'
+      assign breadcrumb_label = 'Broodkruimelpad'
+    when 'de'
+      assign breadcrumb_label = 'Brotkrümelnavigation'
+    when 'nb'
+      assign breadcrumb_label = 'Brødsmulesti'
+    when 'da'
+      assign breadcrumb_label = 'Brødkrummesti'
+    when 'sv'
+      assign breadcrumb_label = 'Brödsmulor'
+  endcase
+  assign position = 1
+  assign product_canonical = canonical_url | split: '?' | first
+-%}
+
+<nav class="ft-product-breadcrumbs quick-add-hidden" aria-label="{{ breadcrumb_label | escape }}" style="--breadcrumb-color: {{ settings.color_schemes['scheme-5'].settings.background | default: '#bf1e2d' }};">
+  <a href="{{ parent_link | escape }}">
+    <span class="ft-breadcrumb-chevron ft-breadcrumb-chevron--back medium-hide large-up-hide" aria-hidden="true"></span>
+    <span class="ft-product-breadcrumbs__link-text">{{ parent_title | escape }}</span>
+  </a>
+  <span class="ft-breadcrumb-chevron small-hide" aria-hidden="true"></span>
+  <span class="small-hide" aria-current="page">{{ product.title | escape }}</span>
+</nav>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {%- if parent_collection != blank and top_collection != blank and top_collection.id != parent_collection.id -%}
+        {"@type":"ListItem","position":{{ position }},"name":{{ top_collection.title | json }},"item":{{ top_collection.url | prepend: request.origin | json }}},
+        {%- assign position = position | plus: 1 -%}
+      {%- endif -%}
+      {"@type":"ListItem","position":{{ position }},"name":{{ parent_title | json }},"item":{{ parent_link | prepend: request.origin | json }}},
+      {"@type":"ListItem","position":{{ position | plus: 1 }},"name":{{ product.title | json }},"item":{{ product_canonical | json }}}
+    ]
+  }
+</script>
+
+{% stylesheet %}
+  .ft-product-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.8rem;
+    margin-block-end: 1.2rem;
+    color: var(--breadcrumb-color);
+    font-size: 1.6rem;
+    line-height: 1.4;
+  }
+
+  .ft-product-breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .ft-product-breadcrumbs a:hover .ft-product-breadcrumbs__link-text,
+  .ft-product-breadcrumbs a:focus-visible .ft-product-breadcrumbs__link-text {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+
+  .ft-product-breadcrumbs .ft-breadcrumb-chevron--back {
+    margin-inline-end: 0.6rem;
+  }
+{% endstylesheet %}

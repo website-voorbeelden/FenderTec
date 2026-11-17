@@ -1,0 +1,28 @@
+{%- assign product_collections = 'rubber-fenders,pneumatic-fenders-and-yokohama-type-fenders,smaller-rubber-fender-profiles,rubber-buffer-blocks' | split: ',' -%}
+{%- assign products_label = 'fendertec_navigation.products' | t -%}
+<a href="{{ products_url | escape }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset">{{ products_label | escape }}</a>
+<details class="ft-mobile-products" data-ft-inline-drawer>
+  <summary class="menu-drawer__menu-item link link--text focus-inset" aria-label="{{ 'sections.header.menu' | t | escape }}: {{ products_label | escape }}">
+    {{ 'icon-caret.svg' | inline_asset_content }}
+  </summary>
+  <ul class="list-menu ft-mobile-products__links" role="list">
+    {%- for handle in product_collections -%}
+      {%- assign group = collections[handle] -%}
+      {%- if group != blank -%}
+        {%- assign thumbnail = group.image | default: group.products.first.featured_image -%}
+        <li>
+          <a href="{{ group.url }}"
+            class="menu-drawer__menu-item list-menu__item link link--text focus-inset"
+            {% if request.page_type == 'collection' and group.id == collection.id %}aria-current="page"{% endif %}>
+            {%- if handle == 'pneumatic-fenders-and-yokohama-type-fenders' -%}
+              {% render 'yokohama-collection-image' %}
+            {%- elsif thumbnail -%}
+              {{ thumbnail | image_url: width: 180 | image_tag: widths: '90,180', sizes: '90px', loading: 'lazy', alt: '' }}
+            {%- endif -%}
+            <span>{% render 'fendertec-navigation-label', resource_key: handle, resource_title: group.title %}</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</details>

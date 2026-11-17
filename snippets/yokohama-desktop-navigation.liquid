@@ -1,0 +1,407 @@
+<style>
+  :root { --ft-brand-red: {{ settings.color_schemes['scheme-5'].settings.background | default: '#bf1e2d' }}; }
+  .shopify-section-group-header-group[id$="__custom_liquid_98APHX"] { display: none; }
+  .header-wrapper:has(.ft-yoko-header) { border-bottom: 0; box-shadow: none; }
+  .ft-yoko-header .header__icon--account { display: none; }
+  .ft-dawn-navigation { display: none; }
+
+  @media (min-width: 990px) {
+    .header.ft-yoko-header {
+      grid-template-areas: 'heading icons' 'navigation navigation';
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .ft-yoko-header .header__icons > .ft-mobile-search { display: none; }
+    .ft-yoko-header .header__icons { justify-content: flex-end; padding-right: 0; }
+    .ft-yoko-header .desktop-localization-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      order: 10;
+      margin-left: auto;
+    }
+    .ft-dawn-navigation {
+      --ft-product-rail: clamp(280px, 25vw, 340px);
+      --ft-panel-height: 60vh;
+      grid-area: navigation;
+      display: flex;
+      align-items: stretch;
+      min-width: 0;
+      position: relative;
+      isolation: isolate;
+      margin-top: 12px;
+      background: var(--ft-brand-red);
+      color: #fff;
+    }
+    .ft-dawn-navigation::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: 0 0 0 100vmax var(--ft-brand-red);
+      clip-path: inset(0 -100vmax);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .ft-dawn-navigation a { text-decoration: none; }
+    .ft-dawn-navigation [hidden] { display: none; }
+    .ft-dawn-list {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      min-width: 0;
+      margin: 0;
+      padding: 0 0 0 12px;
+      list-style: none;
+    }
+    .ft-dawn-list > li { display: flex; }
+    .ft-dawn-navigation .ft-dawn-list .header__menu-item {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      margin: 0;
+      padding: 18px clamp(1.4rem, calc(9vw - 7.5rem), 4rem);
+      color: #fff;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .ft-dawn-navigation .ft-dawn-list > li:first-child > .header__menu-item { padding-inline: 28px; }
+    .ft-dawn-navigation .ft-dawn-list .ft-nav-landing { padding-inline-end: .4rem; }
+    .ft-nav-toggle {
+      display: grid;
+      place-items: center;
+      width: 3.2rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+    }
+    .ft-nav-toggle svg { width: 1rem; }
+    .ft-nav-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .ft-dawn-navigation .ft-dawn-list .header__menu-item:hover,
+    .ft-dawn-navigation .ft-dawn-list .ft-nav-dropdown:hover,
+    .ft-dawn-navigation .ft-dawn-list .ft-nav-dropdown:has(.ft-nav-toggle[aria-expanded="true"]) { background: #8b8d8f; }
+    .ft-dawn-navigation :focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
+    .ft-dawn-native-search {
+      flex: none;
+      align-self: center;
+      margin-right: 12px;
+    }
+    .ft-dawn-navigation .ft-dawn-native-search .header__icon--search { width: 44px; height: 44px; color: #fff; }
+    .ft-dawn-native-search .icon-search { stroke: currentColor; stroke-width: .45; stroke-linejoin: round; }
+    .ft-products-panel, .ft-markets-panel { position: absolute; top: 100%; inset-inline: 0; z-index: 40; }
+    .ft-products-panel {
+      display: grid;
+      grid-template-columns: var(--ft-product-rail) minmax(0, 1fr);
+      pointer-events: none;
+    }
+    .ft-products-rail, .ft-products-flyout, .ft-markets-panel {
+      max-height: var(--ft-panel-height);
+      overflow: auto;
+      overscroll-behavior: contain;
+      margin: 0;
+      background: #fff;
+      color: #282828;
+      border: 1px solid #e6e6e6;
+      box-shadow: 0 14px 25px #0002;
+    }
+    .ft-products-rail, .ft-products-flyout { pointer-events: auto; }
+    .ft-products-rail { list-style: none; padding: 8px 0; }
+    .ft-products-row { display: flex; align-items: stretch; min-height: 76px; }
+    .ft-products-row a {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0 12px 16px;
+      color: inherit;
+      overflow-wrap: anywhere;
+    }
+    .ft-products-row img { width: var(--ft-rail-image, 96px); height: var(--ft-rail-image, 96px); flex: none; object-fit: contain; }
+    .ft-products-toggle {
+      width: 44px;
+      flex: none;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .ft-products-row a:hover, .ft-products-toggle:hover, .ft-products-toggle[aria-expanded="true"] { color: var(--ft-brand-red); }
+    .ft-products-flyout { min-width: 0; padding: 24px; border-inline-start: 0; }
+    .ft-products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px 18px;
+    }
+    .ft-products-card { display: flex; flex-direction: column; gap: 10px; color: #292929; overflow-wrap: anywhere; }
+    .ft-products-card > div { aspect-ratio: 4 / 3; display: grid; place-items: center; }
+    .ft-products-card img, .ft-products-card svg { width: 100%; height: 100%; object-fit: contain; }
+    .ft-markets-panel {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, min(240px, 26vh)));
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px clamp(12px, 1.5vw, 20px);
+      padding: clamp(16px, 2vw, 24px);
+      list-style: none;
+    }
+    .ft-markets-panel a { display: flex; flex-direction: column; gap: 6px; color: inherit; text-align: start; }
+    .ft-markets-panel img { display: block; width: 100%; height: auto; }
+    .ft-markets-panel span {
+      inline-size: max-content;
+      max-inline-size: calc(100% + 8px);
+      overflow-wrap: anywhere;
+    }
+    .ft-products-card:hover, .ft-markets-panel a:hover { color: var(--ft-brand-red); }
+  }
+
+  @media (990px <= width < 1250px), (min-width: 990px) and (height < 760px) {
+    .ft-products-row { --ft-rail-image: 68px; }
+    .ft-products-flyout { padding: 16px; }
+  }
+
+  .ft-yoko-header .desktop-localization-wrapper .localization-form { padding: 0; margin: 0; }
+  .ft-yoko-header .desktop-localization-wrapper .localization-form__select {
+    min-height: 40px;
+    margin: 0;
+    padding: 10px 32px 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: transparent;
+    color: #555;
+    font: inherit;
+    letter-spacing: inherit;
+    text-decoration: none;
+    box-shadow: none;
+  }
+  .ft-yoko-header .desktop-localization-wrapper .localization-form__select .icon-caret { right: 12px; }
+  .ft-yoko-header .desktop-localization-wrapper .disclosure__list-wrapper {
+    right: 0;
+    left: auto;
+    border: 1px solid #dedbd8;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 8px 20px #00000014;
+  }
+  .ft-yoko-header .desktop-localization-wrapper .disclosure__link { font: inherit; letter-spacing: inherit; color: #555; text-decoration: none; }
+  .ft-yoko-header .desktop-localization-wrapper .disclosure__link span { color: inherit; }
+  .ft-yoko-header .desktop-localization-wrapper .disclosure__link:hover,
+  .ft-yoko-header .desktop-localization-wrapper .disclosure__link[aria-current="true"] { background: #f6f5f3; }
+</style>
+<nav id="ft-desktop-nav-{{ section.id }}" class="ft-dawn-navigation" aria-label="{{ 'sections.header.menu' | t | escape }}">
+{% assign products_label = 'fendertec_navigation.products' | t %}
+{% assign markets_label = 'fendertec_navigation.markets' | t %}
+{% assign menu_label = 'sections.header.menu' | t %}
+<ul class="ft-dawn-list" role="list">
+<li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}">{{ 'fendertec_navigation.home' | t | escape }}</a></li>
+<li class="ft-dawn-products ft-nav-dropdown">
+<a class="ft-nav-landing header__menu-item list-menu__item link focus-inset" href="{{ products_url | escape }}">{{ products_label | escape }}</a>
+<button type="button" class="ft-nav-toggle focus-inset" aria-label="{{ menu_label | escape }}: {{ products_label | escape }}" aria-controls="ft-products-panel-{{ section.id }}" aria-expanded="false">{{ 'icon-caret.svg' | inline_asset_content }}</button>
+<div class="ft-products-panel" id="ft-products-panel-{{ section.id }}" hidden>
+  {% assign ft_product_panels = '' %}
+  <ul class="ft-products-rail" role="list">
+    {% assign ft_groups = 'rubber-fenders,pneumatic-fenders-and-yokohama-type-fenders,smaller-rubber-fender-profiles,rubber-buffer-blocks' | split: ',' %}
+    {% for ft_handle in ft_groups %}
+      {% assign ft_group = collections[ft_handle] %}
+      {% assign ft_fender_handles = blank %}
+      {% case ft_handle %}
+        {% when 'rubber-fenders' %}
+          {% assign ft_fender_handles = 'd-fenders,delta-fenders,square-fenders,cylindrical-fenders,d-fender-profiles,delta-shaped-fender-profiles,b-shaped-fender-profiles,u-shaped-fender-profiles,bow-fenders-for-tugboats,keyhole-fenders,w-fender-blocks,m-fender-blocks,tugboat-special-fenders,composite-fenders-cf-c-and-cf-d,composite-fenders-cf-a-and-cf-b,composite-fenders-specials,draghead-protection-rubber-fenders,non-marking-and-colored-fenders,wing-and-omega-shaped-rubber-fenders,custom-rubber-fenders,element-fenders-for-quays,arch-fenders,cylindrical-fenders-for-quays,fenders-for-pontoons-and-floating-docks' | split: ',' %}
+        {% when 'smaller-rubber-fender-profiles' %}
+          {% assign ft_fender_handles = 'd-fender-profiles,delta-shaped-fender-profiles,b-shaped-fender-profiles,u-shaped-fender-profiles' | split: ',' %}
+      {% endcase %}
+      {% if ft_group != blank %}
+        {% assign ft_panel_id = 'ft-products-' | append: section.id | append: '-' | append: ft_handle %}
+        {%- capture ft_group_label -%}
+          {%- render 'fendertec-navigation-label', resource_key: ft_handle, resource_title: ft_group.title -%}
+        {%- endcapture -%}
+        <li class="ft-products-row">
+          <a href="{{ ft_group.url }}">
+            {% if ft_handle == 'pneumatic-fenders-and-yokohama-type-fenders' %}
+              {% render 'yokohama-collection-image' %}
+            {% elsif ft_group.image %}
+              {{ ft_group.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,240', sizes: '96px', alt: '' }}
+            {% endif %}
+            <span>{{ ft_group_label }}</span>
+          </a>
+          {% if ft_group.products_count > 0 or ft_fender_handles != blank %}
+            <button type="button" class="ft-products-toggle" aria-expanded="false" aria-controls="{{ ft_panel_id }}" aria-label="{{ ft_group_label }}"><span aria-hidden="true">›</span></button>
+          {% endif %}
+        </li>
+        {% if ft_group.products_count > 0 or ft_fender_handles != blank %}
+          {% capture ft_product_panel %}
+            <div class="ft-products-flyout" id="{{ ft_panel_id }}" hidden>
+              <div class="ft-products-grid">
+{% if ft_fender_handles != blank %}
+{% for ft_fender_handle in ft_fender_handles %}
+{% assign ft_fender = collections[ft_fender_handle] %}
+{% if ft_fender != blank %}
+<a class="ft-products-card" href="{{ ft_fender.url }}"><div>{% if ft_fender.image %}{{ ft_fender.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,360', sizes: '160px', alt: '' }}{% else %}{{ 'collection-1' | placeholder_svg_tag }}{% endif %}</div><span>{% render 'fendertec-navigation-label', resource_key: ft_fender_handle, resource_title: ft_fender.title %}</span></a>
+{% endif %}
+{% endfor %}
+{% else %}
+                {% paginate ft_group.products by 250 %}
+                  {% for ft_product in ft_group.products %}
+                    {% assign ft_product_nav_key = ft_product.id | prepend: 'product_' %}
+                    <a class="ft-products-card" href="{{ ft_product.url }}">
+                      <div>{% if ft_product.featured_image %}{{ ft_product.featured_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,360', sizes: '160px', alt: '' }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}</div>
+                      <span>{% render 'fendertec-navigation-label', resource_key: ft_product_nav_key, resource_title: ft_product.title %}</span>
+                    </a>
+                  {% endfor %}
+                {% endpaginate %}
+{% endif %}
+              </div>
+            </div>
+          {% endcapture %}
+          {% assign ft_product_panels = ft_product_panels | append: ft_product_panel %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {{ ft_product_panels }}
+</div></li>
+{% assign ft_root = routes.root_url %}
+{% assign ft_root_tail = ft_root | slice: -1 %}
+{% unless ft_root_tail == '/' %}{% assign ft_root = ft_root | append: '/' %}{% endunless %}
+<li class="ft-dawn-markets ft-nav-dropdown">
+<a class="ft-nav-landing header__menu-item list-menu__item link focus-inset" href="{{ markets_url | escape }}">{{ markets_label | escape }}</a>
+<button type="button" class="ft-nav-toggle focus-inset" aria-label="{{ menu_label | escape }}: {{ markets_label | escape }}" aria-controls="ft-markets-panel-{{ section.id }}" aria-expanded="false">{{ 'icon-caret.svg' | inline_asset_content }}</button>
+<ul class="ft-markets-panel" id="ft-markets-panel-{{ section.id }}" role="list" hidden>
+{% assign ft_market_handles = 'rubber-fenders-and-marine-rubber-for-shipyards,rubber-fenders-for-pontoons-and-marinas,rubber-fender-solutions-for-pilotboats-and-crewtenders,rubber-quay-fenders-for-harbours-and-ports,rubber-fenders-and-rubber-solutions-for-the-dredging-industry,rubber-fenders-for-marinas-and-pleasure-boats,rubber-fenders-and-profiles-for-the-contstruction-industry,rubber-fenders-and-marine-rubber-for-the-offshore-industry' | split: ',' %}
+{% for ft_market_handle in ft_market_handles %}
+{% assign ft_market = collections[ft_market_handle] %}
+{% if ft_market != blank %}<li><a href="{{ ft_market.url }}">{% if ft_market.image %}{{ ft_market.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '240,480,640', sizes: 'min(240px, 26vh)', alt: '' }}{% endif %}<span>{% render 'fendertec-navigation-label', resource_key: ft_market_handle, resource_title: ft_market.title %}</span></a></li>{% endif %}
+{% endfor %}
+</ul></li>
+{% assign ft_pages = 'services,about-us,contact' | split: ',' %}
+{% assign ft_titles = 'services,about_us,contact' | split: ',' %}
+{% for ft_page in ft_pages %}
+<li><a class="header__menu-item list-menu__item link focus-inset" href="{{ ft_root }}{% if ft_page == 'contact' %}collections/contact{% else %}pages/{{ ft_page }}{% endif %}">{% assign ft_menu_key = ft_titles[forloop.index0] | prepend: 'fendertec_navigation.' %}{{ ft_menu_key | t | escape }}</a></li>
+{% endfor %}
+</ul>
+<div class="ft-dawn-native-search"><a class="header__icon header__icon--search link focus-inset" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t | escape }}"><span class="svg-wrapper">{{ 'icon-search.svg' | inline_asset_content | replace: 'class="icon icon-search"', 'class="icon icon-search" style="display:block!important;width:20px;height:20px"' }}</span></a></div>
+</nav>
+<script>
+(() => {
+  const nav=document.getElementById('ft-desktop-nav-{{ section.id }}');
+  if (!nav) return;
+
+  const desktop = matchMedia('(min-width: 990px)');
+  const products = nav.querySelector('.ft-dawn-products');
+  const menus = new Map([...nav.querySelectorAll('.ft-nav-dropdown')].map((menu) => {
+    const toggle = menu.querySelector('.ft-nav-toggle');
+    return [menu, { toggle, panel: document.getElementById(toggle.getAttribute('aria-controls')) }];
+  }));
+  const productToggles = [...products.querySelectorAll('.ft-products-toggle')];
+  const flyouts = new Map(productToggles.map((button) => [
+    button, document.getElementById(button.getAttribute('aria-controls'))
+  ]));
+  let menuTimer;
+  let productTimer;
+  let activeMenu;
+  let pinnedMenu;
+  let pinnedProduct;
+
+  function updatePanelHeight() {
+    if (!activeMenu) return;
+    const viewport = window.visualViewport;
+    const bottom = viewport ? viewport.height + viewport.offsetTop : window.innerHeight;
+    const available = bottom - nav.getBoundingClientRect().bottom - 8;
+    nav.style.setProperty('--ft-panel-height', `${Math.max(0, Math.floor(available))}px`);
+  }
+
+  function selectProduct(selected, pin = false) {
+    clearTimeout(productTimer);
+    pinnedProduct = pin ? selected : undefined;
+    flyouts.forEach((flyout, button) => {
+      const active = button === selected;
+      button.setAttribute('aria-expanded', String(active));
+      flyout.hidden = !active;
+    });
+  }
+
+  function setMenu(selected, pin = false) {
+    clearTimeout(menuTimer);
+    if (activeMenu === products && selected !== products) selectProduct();
+    activeMenu = selected;
+    pinnedMenu = pin ? selected : undefined;
+    menus.forEach(({ toggle, panel }, menu) => {
+      const open = menu === selected;
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+    });
+    updatePanelHeight();
+  }
+
+  menus.forEach(({ toggle, panel }, menu) => {
+    menu.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'mouse' || pinnedMenu) return;
+      clearTimeout(menuTimer);
+      menuTimer = setTimeout(() => {
+        const activePanel = menus.get(activeMenu)?.panel;
+        if (activeMenu !== menu && !activePanel?.contains(document.activeElement)) setMenu(menu);
+      }, 140);
+    });
+
+    menu.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      clearTimeout(menuTimer);
+      menuTimer = setTimeout(() => {
+        if (activeMenu === menu && !pinnedMenu && !panel.contains(document.activeElement)) setMenu();
+      }, 240);
+    });
+
+    toggle.addEventListener('click', () => setMenu(pinnedMenu === menu ? undefined : menu, true));
+
+    menu.addEventListener('focusout', (event) => {
+      if (activeMenu === menu && event.relatedTarget && !menu.contains(event.relatedTarget)) {
+        setMenu();
+      }
+    });
+
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || activeMenu !== menu) return;
+      event.preventDefault();
+      clearTimeout(menuTimer);
+      const activeProduct = productToggles.find((button) => button.getAttribute('aria-expanded') === 'true');
+      if (menu === products && activeProduct &&
+        (activeProduct === event.target || flyouts.get(activeProduct).contains(event.target))) {
+        activeProduct.focus();
+        selectProduct();
+      } else {
+        setMenu();
+        toggle.focus();
+      }
+    });
+  });
+
+  productToggles.forEach((button) => {
+    const row = button.closest('.ft-products-row');
+    row.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'mouse' || pinnedProduct) return;
+      clearTimeout(productTimer);
+      productTimer = setTimeout(() => {
+        const focusedFlyout = document.activeElement.closest('.ft-products-flyout');
+        if (!focusedFlyout || focusedFlyout === flyouts.get(button)) selectProduct(button);
+      }, 100);
+    });
+    row.addEventListener('pointerleave', () => clearTimeout(productTimer));
+    button.addEventListener('click', (event) => {
+      const close = pinnedProduct === button;
+      selectProduct(close ? undefined : button, true);
+      if (!close && event.detail === 0) flyouts.get(button).querySelector('a')?.focus();
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.ft-nav-dropdown')) setMenu();
+  });
+  desktop.addEventListener('change', () => setMenu());
+  window.addEventListener('resize', updatePanelHeight);
+  window.addEventListener('scroll', updatePanelHeight, { passive: true });
+  window.visualViewport?.addEventListener('resize', updatePanelHeight);
+})();
+</script>

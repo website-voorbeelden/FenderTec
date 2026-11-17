@@ -1,0 +1,20 @@
+{% doc %}
+  Renders a localized menu label for a catalog entry.
+
+  @param {string} resource_key - Collection handle or product-prefixed Shopify product ID
+  @param {string} resource_title - Shopify title used when no menu label is defined
+{% enddoc %}
+{%- liquid
+  if resource_key == 'pneumatic-fenders-and-yokohama-type-fenders'
+    assign label_key = 'fendertec_navigation.yokohama'
+  else
+    assign label_key = resource_key | replace: '-', '_' | prepend: 'fendertec_navigation.catalog.'
+  endif
+
+  assign label = label_key | t
+  assign translated_label = label | downcase
+  if label == blank or translated_label contains 'translation missing'
+    assign label = resource_title
+  endif
+  echo label | escape
+-%}

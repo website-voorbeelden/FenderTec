@@ -29,7 +29,15 @@
                   style="--animation-order: {{ forloop.index }};"
                 {% endif %}
               >
-                {{ block.settings.heading }}
+                {% if template.suffix == 'yokohama-fender' and block.settings.use_yokohama_heading_translation %}
+                  {% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}
+                    {{ 'fendertec_yokohama.products.heading' | t }}
+                  {% else %}
+                    {{ block.settings.heading }}
+                  {% endif %}
+                {% else %}
+                  {{ block.settings.heading }}
+                {% endif %}
               </h2>
             {%- when 'caption' -%}
               <p
@@ -192,6 +200,12 @@
           "id": "heading",
           "default": "t:sections.rich-text.blocks.heading.settings.heading.default",
           "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_yokohama_heading_translation",
+          "label": "Use the localized Yokohama heading",
+          "default": false
         },
         {
           "type": "select",

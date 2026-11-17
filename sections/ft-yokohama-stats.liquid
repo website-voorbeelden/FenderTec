@@ -1,0 +1,92 @@
+<div class="ft-yoko-stats page-width" id="ft-yoko-stats-{{ section.id }}">
+  <div><span class="ft-yoko-stats__number h0" data-count="60">60+</span><span class="ft-yoko-stats__label">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.stats.experience' | t }}{% else %}{{ section.settings.experience | escape }}{% endif %}</span></div>
+  <div><span class="ft-yoko-stats__number h0" data-count="2500">{% case request.locale.iso_code %}{% when 'en' %}2,500{% when 'fr' %}2&#8239;500{% when 'nb' or 'sv' %}2&nbsp;500{% else %}2.500{% endcase %}+</span><span class="ft-yoko-stats__label">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.stats.delivered' | t }}{% else %}{{ section.settings.delivered | escape }}{% endif %}</span></div>
+  <div><span class="ft-yoko-stats__number h0" data-count="30">30+</span><span class="ft-yoko-stats__label">{% if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'es' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv' %}{{ 'fendertec_yokohama.stats.sizes' | t }}{% else %}{{ section.settings.sizes | escape }}{% endif %}</span></div>
+</div>
+<style>
+.ft-yoko-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding-top:36px;padding-bottom:40px;gap:24px;text-align:center}
+.ft-yoko-stats>div{display:flex;flex-direction:column;gap:10px;padding:8px 20px}
+.ft-yoko-stats>div+div{border-left:0}
+.ft-yoko-stats__number{color:var(--ft-brand-red);}
+.ft-yoko-stats__label{color:#555;}
+@media(max-width:749px){.ft-yoko-stats{gap:12px;padding-top:28px;padding-bottom:28px}.ft-yoko-stats>div{padding:4px 8px}.ft-yoko-stats__number{}.ft-yoko-stats__label{}}
+@media(max-width:389px){.ft-yoko-stats{grid-template-columns:1fr}.ft-yoko-stats>div+div{border-left:0;border-top:0;padding-top:20px}}
+</style>
+<script>
+(()=>{
+const root=document.getElementById('ft-yoko-stats-{{ section.id }}');if(!root||root.dataset.ready)return;root.dataset.ready='true';
+if(matchMedia('(prefers-reduced-motion:reduce)').matches||!('IntersectionObserver'in window))return;
+let numberLocale = {% case request.locale.iso_code %}{% when 'en' %}'en'{% when 'fr' %}'fr-FR'{% when 'it' %}'it-IT'{% when 'nb' %}'nb-NO'{% when 'sv' %}'sv-SE'{% else %}'de-DE'{% endcase %};
+{% if theme.role == 'development' %}
+const region = new URLSearchParams(location.search).get('stock_region');
+if (region === 'nl' || region === 'de') numberLocale = 'de-DE';
+{% endif %}
+const numberFormat = new Intl.NumberFormat(numberLocale, {
+  useGrouping: numberLocale === 'it-IT' ? 'always' : 'auto',
+});
+const numbers=[...root.querySelectorAll('[data-count]')];
+const observer=new IntersectionObserver(entries=>{if(!entries.some(entry=>entry.isIntersecting))return;observer.disconnect();const start=performance.now();
+function frame(now){const progress=Math.min((now-start)/6000,1),eased=1-Math.pow(1-progress,3);numbers.forEach(el=>{el.textContent=numberFormat.format(Math.round(Number(el.dataset.count)*eased))+'+'});if(progress<1)requestAnimationFrame(frame)}requestAnimationFrame(frame);
+},{threshold:.25});observer.observe(root);
+})();
+</script>
+
+
+<style>
+#MainContent .collection-hero__title{font-size:calc(var(--font-heading-scale)*2rem)}
+#MainContent .collection-hero__description h2{font-size:calc(var(--font-heading-scale)*1.7rem)}
+@media(min-width:750px){#MainContent .collection-hero__title{font-size:calc(var(--font-heading-scale)*2.4rem)}#MainContent .collection-hero__description h2{font-size:calc(var(--font-heading-scale)*1.8rem)}}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+<style>@media screen and (max-width:749px){.ft-yoko-stats{grid-template-columns:minmax(0,1fr);gap:28px}.ft-yoko-stats>div,.ft-yoko-stats>div+div{padding:4px 8px;gap:8px}.ft-yoko-stats__number{font-size:calc(var(--font-heading-scale)*4.8rem)}}</style>
+
+<style>
+#product-grid .card{background:#fff;border:1px solid #e6e3e1;border-radius:5px;overflow:hidden;box-shadow:none}
+#product-grid .card__inner{--ratio-percent:60%!important;background:#fff}
+#product-grid .card__media .media{background:#fff}
+#product-grid .card__media img{object-fit:contain;padding:16px;transform:none!important;transition:opacity .18s ease}
+#product-grid .card__media img:first-child{opacity:1}
+#product-grid .card__media img+img{opacity:0}
+#product-grid .card>.card__content{background:#f6f5f3;padding:16px}
+#product-grid .card>.card__content .card__information{padding:0}
+#product-grid .card__heading{margin:0}
+#product-grid .card-information,#product-grid .card__badge{display:none}
+@media(hover:hover) and (pointer:fine){
+#product-grid .card-wrapper:hover .card__media img:first-child:not(:only-child){opacity:0}
+#product-grid .card-wrapper:hover .card__media img+img{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){#product-grid .card__media img{transition:none}}
+</style>
+
+{% schema %}
+{
+  "name": "Yokohama figures",
+  "settings": [
+    {
+      "type": "text",
+      "id": "experience",
+      "label": "Experience label"
+    },
+    {
+      "type": "text",
+      "id": "delivered",
+      "label": "Delivered label"
+    },
+    {
+      "type": "text",
+      "id": "sizes",
+      "label": "Sizes label"
+    }
+  ]
+}
+{% endschema %}

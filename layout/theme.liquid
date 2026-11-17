@@ -1,6 +1,23 @@
 <!doctype html>
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
+    {%- if theme.role == 'development' and request.page_type == 'collection' and request.design_mode == false -%}
+      {%- assign yokohama_destination = collections['pneumatic-fenders-and-yokohama-type-fenders'] -%}
+      {%- assign yokohama_legacy = collections['yokohama-type-pneumatic-fenders'] -%}
+      {%- if yokohama_destination != blank -%}
+        {%- if collection.id == yokohama_legacy.id or collection.id == yokohama_destination.id and template.suffix != 'yokohama-fender' -%}
+          <script>
+            (() => {
+              const target = new URL({{ yokohama_destination.url | json }}, window.location.origin);
+              target.search = window.location.search;
+              target.searchParams.set('view', 'yokohama-fender');
+              target.hash = window.location.hash;
+              if (target.href !== window.location.href) window.location.replace(target.href);
+            })();
+          </script>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
 
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -45,18 +62,28 @@ Ensure this is the ONLY canonical tag in the theme.
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- liquid
+      assign storefront_title = page_title
+      assign storefront_description = page_description
+      if template.name == 'collection' and template.suffix == 'yokohama-fender'
+        if request.locale.iso_code == 'da' or request.locale.iso_code == 'en' or request.locale.iso_code == 'de' or request.locale.iso_code == 'es' or request.locale.iso_code == 'fr' or request.locale.iso_code == 'it' or request.locale.iso_code == 'nl' or request.locale.iso_code == 'nb' or request.locale.iso_code == 'sv'
+          assign storefront_title = collection.title | default: page_title
+          assign storefront_description = 'fendertec_yokohama.page.meta_description' | t
+        endif
+      endif
+    -%}
     <title>
-      {{ page_title }}
+      {{ storefront_title | escape }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless storefront_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {% if storefront_description %}
+      <meta name="description" content="{{ storefront_description | escape }}">
     {% endif %}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', title_override: storefront_title, description_override: storefront_description %}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -70,6 +97,7 @@ Ensure this is the ONLY canonical tag in the theme.
     {%- endif -%}
 
     {{ content_for_header }}
+    <script src="{{ 'yokohama-quote-tracking.js' | asset_url }}" defer></script>
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
@@ -422,9 +450,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 // Tracking/marketing/debug die je wilt verwijderen
 const drop = new Set([
-  "_gl","_ga","_ga_8D45W78N5Z","_ga_Q7ER7GZEQS",
-  "gbraid","wbraid",
-  "utm_source","utm_medium","utm_campaign","utm_term","utm_content","utm_id",
+  "_ga","_ga_8D45W78N5Z","_ga_Q7ER7GZEQS",
   "fbclid","msclkid","ttclid","yclid",
   "gtm_debug","gtm_preview","gtm_auth","gtm_cookies_win",
   "shpxid" // ✅ Shopify param veilig verwijderen
@@ -439,7 +465,7 @@ const drop = new Set([
         let changed = false;
 
         // Verwijder alle bekende trackingparams
-        for (const [key] of url.searchParams) {
+        for (const [key] of Array.from(url.searchParams)) {
           if (drop.has(key)) {
             url.searchParams.delete(key);
             changed = true;
@@ -473,164 +499,5 @@ const drop = new Set([
   })();
 </script>
 
-<!-- Fendertec: nette mailto tracking zonder subject -->
-<script id="ft-mailto-tracking">
-(function(){
-  try{
-    if (window.Shopify && Shopify.designMode) return;
-
-    // 1) Capture UTM/GCLID and store as JSON
-    (function(){
-      var p = new URLSearchParams(location.search || "");
-      var keys = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid"];
-      var o = {}, has = false;
-      keys.forEach(function(k){
-        var v = p.get(k);
-        if (v) { o[k] = v; has = true; }
-      });
-      if (has) localStorage.setItem("ft_attrib", JSON.stringify(o));
-    })();
-
-    // Helper: safely read attribution JSON
-    function ftAttrib(){
-      try { return JSON.parse(localStorage.getItem("ft_attrib") || "{}"); }
-      catch(e){ return {}; }
-    }
-
-    // 2) Build improved mailto
-    function upgradeMailto(href){
-      try{
-        if (!href || href.indexOf("mailto:") !== 0) return href;
-        if (href.indexOf("ft=1") > -1) return href; // avoid duplicates
-
-        var url = new URL(href);
-        url.searchParams.delete("subject"); // ✅ geen onderwerp
-
-        var body = url.searchParams.get("body") || "";
-        var a = ftAttrib();
-
-        // ✅ 20 lege regels + nette scheiding
-        var tail =
-          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n---\n" +
-          "Page: " + location.href +
-          (a.utm_source  ? "\nSource: "  + a.utm_source  : "") +
-          (a.utm_medium  ? "\nMedium: "  + a.utm_medium  : "") +
-          (a.utm_campaign? "\nCampaign: "  + a.utm_campaign: "") +
-          (a.gclid       ? "\nGCLID: " + a.gclid       : "");
-
-        if (body.indexOf("Page: ") === -1) {
-          body = (body ? body.trim() + "\n\n" : "") + tail;
-        }
-
-        url.searchParams.set("body", body);
-        url.searchParams.set("ft", "1");
-        return url.toString();
-      } catch(e){ return href; }
-    }
-
-    // 3) Apply on all mailto clicks
-    document.addEventListener("click", function(e){
-      var a = e.target && e.target.closest && e.target.closest('a[href^="mailto:"]');
-      if (!a || a.dataset.noTrack === "true") return;
-      a.setAttribute("href", upgradeMailto(a.getAttribute("href")));
-    }, true);
-  }catch(e){}
-})();
-</script>
-
-
-<script>
-(function(){
-  try{
-    if (window.Shopify && Shopify.designMode) return;
-
-    // Lees UTM/GCLID uit localStorage (zoals je mailto-script zet) + fallback uit URL
-    function getAttrib(){
-      var o = {};
-      try { o = JSON.parse(localStorage.getItem('ft_attrib') || '{}') || {}; } catch(e){}
-      var q = new URLSearchParams(location.search || '');
-      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid'].forEach(function(k){
-        if (!o[k] && q.get(k)) o[k] = q.get(k);
-      });
-      return o;
-    }
-
-    // Bouw nette tail (NL labels). Voeg alleen regels toe die er zijn.
-    function buildTail(){
-      var a = getAttrib(), L = [];
-      // 12 lege regels: duidelijk onderaan, niet extreem
-      var pad = '\n\n\n\n\n\n\n\n\n\n\n\n';
-      L.push('—');
-      L.push('Pagina: ' + location.href);
-      if (a.utm_source)   L.push('Bron: '     + a.utm_source);
-      if (a.utm_medium)   L.push('Medium: '   + a.utm_medium);
-      if (a.utm_campaign) L.push('Campagne: ' + a.utm_campaign);
-      if (a.utm_term)     L.push('Term: '     + a.utm_term);
-      if (a.utm_content)  L.push('Content: '  + a.utm_content);
-      if (a.gclid)        L.push('GCLID: '    + a.gclid);
-      return pad + L.join('\n');
-    }
-
-    function hidden(name, val){
-      var i = document.createElement('input');
-      i.type = 'hidden';
-      i.name = name;
-      i.value = val || '';
-      return i;
-    }
-
-    function onReady(fn){
-      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
-      else fn();
-      document.addEventListener('shopify:section:load', fn);
-      document.addEventListener('shopify:section:select', fn);
-    }
-
-    onReady(function enhance(){
-      var form = document.querySelector('#ContactForm'); // Dawn-standaard
-      if (!form || form.dataset.ftContactAug === '1') return;
-
-      form.addEventListener('submit', function(){
-        // 1) Haal de gebruikersboodschap op (werkt ook als je het veld vertaald hebt)
-        var userMsgEl =
-          form.querySelector('#ContactForm-body') ||
-          form.querySelector('textarea[name="contact[body]"]') ||
-          form.querySelector('textarea[name^="contact["]');
-        var userMsg = userMsgEl ? (userMsgEl.value || '') : '';
-
-        // 2) Bouw de definitieve body en forceer als contact[body]
-        var tail = buildTail();
-        // dubbele append voorkomen: als tail al aanwezig is, niets toevoegen
-        var finalBody = /\nPagina:\s|^Pagina:\s/m.test(userMsg) ? userMsg : (userMsg ? userMsg.trim() + '\n\n' : '') + tail;
-
-        // Als de originele textarea al contact[body] heet: overschrijf value
-        if (userMsgEl && userMsgEl.name === 'contact[body]') {
-          userMsgEl.value = finalBody;
-        } else {
-          // anders: verwijder eventuele oude contact[body] en voeg hidden toe
-          var old = form.querySelector('input[name="contact[body]"], textarea[name="contact[body]"]');
-          if (old && old !== userMsgEl) old.parentNode.removeChild(old);
-          form.appendChild(hidden('contact[body]', finalBody));
-        }
-
-        // 3) Losse velden voor "Additional details" (alleen toevoegen wat er is)
-        var a = getAttrib();
-        form.appendChild(hidden('contact[Pagina]', location.href));
-        if (a.utm_source)   form.appendChild(hidden('contact[UTM Bron]', a.utm_source));
-        if (a.utm_medium)   form.appendChild(hidden('contact[UTM Medium]', a.utm_medium));
-        if (a.utm_campaign) form.appendChild(hidden('contact[UTM Campagne]', a.utm_campaign));
-        if (a.utm_term)     form.appendChild(hidden('contact[UTM Term]', a.utm_term));
-        if (a.utm_content)  form.appendChild(hidden('contact[UTM Content]', a.utm_content));
-        if (a.gclid)        form.appendChild(hidden('contact[GCLID]', a.gclid));
-      }, true);
-
-      form.dataset.ftContactAug = '1';
-    });
-  }catch(e){}
-})();
-</script>
-
-
-    
   </body>
 </html>

@@ -1,0 +1,76 @@
+{% doc %}
+  Renders the native contact form for a product quotation.
+  @param {product} product - Product to include in the request
+  @param {string} section_id - ID of the product section
+  @param {block} block - The product template's buy-buttons block
+  @param {block} [quantity_block] - The product template's optional quantity block
+{% enddoc %}
+{%- assign contact_id = 'FenderTecProductQuote-' | append: section_id -%}
+{%- assign selected_variant = product.selected_variant -%}
+<div class="ft-product-contact quick-add-hidden" {{ block.shopify_attributes }}>
+  {%- assign contact_heading_id = contact_id | append: '-heading' -%}
+  <h2 id="{{ contact_heading_id }}" class="visually-hidden">{{ 'templates.contact.form.title' | t | escape }}</h2>
+  {%- form 'contact', id: contact_id, aria-labelledby: contact_heading_id, data-ft-product-contact: 'true', data-ft-quote-theme-role: theme.role -%}
+    {%- if form.posted_successfully? -%}
+      <p class="form-status" role="status" data-ft-quote-success>{{ 'templates.contact.form.post_success' | t | escape }}</p>
+    {%- elsif form.errors -%}
+      <div role="alert">{{ form.errors | default_errors }}</div>
+    {%- endif -%}
+
+    <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}">
+
+    {%- unless product.has_only_default_variant -%}
+      {%- liquid
+        assign variant_label = 'products.product.product_variants' | t
+        if product.options.size == 1
+          assign variant_label = product.options.first
+        endif
+      -%}
+      <input type="hidden" name="contact[Variant ID]" data-ft-contact-variant-id disabled>
+      <div class="ft-product-contact__size">
+        <label class="field__label ft-product-contact__size-label" for="{{ contact_id }}-variant">{{ variant_label | escape }}</label>
+        <div class="select">
+          <select class="select__select" id="{{ contact_id }}-variant" name="contact[Variant]" data-ft-contact-variant>
+            <option value="Custom size"{% unless selected_variant %} selected{% endunless %}>
+              {{- 'fendertec_product_quote.custom_size' | t | escape -}}
+            </option>
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.title | escape }}" data-variant-id="{{ variant.id }}"{% if variant.id == selected_variant.id %} selected{% endif %}>
+                {{- variant.title | remove_first: 'Pneumatic Fender ' | remove: ' - w/ chain tyre net' | remove: ' - sling type' | escape -}}
+              </option>
+            {%- endfor -%}
+          </select>
+          <span class="svg-wrapper" aria-hidden="true">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+        </div>
+      </div>
+    {%- endunless -%}
+
+    {%- if quantity_block != blank -%}
+      <div class="field" {{ quantity_block.shopify_attributes }}>
+        <input class="field__input" type="number" id="{{ contact_id }}-quantity" name="contact[Quantity]"
+          min="1" step="1" placeholder="{{ 'products.product.quantity.label' | t | escape }}">
+        <label class="field__label" for="{{ contact_id }}-quantity">{{ 'products.product.quantity.label' | t | escape }}</label>
+      </div>
+    {%- endif -%}
+    <div class="ft-product-contact__fields">
+      <div class="field">
+        <input class="field__input" type="text" id="{{ contact_id }}-name" name="contact[name]"
+          value="{{ form.name | default: customer.name | escape }}" autocomplete="name"
+          placeholder="{{ 'templates.contact.form.name' | t | escape }}" required>
+        <label class="field__label" for="{{ contact_id }}-name">{{ 'templates.contact.form.name' | t | escape }}</label>
+      </div>
+      <div class="field">
+        <input class="field__input" type="email" id="{{ contact_id }}-email" name="contact[email]"
+          value="{{ form.email | default: customer.email | escape }}" autocomplete="email"
+          placeholder="{{ 'templates.contact.form.email' | t | escape }}" required>
+        <label class="field__label" for="{{ contact_id }}-email">{{ 'templates.contact.form.email' | t | escape }}</label>
+      </div>
+    </div>
+    <div class="field">
+      <textarea class="text-area field__input" id="{{ contact_id }}-message" name="contact[body]" rows="3"
+        placeholder="{{ 'templates.contact.form.comment' | t | escape }}" required>{{ form.body | escape }}</textarea>
+      <label class="field__label" for="{{ contact_id }}-message">{{ 'templates.contact.form.comment' | t | escape }}</label>
+    </div>
+    <button type="submit" class="button">{{ 'templates.contact.form.send' | t | escape }}</button>
+  {%- endform -%}
+</div>
