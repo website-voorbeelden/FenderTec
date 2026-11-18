@@ -20,6 +20,8 @@
       <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {{ section.settings.heading }}
       </h2>
+    {%- elsif request.page_type == 'cart' -%}
+      <h1 class="title title-wrapper--no-top-margin">{{ 'templates.contact.form.title' | t }}</h1>
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}

@@ -1,6 +1,14 @@
+{%- liquid
+  assign yokohama_product_ids = '14902259089757,14902260072797,14902260957533' | split: ','
+  assign product_id = product.id | append: ''
+-%}
 <p
   class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
   {{ block.shopify_attributes }}
 >
-  {{- block.settings.text -}}
+  {%- if block.id == 'text_VeNzgQ' and yokohama_product_ids contains product_id -%}
+    {{- 'fendertec_yokohama.products.detail_intro' | t | escape -}}
+  {%- else -%}
+    {{- block.settings.text -}}
+  {%- endif -%}
 </p>

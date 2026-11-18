@@ -583,7 +583,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec is ISO 9001-gecertificeerd en levert pneumatische fenders van het Yokohama-type uit voorraad.",
+      "intro": "FenderTec levert pneumatische fenders van het Yokohama-type, geproduceerd volgens ISO 17357-1:2014. Veel standaardmaten zijn uit voorraad leverbaar.",
       "quote_heading": "Offerte aanvragen",
       "name_label": "Naam *",
       "email_label": "E-mail *",
@@ -625,7 +625,7 @@
       "international_intro": "We houden pneumatische fenders met bandennet en sling-fenders in verschillende standaardmaten op voorraad. Maatwerk is op aanvraag mogelijk.",
       "international_availability": "We leveren wereldwijd. Geef de lengte, diameter, het aantal en de afleverlocatie door. Als je een uiterste leverdatum hebt, horen we die graag. Dan kijken we wat er op voorraad is en wanneer we kunnen leveren.",
       "nl_intro": "Vanuit onze voorraad in Papendrecht leveren we in Nederland en wereldwijd. Veel gangbare maten kunnen we snel leveren. Geef je gewenste maat en leverdatum door, dan kijken we wat er op voorraad is.",
-      "de_intro": "FenderTec heeft een van de grootste voorraden Yokohama-fenders in Europa en heeft een vestiging in Oberhausen, Duitsland. Geef de gewenste maten en aantallen door, dan controleren we de beschikbaarheid en levering.",
+      "de_intro": "FenderTec heeft in Europa een ruime voorraad pneumatische fenders van het Yokohama-type en heeft een vestiging in Oberhausen, Duitsland. Geef de gewenste maten en aantallen door, dan controleren we de beschikbaarheid en levertijd.",
       "photo_alt_1": "Pneumatische fenders met bandennet op voorraad",
       "photo_alt_2": "Pneumatische sling-fenders op pallets",
       "photo_alt_3": "Pneumatische fender met ketting- en bandennet",
@@ -636,9 +636,9 @@
       "map_de_alt": "Kaart van Duitsland met FenderTec in Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Technische brochure",
+      "brochure_heading": "Technische brochure over Yokohama-fenders",
       "table_heading": "Maten van pneumatische Yokohama-type fenders",
-      "download_label": "DOWNLOAD BROCHURE",
+      "download_label": "BROCHURE DOWNLOADEN (PDF)",
       "type_label": "Fendertype",
       "column_name": "Product",
       "column_sku": "Artikelnummer",
@@ -648,7 +648,7 @@
       "tab_tire": "Met bandennet",
       "tab_sling": "Zonder bandennet",
       "tab_foam": "Schuimgevuld",
-      "brochure_copy_html": "<p>In onze Engelstalige productbrochure vind je afmetingen, technische tekeningen en gegevens over de opbouw, energieabsorptie en reactiekracht van pneumatische en andere drijvende fenders. Meer brochures en productdocumentatie vind je op de <a href=\"/pages/downloads\">downloadpagina</a>.</p>",
+      "brochure_copy_html": "<p>In onze Engelstalige brochure vind je technische tekeningen, standaardafmetingen en gegevens over de opbouw, energieabsorptie en reactiekracht. De brochure behandelt fenders met een ketting- en bandennet, sling-fenders en fenders met beschermribben. Meer productdocumentatie vind je op de <a href=\"/pages/downloads\">downloadpagina</a>.</p>",
       "tire_heading": "Pneumatische fenders met ketting- en bandennet",
       "tire_copy_html": "<p>Bij <a href=\"/products/pneumatic-fenders-with-tire-net\">pneumatische fenders met ketting- en bandennet</a> beschermt het net het met lucht gevulde fenderlichaam tegen slijtage bij gebruik tussen twee schepen of tussen schip en kade. Controleer bij een krappe ligplaats de totale afmetingen inclusief het net.</p>",
       "tire_note_html": "<p>De tabel toont een selectie van onze standaardmaten. De afmetingen gelden voor het fenderlichaam zonder het net. Let bij de keuze naast lengte en diameter ook op de benodigde energieabsorptie, de reactiekracht, de binnendruk en de gebruiksomstandigheden. De standaardbinnendruk vóór gebruik is 50 kPa (0,5 bar). Afwijkende maten en een uitvoering met 80 kPa zijn op aanvraag leverbaar.</p>",
@@ -667,14 +667,14 @@
       "foam_variant": "Schuimgevulde PU-fender"
     },
     "products": {
+      "detail_intro": "FenderTec levert deze fender in verschillende standaardmaten. Neem contact op voor de actuele voorraad of een afwijkende maat.",
       "heading": "Pneumatische Yokohama-type fenders"
     },
     "navigation": {
-      "breadcrumb": "Broodkruimelpad",
-      "footer_badge": "ISO 9001-certificering"
+      "breadcrumb": "Broodkruimelpad"
     },
     "page": {
-      "definition_html": "<h2>Wat zijn Yokohama-fenders?</h2><p>Yokohama-fenders zijn drijvende, pneumatische rubberfenders. Als een schip de fender indrukt, wordt de lucht in het versterkte rubberen lichaam samengeperst. Zo neemt de fender de stootenergie op en beschermt hij de scheepsromp en de kade.</p><p>De naam komt van de Yokohama Rubber Company, die deze constructie ontwikkelde. FenderTec levert eigen pneumatische fenders van dit type.</p>",
+      "definition_html": "<h2>Wat zijn Yokohama-fenders?</h2><p>Yokohama-fenders zijn drijvende, pneumatische rubberfenders. Als een schip de fender indrukt, wordt de lucht in het versterkte rubberen lichaam samengeperst. Zo neemt de fender de stootenergie op en beschermt hij de scheepsromp en de kade.</p><p>De naam komt van de Yokohama Rubber Company, die deze constructie ontwikkelde. FenderTec levert fenders van dit type van andere fabrikanten.</p>",
       "applications_html": "<h3>Waar gebruik je pneumatische fenders?</h3><p>Je vindt ze bij het aanleggen aan de kade, bij bunkeren en overslag tussen schepen, en bij offshore- en baggerwerkzaamheden. Omdat de fenders drijven, bewegen ze mee met de waterstand. Dat is handig als je ze tijdelijk wilt inzetten of op verschillende locaties gebruikt.</p>",
       "selection_html": "<h3>Welke uitvoering past bij je project?</h3><p>Een ketting- en bandennet biedt extra bescherming tegen slijtage. Een sling-fender is geschikt als je geen uitwendig net nodig hebt. Drijvende, schuimgevulde PU-fenders zijn een alternatief zonder luchtdruk. We helpen je bij de keuze en kunnen de levering vanuit Papendrecht regelen.</p>",
       "meta_description": "Pneumatische Yokohama-type fenders uit voorraad in Papendrecht, met bandennet of als sling-fender. Vergelijk de maten en vraag een offerte aan bij FenderTec."

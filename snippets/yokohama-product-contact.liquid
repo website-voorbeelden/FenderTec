@@ -2,9 +2,10 @@
   Renders the native contact form for a product quotation.
   @param {product} product - Product to include in the request
   @param {string} section_id - ID of the product section
-  @param {block} block - The product template's buy-buttons block
+  @param {block} [block] - The product template's buy-buttons block
   @param {block} [quantity_block] - The product template's optional quantity block
 {% enddoc %}
+{{ 'fendertec-product-contact.css' | asset_url | stylesheet_tag }}
 {%- assign contact_id = 'FenderTecProductQuote-' | append: section_id -%}
 {%- assign selected_variant = product.selected_variant -%}
 <div class="ft-product-contact quick-add-hidden" {{ block.shopify_attributes }}>

@@ -595,7 +595,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec dispone a magazzino di un’ampia gamma di parabordi pneumatici tipo Yokohama. Il nostro sistema di gestione per la qualità è certificato ISO 9001.",
+      "intro": "FenderTec fornisce parabordi pneumatici di tipo Yokohama fabbricati secondo la norma ISO 17357-1:2014. Molte misure standard sono disponibili a magazzino.",
       "quote_heading": "Richiedi un preventivo",
       "name_label": "Nome *",
       "email_label": "Email *",
@@ -637,7 +637,7 @@
       "international_intro": "Spediamo in tutto il mondo parabordi pneumatici tipo Yokohama con rete di catene e pneumatici o senza rete, in versione sling. Per molte misure standard, anche di grande formato, possiamo organizzare la spedizione in tempi brevi.",
       "international_availability": "Per verificare disponibilità e tempi di consegna, indicaci diametro, lunghezza, quantità e destinazione. Se hai una scadenza, segnalacela nella richiesta. Possiamo fornire anche parabordi su misura.",
       "nl_intro": "Dal magazzino di Papendrecht spediamo in tutti i Paesi Bassi e all’estero. Molte misure standard sono in pronta consegna. Contattaci per verificare la disponibilità delle misure che ti servono.",
-      "de_intro": "FenderTec dispone di una delle maggiori scorte di parabordi tipo Yokohama in Europa e ha una sede a Oberhausen, in Germania. Indicaci misure e quantità per verificare disponibilità e tempi di consegna.",
+      "de_intro": "FenderTec dispone in Europa di un ampio assortimento di parabordi pneumatici di tipo Yokohama a magazzino e ha una sede a Oberhausen, in Germania. Indicaci misure e quantità per verificare disponibilità e tempi di consegna.",
       "photo_alt_1": "Parabordi pneumatici con rete di pneumatici disponibili a magazzino",
       "photo_alt_2": "Parabordi pneumatici senza rete su pallet",
       "photo_alt_3": "Parabordo pneumatico con rete di catene e pneumatici",
@@ -648,9 +648,9 @@
       "map_de_alt": "Mappa della Germania con la sede FenderTec a Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Catalogo tecnico dei parabordi Yokohama",
+      "brochure_heading": "Catalogo tecnico dei parabordi di tipo Yokohama",
       "table_heading": "Dimensioni dei parabordi pneumatici tipo Yokohama",
-      "download_label": "SCARICA IL CATALOGO",
+      "download_label": "SCARICA IL CATALOGO (PDF)",
       "type_label": "Tipo di parabordo",
       "column_name": "Prodotto",
       "column_sku": "Codice articolo",
@@ -660,7 +660,7 @@
       "tab_tire": "Con rete",
       "tab_sling": "Senza rete",
       "tab_foam": "In schiuma (PU)",
-      "brochure_copy_html": "<p>Il catalogo riporta i disegni quotati e i dettagli costruttivi dei parabordi galleggianti, oltre ai valori di assorbimento di energia e forza di reazione. Trovi gli altri documenti tecnici nella <a href=\"/pages/downloads\">sezione Download</a>.</p>",
+      "brochure_copy_html": "<p>Il catalogo in inglese contiene disegni quotati, dimensioni standard, dettagli costruttivi e dati su assorbimento di energia e forza di reazione. Presenta i parabordi con rete di catene e pneumatici, i modelli sling senza rete e le versioni con nervature protettive. Gli altri documenti tecnici sono disponibili nella <a href=\"/pages/downloads\">sezione Download</a>.</p>",
       "tire_heading": "Parabordi pneumatici con rete di catene e pneumatici",
       "tire_copy_html": "<p>La rete di catene e pneumatici protegge il corpo in gomma durante l’accosto in banchina e nelle operazioni tra navi. Per verificare se i <a href=\"/products/pneumatic-fenders-with-tire-net\">parabordi pneumatici con rete</a> entrano nello spazio disponibile, considera l’ingombro complessivo con la rete montata.</p>",
       "tire_note_html": "<p>Le misure in tabella si riferiscono al corpo del parabordo, rete esclusa. Altre misure su richiesta. Oltre a diametro e lunghezza, valuta l’energia di accosto da assorbire, la forza di reazione, la pressione iniziale di gonfiaggio e le condizioni di impiego. La pressione iniziale è di 50 kPa (0,5 bar) di serie o di 80 kPa su richiesta.</p>",
@@ -679,14 +679,14 @@
       "foam_variant": "Parabordo in schiuma con rivestimento in PU"
     },
     "products": {
+      "detail_intro": "FenderTec fornisce questo parabordo in diverse misure standard. Contattaci per verificare la disponibilità o richiedere una misura speciale.",
       "heading": "Parabordi pneumatici tipo Yokohama"
     },
     "navigation": {
-      "breadcrumb": "Percorso di navigazione",
-      "footer_badge": "Certificazione ISO 9001"
+      "breadcrumb": "Percorso di navigazione"
     },
     "page": {
-      "definition_html": "<h2>Che cosa sono i parabordi Yokohama?</h2><p>Sono parabordi galleggianti con un corpo in gomma rinforzata gonfiato ad aria. Quando la nave si appoggia al parabordo, l’aria all’interno si comprime. Il parabordo assorbe così parte dell’energia di accosto e protegge lo scafo e la banchina.</p><p>Il nome deriva da Yokohama Rubber, che ha sviluppato questo progetto. FenderTec fornisce una propria gamma di parabordi pneumatici di questo tipo.</p>",
+      "definition_html": "<h2>Che cosa sono i parabordi Yokohama?</h2><p>Sono parabordi galleggianti con un corpo in gomma rinforzata gonfiato ad aria. Quando la nave si appoggia al parabordo, l’aria all’interno si comprime. Il parabordo assorbe così parte dell’energia di accosto e protegge lo scafo e la banchina.</p><p>Il nome deriva da Yokohama Rubber, che ha sviluppato questo progetto. FenderTec fornisce parabordi di questo tipo realizzati da altri produttori.</p>",
       "applications_html": "<h3>Dove si usano i parabordi pneumatici?</h3><p>Si impiegano negli accosti in banchina e nelle operazioni tra navi, per esempio durante il rifornimento di carburante o il trasbordo di merci. Si usano anche nei lavori offshore e nel dragaggio. Galleggiando, seguono le variazioni del livello dell’acqua e si possono spostare da un punto di accosto all’altro.</p>",
       "selection_html": "<h3>Quale tipo di parabordo scegliere?</h3><p>La rete di catene e pneumatici protegge la gomma dall’abrasione. I modelli senza rete, di tipo sling, hanno attacchi alle estremità per il sollevamento e il fissaggio. Se ti serve un parabordo galleggiante senza aria in pressione, puoi scegliere un modello in schiuma rivestito in poliuretano.</p>",
       "meta_description": "Parabordi pneumatici tipo Yokohama con rete di catene e pneumatici o senza rete. Consulta le misure e richiedi un preventivo a FenderTec."

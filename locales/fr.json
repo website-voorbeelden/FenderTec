@@ -595,7 +595,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec tient en stock une large gamme de défenses pneumatiques de type Yokohama. Notre système de management de la qualité est certifié ISO 9001.",
+      "intro": "FenderTec fournit des défenses pneumatiques de type Yokohama fabriquées selon la norme ISO 17357-1:2014. De nombreuses dimensions standard sont disponibles en stock.",
       "quote_heading": "Demander un devis",
       "name_label": "Nom *",
       "email_label": "Adresse e-mail *",
@@ -637,7 +637,7 @@
       "international_intro": "Nous expédions dans le monde entier des défenses de type Yokohama avec filet de chaînes et de pneus, ainsi que des modèles à élingue. De nombreuses dimensions standard, y compris de grandes tailles, sont disponibles pour une expédition rapide.",
       "international_availability": "Indiquez-nous le diamètre, la longueur, le nombre de défenses, le lieu et la date de livraison souhaitée. Nous vous confirmerons les disponibilités et le délai. Nous pouvons aussi étudier votre demande si vous avez besoin de dimensions sur mesure.",
       "nl_intro": "Notre stock de Papendrecht nous permet d’expédier rapidement de nombreuses dimensions standard, aux Pays-Bas comme à l’international. Contactez-nous pour vérifier la disponibilité des modèles dont vous avez besoin.",
-      "de_intro": "FenderTec dispose de l’un des plus grands stocks de défenses de type Yokohama en Europe et est également implantée à Oberhausen, en Allemagne. Indiquez-nous les dimensions et les quantités souhaitées pour connaître les disponibilités et les délais de livraison.",
+      "de_intro": "FenderTec dispose en Europe d’un large stock de défenses pneumatiques de type Yokohama et est également implantée à Oberhausen, en Allemagne. Indiquez-nous les dimensions et les quantités souhaitées pour connaître les disponibilités et les délais de livraison.",
       "photo_alt_1": "Défenses pneumatiques avec filet de pneus en stock",
       "photo_alt_2": "Défenses pneumatiques à élingue sur des palettes",
       "photo_alt_3": "Défense pneumatique avec filet de chaînes et de pneus",
@@ -648,9 +648,9 @@
       "map_de_alt": "Carte de l’Allemagne indiquant le site FenderTec à Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Brochure technique des défenses Yokohama",
+      "brochure_heading": "Brochure technique des défenses de type Yokohama",
       "table_heading": "Dimensions des défenses de type Yokohama",
-      "download_label": "TÉLÉCHARGER LA BROCHURE",
+      "download_label": "TÉLÉCHARGER LA BROCHURE (PDF)",
       "type_label": "Type de défense",
       "column_name": "Produit",
       "column_sku": "Référence",
@@ -660,7 +660,7 @@
       "tab_tire": "Avec filet de pneus",
       "tab_sling": "Sans filet",
       "tab_foam": "En mousse (PU)",
-      "brochure_copy_html": "<p>La brochure rassemble les plans cotés, les caractéristiques de construction et les données d’absorption d’énergie et de force de réaction. Retrouvez les autres documents techniques dans la <a href=\"/pages/downloads\">rubrique Téléchargements</a>.</p>",
+      "brochure_copy_html": "<p>Notre brochure en anglais présente les plans cotés, les dimensions standard et les caractéristiques de construction, ainsi que les données d’absorption d’énergie et de force de réaction. Elle couvre les défenses à filet de chaînes et de pneus, les modèles de type sling et les défenses à nervures de protection. Retrouvez les autres documents techniques dans la <a href=\"/pages/downloads\">rubrique Téléchargements</a>.</p>",
       "tire_heading": "Défenses pneumatiques avec filet de chaînes et de pneus",
       "tire_copy_html": "<p>Le filet de chaînes et de pneus protège l’enveloppe des <a href=\"/products/pneumatic-fenders-with-tire-net\">défenses pneumatiques avec filet</a> lors des accostages à quai ou à couple. Pour vérifier que la défense s’intègre à votre installation, prenez en compte ses dimensions hors tout, filet compris.</p>",
       "tire_note_html": "<p>Les dimensions du tableau sont données hors filet. Autres dimensions sur demande. Pour choisir une défense, vérifiez l’énergie à absorber, la force de réaction, la pression initiale de gonflage et les conditions d’accostage. Pression initiale standard de 50 kPa (0,5 bar), 80 kPa sur demande.</p>",
@@ -679,14 +679,14 @@
       "foam_variant": "Défense en mousse avec revêtement PU"
     },
     "products": {
+      "detail_intro": "FenderTec propose cette défense en plusieurs dimensions standard. Contactez-nous pour connaître les disponibilités ou demander des dimensions sur mesure.",
       "heading": "Défenses pneumatiques de type Yokohama"
     },
     "navigation": {
-      "breadcrumb": "Fil d’Ariane",
-      "footer_badge": "Certification ISO 9001"
+      "breadcrumb": "Fil d’Ariane"
     },
     "page": {
-      "definition_html": "<h2>Qu’est-ce qu’une défense Yokohama&nbsp;?</h2><p>Une défense de type Yokohama est un cylindre flottant en caoutchouc renforcé, rempli d’air. Lorsqu’un navire vient s’y appuyer, l’air se comprime. La défense absorbe ainsi une partie de l’énergie d’accostage et protège la coque et le quai.</p><p>Ce type de défense a été développé par Yokohama Rubber. FenderTec fournit ses propres défenses pneumatiques de ce type.</p>",
+      "definition_html": "<h2>Qu’est-ce qu’une défense Yokohama&nbsp;?</h2><p>Une défense de type Yokohama est un cylindre flottant en caoutchouc renforcé, rempli d’air. Lorsqu’un navire vient s’y appuyer, l’air se comprime. La défense absorbe ainsi une partie de l’énergie d’accostage et protège la coque et le quai.</p><p>Ce type de défense a été développé par Yokohama Rubber. FenderTec fournit des défenses de ce type fabriquées par d’autres fabricants.</p>",
       "applications_html": "<h3>Où utilise-t-on les défenses pneumatiques&nbsp;?</h3><p>On les utilise à quai et entre deux navires, notamment lors du soutage ou du transbordement de marchandises. Les défenses pneumatiques conviennent aussi aux travaux en mer et aux opérations de dragage. Comme elles flottent, elles suivent les variations du niveau de l’eau et peuvent être déplacées d’un poste à quai à l’autre.</p>",
       "selection_html": "<h3>Quelle défense choisir&nbsp;?</h3><p>Le filet de chaînes et de pneus protège l’enveloppe contre l’abrasion. Le modèle à élingue se lève et se fixe par ses extrémités. Si votre installation nécessite une défense flottante sans gonflage, un modèle en mousse à revêtement polyuréthane est une autre option.</p>",
       "meta_description": "Défenses pneumatiques de type Yokohama avec filet de chaînes et de pneus ou à élingue. Consultez les dimensions et demandez un devis à FenderTec."

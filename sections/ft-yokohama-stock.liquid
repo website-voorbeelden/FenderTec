@@ -53,7 +53,7 @@
         {% endif %}
       </p></div>
     {% endif %}
-    {% assign ft_stock_photos = 'carousel-yokohama-tire-net-stock.jpg,carousel-yokohama-sling-fenders-stock.jpg,carousel-yokohama-tire-net-fender-yard.jpg,carousel-yokohama-large-fenders-flat-rack.jpg,carousel-yokohama-warehouse-stock.jpg,carousel-yokohama-fender-size-range.jpg' | split: ',' %}
+    {% assign ft_stock_photos = 'carousel-yokohama-tire-net-stock.webp,carousel-yokohama-sling-fenders-stock.jpg,carousel-yokohama-tire-net-fender-yard.jpg,carousel-yokohama-large-fenders-flat-rack.jpg,carousel-yokohama-warehouse-stock.jpg,carousel-yokohama-fender-size-range.webp' | split: ',' %}
     {% assign ft_stock_alts = 'Pneumatic fenders with tire nets in stock,Pneumatic sling fenders on pallets,Pneumatic fender with a chain and tire net,Large pneumatic fenders secured for transport,Pneumatic fenders stored in the warehouse,Pneumatic fenders in different sizes' | split: ',' %}
     {% for ft_stock_photo in ft_stock_photos limit: ft_stock_photo_count %}
       {% assign ft_stock_photo_alt = ft_stock_alts[forloop.index0] | escape %}
@@ -61,13 +61,14 @@
         {% assign ft_stock_alt_key = 'fendertec_yokohama.stock.photo_alt_' | append: forloop.index %}
         {% assign ft_stock_photo_alt = ft_stock_alt_key | t %}
       {% endif %}
-      <img class="ft-stock-gallery__photo ft-stock-gallery__photo--{{ forloop.index }}" src="{{ ft_stock_photo | asset_url }}" alt="{{ ft_stock_photo_alt }}" width="600" height="450" loading="lazy" decoding="async">
+      <img class="ft-stock-gallery__photo ft-stock-gallery__photo--{{ forloop.index }}" src="{{ ft_stock_photo | asset_url }}" alt="{{ ft_stock_photo_alt }}" width="{% if forloop.first %}768{% else %}600{% endif %}" height="{% if forloop.first %}1024{% else %}450{% endif %}" loading="lazy" decoding="async">
     {% endfor %}
   </div>
 </section>
 <style>
 .ft-stock-gallery__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
 .ft-stock-gallery__photo{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;min-width:0}
+.ft-stock-gallery__photo--1{object-position:center bottom}
 .ft-stock-gallery__grid--map{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(3,minmax(0,1fr));height:480px}
 .ft-stock-gallery__map{grid-column:1;grid-row:1/4;display:block;width:100%;height:100%;min-height:0;object-fit:contain}
 .ft-stock-gallery__grid--map .ft-stock-gallery__photo{height:100%;min-height:0;aspect-ratio:auto}
@@ -87,7 +88,7 @@
 {% if ft_stock_map == blank and theme.role == 'development' %}
 <template id="ft-stock-preview-nl-{{ section.id }}"><div class="ft-stock-gallery__location"><img class="ft-stock-gallery__map" src="{{ 'fendertec-location-papendrecht.png' | asset_url }}" alt="Kaart van Nederland met de FenderTec-locatie in Papendrecht" width="1122" height="1402" loading="lazy" decoding="async"><p class="ft-stock-gallery__intro">{{ section.settings.nl_intro | escape }}</p></div></template>
 <template id="ft-stock-preview-de-{{ section.id }}"><div class="ft-stock-gallery__location"><img class="ft-stock-gallery__map" src="{{ 'fendertec-location-oberhausen.jpg' | asset_url }}" alt="Deutschlandkarte mit dem FenderTec-Standort in Oberhausen" width="1145" height="1374" loading="lazy" decoding="async"><p class="ft-stock-gallery__intro">{{ section.settings.de_intro | escape }}</p></div></template>
-<template id="ft-stock-preview-extra-{{ section.id }}"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--4" src="{{ 'carousel-yokohama-large-fenders-flat-rack.jpg' | asset_url }}" alt="Large pneumatic fenders secured for transport" width="600" height="450" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--5" src="{{ 'carousel-yokohama-warehouse-stock.jpg' | asset_url }}" alt="Pneumatic fenders stored in the warehouse" width="450" height="600" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--6" src="{{ 'carousel-yokohama-fender-size-range.jpg' | asset_url }}" alt="Pneumatic fenders in different sizes" width="600" height="450" loading="lazy" decoding="async"></template>
+<template id="ft-stock-preview-extra-{{ section.id }}"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--4" src="{{ 'carousel-yokohama-large-fenders-flat-rack.jpg' | asset_url }}" alt="Large pneumatic fenders secured for transport" width="600" height="450" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--5" src="{{ 'carousel-yokohama-warehouse-stock.jpg' | asset_url }}" alt="Pneumatic fenders stored in the warehouse" width="450" height="600" loading="lazy" decoding="async"><img class="ft-stock-gallery__photo ft-stock-gallery__photo--6" src="{{ 'carousel-yokohama-fender-size-range.webp' | asset_url }}" alt="Pneumatic fenders in different sizes" width="600" height="450" loading="lazy" decoding="async"></template>
 <script>
 (()=>{
 const host=location.hostname;

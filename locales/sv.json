@@ -583,7 +583,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec lagerhåller ett brett sortiment av pneumatiska fendrar av Yokohama-typ. Vårt kvalitetsledningssystem är certifierat enligt ISO 9001.",
+      "intro": "FenderTec levererar pneumatiska fendrar av Yokohama-typ som tillverkas enligt ISO 17357-1:2014. Vi lagerför många standardstorlekar.",
       "quote_heading": "Begär offert",
       "name_label": "Namn *",
       "email_label": "E-postadress *",
@@ -625,7 +625,7 @@
       "international_intro": "Vi levererar pneumatiska fendrar av Yokohama-typ till kunder över hela världen, både med kedje- och däcknät och utan nät. Många standardstorlekar kan skickas med kort varsel, även flera av de större modellerna.",
       "international_availability": "Ange diameter, längd, antal och leveransplats, så kontrollerar vi lagersaldo och leveranstid. Berätta gärna om fendrarna måste vara framme ett visst datum eller om du behöver specialmått.",
       "nl_intro": "Från vårt lager i Papendrecht kan vi snabbt skicka många standardstorlekar till kunder i Nederländerna och resten av världen. Kontakta oss för besked om lagersaldo och leveranstid.",
-      "de_intro": "FenderTec har ett av Europas största lager av fendrar av Yokohama-typ och ett kontor i Oberhausen i Tyskland. Ange önskade mått och antal, så kontrollerar vi lagersaldo och leveranstid.",
+      "de_intro": "FenderTec har ett brett sortiment av pneumatiska fendrar av Yokohama-typ i lager i Europa och ett kontor i Oberhausen i Tyskland. Ange önskade mått och antal, så kontrollerar vi lagersaldo och leveranstid.",
       "photo_alt_1": "Pneumatiska fendrar med kedje- och däcknät i lager",
       "photo_alt_2": "Pneumatiska fendrar utan nät på pallar",
       "photo_alt_3": "Pneumatisk fender med kedje- och däcknät",
@@ -638,7 +638,7 @@
     "brochure": {
       "brochure_heading": "Teknisk broschyr om Yokohama-fendrar",
       "table_heading": "Mått på pneumatiska Yokohama-fendrar",
-      "download_label": "LADDA NER BROSCHYREN",
+      "download_label": "LADDA NER BROSCHYREN (PDF)",
       "type_label": "Fendertyp",
       "column_name": "Produkt",
       "column_sku": "Artikelnummer",
@@ -648,7 +648,7 @@
       "tab_tire": "Med däcknät",
       "tab_sling": "Utan nät",
       "tab_foam": "Skumfylld (PU)",
-      "brochure_copy_html": "<p>I broschyren hittar du måttritningar, konstruktionsdetaljer och uppgifter om energiabsorption och reaktionskraft för våra flytande fendrar. Fler tekniska dokument finns på vår <a href=\"/pages/downloads\">sida för nedladdningar</a>.</p>",
+      "brochure_copy_html": "<p>I den engelskspråkiga broschyren finns måttritningar, standardmått och uppgifter om konstruktion, energiabsorption och reaktionskraft. Den omfattar fendrar med kedje- och däcknät, slingfendrar utan nät och fendrar med skyddsribbor. Fler tekniska dokument finns på vår <a href=\"/pages/downloads\">sida för nedladdningar</a>.</p>",
       "tire_heading": "Pneumatiska fendrar med kedje- och däcknät",
       "tire_copy_html": "<p>Kedjorna och däcken skyddar gummikroppen när fartyg lägger till vid kaj eller ligger långsides med varandra. Om utrymmet är begränsat, kontrollera yttermåtten på <a href=\"/products/pneumatic-fenders-with-tire-net\">fendern med nätet monterat</a>.</p>",
       "tire_note_html": "<p>Måtten i tabellen gäller själva fenderkroppen, utan nät. Andra mått kan levereras på förfrågan. Utöver diameter och längd behöver du bedöma hur mycket energi fendern ska ta upp, reaktionskraften, det initiala lufttrycket och förhållandena på plats. Standardtrycket är 50 kPa (0,5 bar), med 80 kPa som alternativ på förfrågan.</p>",
@@ -667,14 +667,14 @@
       "foam_variant": "Skumfylld PU-fender"
     },
     "products": {
+      "detail_intro": "FenderTec levererar den här fendern i flera standardstorlekar. Kontakta oss för aktuellt lagersaldo eller om du behöver ett specialmått.",
       "heading": "Våra fendrar av Yokohama-typ"
     },
     "navigation": {
-      "breadcrumb": "Brödsmulor",
-      "footer_badge": "ISO 9001-certifiering"
+      "breadcrumb": "Brödsmulor"
     },
     "page": {
-      "definition_html": "<h2>Vad är Yokohama-fendrar?</h2><p>Yokohama-fendrar är flytande, luftfyllda fendrar av förstärkt gummi. När ett fartyg lägger till och trycker mot fendern komprimeras luften. Fendern tar upp en del av energin och skyddar både skrovet och kajen.</p><p>Fendertypen utvecklades av Yokohama Rubber. FenderTec levererar egna pneumatiska fendrar av samma typ.</p>",
+      "definition_html": "<h2>Vad är Yokohama-fendrar?</h2><p>Yokohama-fendrar är flytande, luftfyllda fendrar av förstärkt gummi. När ett fartyg lägger till och trycker mot fendern komprimeras luften. Fendern tar upp en del av energin och skyddar både skrovet och kajen.</p><p>Fendertypen utvecklades av Yokohama Rubber. FenderTec levererar fendrar av den typen från andra tillverkare.</p>",
       "applications_html": "<h3>Var används pneumatiska fendrar?</h3><p>De används mellan fartyg och kaj och vid operationer mellan fartyg, till exempel vid bunkring eller omlastning. De används också vid offshorearbete och muddring. Eftersom fendrarna flyter följer de vattennivån och går att flytta mellan kajplatser.</p>",
       "selection_html": "<h3>Vilken fender passar för din användning?</h3><p>Ett kedje- och däcknät skyddar gummit mot slitage. Modeller av slingtyp saknar nät och har ändbeslag för lyft och infästning. Om du behöver en flytande fender som inte måste pumpas upp är en skumfylld fender med polyuretanbeläggning ett alternativ.</p>",
       "meta_description": "Pneumatiska Yokohama-fendrar med kedje- och däcknät eller utan nät. Se standardmått och begär offert från FenderTec."

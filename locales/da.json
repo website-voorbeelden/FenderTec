@@ -583,7 +583,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec lagerfører et bredt udvalg af pneumatiske fendere af Yokohama-typen. Vores kvalitetsstyringssystem er certificeret efter ISO 9001.",
+      "intro": "FenderTec leverer pneumatiske fendere af Yokohama-typen, fremstillet efter ISO 17357-1:2014. Vi har mange standardstørrelser på lager.",
       "quote_heading": "Få et tilbud",
       "name_label": "Navn *",
       "email_label": "E-mail *",
@@ -625,7 +625,7 @@
       "international_intro": "Vi leverer pneumatiske fendere af Yokohama-typen til kunder i hele verden, både med kæde- og dæknet og uden net. Mange standardstørrelser kan sendes med kort varsel. Det gælder også flere af de store størrelser.",
       "international_availability": "Oplys diameter, længde, antal og leveringssted, så vi kan bekræfte lagerstatus og leveringstid. Skriv også, hvis fenderne skal være fremme inden en bestemt dato, eller hvis du har brug for specialmål.",
       "nl_intro": "Fra vores lager i Papendrecht kan vi hurtigt sende mange standardstørrelser til kunder i Nederlandene og resten af verden. Kontakt os for at få bekræftet lagerstatus og leveringstid.",
-      "de_intro": "FenderTec har et af Europas største lagre af fendere af Yokohama-typen og en afdeling i Oberhausen i Tyskland. Oplys de ønskede mål og antal, så vi kan bekræfte lagerstatus og leveringstid.",
+      "de_intro": "FenderTec har et bredt udvalg af pneumatiske fendere af Yokohama-typen på lager i Europa og en afdeling i Oberhausen i Tyskland. Oplys de ønskede mål og antal, så vi kan bekræfte lagerstatus og leveringstid.",
       "photo_alt_1": "Pneumatiske fendere med kæde- og dæknet på lager",
       "photo_alt_2": "Pneumatiske fendere uden net på paller",
       "photo_alt_3": "Pneumatisk fender med kæde- og dæknet",
@@ -638,7 +638,7 @@
     "brochure": {
       "brochure_heading": "Teknisk brochure om Yokohama-fendere",
       "table_heading": "Mål på pneumatiske Yokohama-fendere",
-      "download_label": "HENT BROCHUREN",
+      "download_label": "HENT BROCHUREN (PDF)",
       "type_label": "Fendertype",
       "column_name": "Produkt",
       "column_sku": "Varenummer",
@@ -648,7 +648,7 @@
       "tab_tire": "Med dæknet",
       "tab_sling": "Uden net",
       "tab_foam": "Skumfyldt (PU)",
-      "brochure_copy_html": "<p>I brochuren finder du måltegninger, konstruktionsdetaljer og data for energiabsorption og reaktionskraft for vores flydende fendere. Du finder flere tekniske dokumenter på vores <a href=\"/pages/downloads\">downloadside</a>.</p>",
+      "brochure_copy_html": "<p>I den engelsksprogede brochure finder du måltegninger, standardmål og oplysninger om konstruktion, energiabsorption og reaktionskraft. Brochuren dækker fendere med kæde- og dæknet, sling-fendere uden net og fendere med beskyttelsesribber. Du finder mere teknisk dokumentation på vores <a href=\"/pages/downloads\">downloadside</a>.</p>",
       "tire_heading": "Pneumatiske fendere med kæde- og dæknet",
       "tire_copy_html": "<p>På <a href=\"/products/pneumatic-fenders-with-tire-net\">pneumatiske fendere med net</a> beskytter kæde- og dæknettet gummiet, når skibe lægger til ved kaj eller langs siden af hinanden. Er pladsen begrænset, så tjek fenderens udvendige mål med nettet monteret.</p>",
       "tire_note_html": "<p>Målene i tabellen er for selve fenderen uden net. Andre mål kan leveres på forespørgsel. Ud over diameter og længde skal du tage højde for, hvor meget energi fenderen skal optage, reaktionskraften, det indledende lufttryk og driftsforholdene. Standardtrykket er 50 kPa (0,5 bar). En udgave til 80 kPa kan leveres på forespørgsel.</p>",
@@ -667,14 +667,14 @@
       "foam_variant": "Skumfyldt PU-fender"
     },
     "products": {
+      "detail_intro": "FenderTec leverer denne fender i flere standardstørrelser. Kontakt os for lagerstatus eller en størrelse efter mål.",
       "heading": "Vores fendere af Yokohama-typen"
     },
     "navigation": {
-      "breadcrumb": "Brødkrummesti",
-      "footer_badge": "ISO 9001-certificering"
+      "breadcrumb": "Brødkrummesti"
     },
     "page": {
-      "definition_html": "<h2>Hvad er Yokohama-fendere?</h2><p>Yokohama-fendere er flydende, luftfyldte fendere af forstærket gummi. Når skibet lægger til og presser mod fenderen, komprimeres luften. På den måde optager fenderen en del af energien og beskytter skrog og kaj.</p><p>Typen blev udviklet af Yokohama Rubber. FenderTec leverer sine egne pneumatiske fendere af denne type.</p>",
+      "definition_html": "<h2>Hvad er Yokohama-fendere?</h2><p>Yokohama-fendere er flydende, luftfyldte fendere af forstærket gummi. Når skibet lægger til og presser mod fenderen, komprimeres luften. På den måde optager fenderen en del af energien og beskytter skrog og kaj.</p><p>Typen blev udviklet af Yokohama Rubber. FenderTec leverer fendere af denne type fra andre producenter.</p>",
       "applications_html": "<h3>Hvor bruges pneumatiske fendere?</h3><p>De bruges mellem skib og kaj og ved operationer mellem skibe, f.eks. ved bunkring og omladning. De bruges også til offshorearbejde og opmudring. Fordi fenderne flyder, følger de vandstanden og kan flyttes fra én kajplads til en anden.</p>",
       "selection_html": "<h3>Hvilken fender passer til opgaven?</h3><p>Et kæde- og dæknet beskytter gummiet mod slid. På en sling-fender uden net bruges endebeslagene til løft og fastgørelse. Har du brug for en flydende fender, der ikke skal pumpes op, kan du vælge en skumfyldt fender med polyurethanbelægning.</p>",
       "meta_description": "Pneumatiske Yokohama-fendere med kæde- og dæknet eller uden net (sling-type). Se standardmål, og få et tilbud fra FenderTec."

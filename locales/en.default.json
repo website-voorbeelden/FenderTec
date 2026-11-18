@@ -584,7 +584,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec supplies pneumatic Yokohama-type fenders from stock. Our quality management system is certified to ISO 9001.",
+      "intro": "FenderTec supplies Yokohama-type pneumatic fenders manufactured in accordance with ISO 17357-1:2014. Many standard sizes are available from stock.",
       "quote_heading": "Request a Quote",
       "name_label": "Name *",
       "email_label": "Email *",
@@ -626,7 +626,7 @@
       "international_intro": "We stock standard sizes of Yokohama-type pneumatic fenders, both with a chain and tire net and in a sling configuration. Many sizes are available at short notice. We can also supply fenders to your dimensions.",
       "international_availability": "We deliver worldwide. To check stock and lead time, send us the dimensions, quantity and delivery location. If you’re working to a deadline, include it in your request.",
       "nl_intro": "From our stock in Papendrecht, we supply customers in the Netherlands and worldwide. Many common sizes are available at short notice. We can check availability for your project.",
-      "de_intro": "FenderTec holds one of the largest stocks of Yokohama fenders in Europe and has a location in Oberhausen, Germany. Tell us the sizes and quantities you need so we can confirm availability and delivery.",
+      "de_intro": "FenderTec stocks a wide range of Yokohama-type pneumatic fenders in Europe and has a location in Oberhausen, Germany. Tell us the sizes and quantities you need so we can confirm availability and delivery.",
       "photo_alt_1": "Pneumatic fenders with tire nets in stock",
       "photo_alt_2": "Pneumatic sling fenders on pallets",
       "photo_alt_3": "Pneumatic fender with a chain and tire net",
@@ -637,9 +637,9 @@
       "map_de_alt": "Map of Germany showing FenderTec in Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Technical brochure",
+      "brochure_heading": "Technical brochure for Yokohama-type fenders",
       "table_heading": "Pneumatic Yokohama-type fender sizes",
-      "download_label": "DOWNLOAD BROCHURE",
+      "download_label": "DOWNLOAD BROCHURE (PDF)",
       "type_label": "Fender type",
       "column_name": "Product",
       "column_sku": "SKU",
@@ -649,7 +649,7 @@
       "tab_tire": "With tire net",
       "tab_sling": "Without tire net",
       "tab_foam": "Foam-filled",
-      "brochure_copy_html": "<p>Our technical brochure includes dimensions, drawings and data on energy absorption and reaction force for pneumatic and other floating fenders. For more product documents, visit our <a href=\"/pages/downloads\">downloads page</a>.</p>",
+      "brochure_copy_html": "<p>The brochure includes technical drawings, standard dimensions and data on construction, energy absorption and reaction force. It covers pneumatic fenders with chain and tire nets, sling-type fenders and ribbed fenders. For more product documents, visit our <a href=\"/pages/downloads\">downloads page</a>.</p>",
       "tire_heading": "Pneumatic fenders with chain and tire net",
       "tire_copy_html": "<p>On <a href=\"/products/pneumatic-fenders-with-tire-net\">pneumatic fenders with a chain and tire net</a>, the net protects the rubber body from abrasion during ship-to-ship and ship-to-quay operations. If space at the berth is tight, check the overall dimensions with the net fitted.</p>",
       "tire_note_html": "<p>The table lists selected standard sizes. The dimensions are for the fender body, excluding the net. When choosing a fender, consider the required energy absorption, reaction force, initial air pressure and operating conditions as well as length and diameter. Standard initial pressure is 50 kPa (0.5 bar). Custom sizes and an 80 kPa version are available on request.</p>",
@@ -668,14 +668,14 @@
       "foam_variant": "Foam-filled PU fender"
     },
     "products": {
+      "detail_intro": "FenderTec supplies this fender in a range of standard sizes. Contact us to check stock or request a custom size.",
       "heading": "Pneumatic Yokohama-type fenders"
     },
     "navigation": {
-      "breadcrumb": "Breadcrumb",
-      "footer_badge": "ISO 9001 certification"
+      "breadcrumb": "Breadcrumb"
     },
     "page": {
-      "definition_html": "<h2>What are Yokohama fenders?</h2><p>Yokohama fenders are floating, air-filled rubber fenders. As a vessel comes alongside and presses against the fender, the air inside the reinforced rubber body compresses. This absorbs berthing energy and helps protect the hull and berth.</p><p>The name comes from the Yokohama Rubber Company, which developed this design. FenderTec supplies its own pneumatic fenders of this type.</p>",
+      "definition_html": "<h2>What are Yokohama fenders?</h2><p>Yokohama fenders are floating, air-filled rubber fenders. As a vessel comes alongside and presses against the fender, the air inside the reinforced rubber body compresses. This absorbs berthing energy and helps protect the hull and berth.</p><p>The name comes from the Yokohama Rubber Company, which developed this design. FenderTec supplies fenders of this type from other manufacturers.</p>",
       "applications_html": "<h3>Where are pneumatic fenders used?</h3><p>Pneumatic fenders protect vessels at berths and during ship-to-ship operations such as bunkering and cargo transfers. They’re also used in offshore and dredging work. Floating fenders follow changes in water level and can be moved between berths as needed.</p>",
       "selection_html": "<h3>Which type of fender do you need?</h3><p>A chain and tire net gives the rubber body extra protection from abrasion. A sling fender has end fittings for lifting and securing it. Foam-filled PU fenders are an alternative if you need a floating fender that works without internal air pressure.</p>",
       "meta_description": "Compare pneumatic Yokohama-type fenders with tire nets or in sling configuration. Check stock, standard sizes and custom options with FenderTec."

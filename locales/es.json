@@ -595,7 +595,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec dispone de una amplia gama de defensas neumáticas tipo Yokohama en stock. Nuestro sistema de gestión de la calidad cuenta con la certificación ISO 9001.",
+      "intro": "FenderTec suministra defensas neumáticas tipo Yokohama fabricadas conforme a la norma ISO 17357-1:2014. Tenemos en stock una amplia gama de medidas estándar.",
       "quote_heading": "Solicitar presupuesto",
       "name_label": "Nombre *",
       "email_label": "Correo electrónico *",
@@ -637,7 +637,7 @@
       "international_intro": "Enviamos defensas neumáticas tipo Yokohama a todo el mundo, tanto con red de cadenas y neumáticos como en versión sin red, tipo eslinga. Tenemos muchas medidas estándar listas para enviar, incluidas algunas de gran tamaño.",
       "international_availability": "Indícanos el diámetro, la longitud, el número de unidades y el lugar de entrega. Si tienes una fecha límite, inclúyela en la consulta para que podamos confirmar las existencias y el plazo de entrega. También suministramos medidas especiales bajo pedido.",
       "nl_intro": "Desde nuestro almacén de Papendrecht suministramos defensas tanto en los Países Bajos como en el resto del mundo. Muchas medidas habituales se pueden expedir en poco tiempo. Consúltanos la disponibilidad para tu proyecto.",
-      "de_intro": "FenderTec cuenta con uno de los mayores stocks de defensas tipo Yokohama de Europa y tiene una sede en Oberhausen (Alemania). Indícanos las medidas y las unidades que necesitas y te confirmaremos la disponibilidad y el plazo de entrega.",
+      "de_intro": "FenderTec mantiene en Europa un amplio stock de defensas neumáticas tipo Yokohama y cuenta con una sede en Oberhausen, Alemania. Indícanos las medidas y las unidades que necesitas y te confirmaremos la disponibilidad y el plazo de entrega.",
       "photo_alt_1": "Defensas neumáticas con red de neumáticos en stock",
       "photo_alt_2": "Defensas neumáticas tipo eslinga sobre palés",
       "photo_alt_3": "Defensa neumática con red de cadenas y neumáticos",
@@ -648,9 +648,9 @@
       "map_de_alt": "Mapa de Alemania con la ubicación de FenderTec en Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Catálogo técnico de defensas Yokohama",
+      "brochure_heading": "Catálogo técnico de defensas tipo Yokohama",
       "table_heading": "Medidas de las defensas neumáticas tipo Yokohama",
-      "download_label": "DESCARGAR CATÁLOGO",
+      "download_label": "DESCARGAR CATÁLOGO (PDF)",
       "type_label": "Tipo de defensa",
       "column_name": "Producto",
       "column_sku": "Referencia",
@@ -660,7 +660,7 @@
       "tab_tire": "Con red",
       "tab_sling": "Sin red",
       "tab_foam": "De espuma (PU)",
-      "brochure_copy_html": "<p>En el catálogo encontrarás los planos acotados, los detalles constructivos y los datos de absorción de energía y fuerza de reacción de nuestra gama de defensas flotantes. El resto de la documentación técnica está en la <a href=\"/pages/downloads\">sección de descargas</a>.</p>",
+      "brochure_copy_html": "<p>En el catálogo en inglés encontrarás planos acotados, medidas estándar y datos sobre construcción, absorción de energía y fuerza de reacción. Incluye defensas con red de cadenas y neumáticos, modelos tipo sling sin red y defensas con nervaduras de protección. Consulta el resto de la documentación técnica en la <a href=\"/pages/downloads\">sección de descargas</a>.</p>",
       "tire_heading": "Defensas neumáticas con red de cadenas y neumáticos",
       "tire_copy_html": "<p>La red de cadenas y neumáticos protege el cuerpo de caucho durante el atraque a muelle y las maniobras entre buques. Si el espacio disponible es limitado, consulta las dimensiones totales de las <a href=\"/products/pneumatic-fenders-with-tire-net\">defensas neumáticas con red</a> con la protección montada.</p>",
       "tire_note_html": "<p>Las medidas de la tabla corresponden al cuerpo de la defensa, sin contar la red. Otras medidas bajo pedido. Además del diámetro y la longitud, comprueba la energía de atraque que debe absorber la defensa, la fuerza de reacción, la presión inicial de inflado y las condiciones de uso. La presión inicial es de 50 kPa (0,5 bar) de serie y de 80 kPa bajo pedido.</p>",
@@ -679,14 +679,14 @@
       "foam_variant": "Defensa de espuma con recubrimiento de PU"
     },
     "products": {
+      "detail_intro": "FenderTec suministra esta defensa en varias medidas estándar. Consúltanos la disponibilidad o solicítanos una medida especial.",
       "heading": "Defensas neumáticas tipo Yokohama"
     },
     "navigation": {
-      "breadcrumb": "Ruta de navegación",
-      "footer_badge": "Certificación ISO 9001"
+      "breadcrumb": "Ruta de navegación"
     },
     "page": {
-      "definition_html": "<h2>¿Qué son las defensas Yokohama?</h2><p>Son defensas flotantes de caucho reforzado que se llenan de aire. Cuando el buque se apoya en la defensa, el aire se comprime. Así se absorbe parte de la energía del atraque y se protege tanto el casco como el muelle.</p><p>El nombre procede de Yokohama Rubber, la empresa que desarrolló este diseño. FenderTec suministra sus propias defensas neumáticas de este tipo.</p>",
+      "definition_html": "<h2>¿Qué son las defensas Yokohama?</h2><p>Son defensas flotantes de caucho reforzado que se llenan de aire. Cuando el buque se apoya en la defensa, el aire se comprime. Así se absorbe parte de la energía del atraque y se protege tanto el casco como el muelle.</p><p>El nombre procede de Yokohama Rubber, la empresa que desarrolló este diseño. FenderTec suministra defensas de este tipo de otros fabricantes.</p>",
       "applications_html": "<h3>¿Dónde se utilizan las defensas neumáticas?</h3><p>Se utilizan en muelles y en maniobras entre buques, por ejemplo durante el suministro de combustible o el transbordo de mercancías. También se emplean en trabajos en alta mar y operaciones de dragado. Al flotar, acompañan las variaciones del nivel del agua y se pueden trasladar de un puesto de atraque a otro.</p>",
       "selection_html": "<h3>¿Qué tipo de defensa conviene elegir?</h3><p>La red de cadenas y neumáticos protege el caucho del desgaste. Las defensas tipo eslinga se izan y se sujetan por los extremos. Si necesitas una defensa flotante que funcione sin inflado, puedes optar por un modelo de espuma con recubrimiento de poliuretano.</p>",
       "meta_description": "Defensas neumáticas tipo Yokohama con red de cadenas y neumáticos o tipo eslinga. Consulta medidas estándar y solicita presupuesto a FenderTec."

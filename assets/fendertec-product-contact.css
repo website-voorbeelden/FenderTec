@@ -1,0 +1,31 @@
+.ft-product-contact {
+  padding: clamp(1.2rem, 2vw, 2rem);
+  background: #f6f5f3;
+}
+.ft-product-contact form { display: grid; gap: 1.2rem; }
+.ft-product-contact__size-label {
+  position: static;
+  display: block;
+  margin-bottom: .4rem;
+  pointer-events: auto;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.ft-product-contact__size .select__select {
+  min-height: 4.8rem;
+  padding-inline-end: 4.2rem;
+  border: 0;
+  font-size: 1.6rem;
+  color: rgb(var(--color-foreground));
+}
+.ft-product-contact__size .select > .svg-wrapper {
+  inset-block-start: 50%;
+  inset-inline: auto 1.6rem;
+  width: 1.2rem;
+  height: 0.72rem;
+  color: rgb(var(--color-foreground) / 0.65);
+  transform: translateY(-50%);
+}
+.ft-product-contact__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.ft-product-contact .text-area { min-height: 9rem; }
+.ft-product-contact .button { justify-self: start; }

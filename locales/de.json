@@ -583,7 +583,7 @@
   },
   "fendertec_yokohama": {
     "hero": {
-      "intro": "FenderTec liefert pneumatische Fender vom Typ Yokohama ab Lager. Unser Qualitätsmanagement ist nach ISO 9001 zertifiziert.",
+      "intro": "FenderTec liefert pneumatische Fender vom Yokohama-Typ, die gemäß ISO 17357-1:2014 gefertigt werden. Viele Standardgrößen sind ab Lager verfügbar.",
       "quote_heading": "Angebot anfragen",
       "name_label": "Name *",
       "email_label": "E-Mail *",
@@ -621,11 +621,11 @@
     "stock": {
       "heading": "Pneumatische Fender vom Typ Yokohama ab Lager",
       "heading_nl": "Pneumatische Yokohama-Fender ab Lager in den Niederlanden",
-      "heading_de": "Pneumatische Yokohama-Fender ab Lager",
+      "heading_de": "Yokohama-Fender aus europäischem Lagerbestand",
       "international_intro": "Wir halten pneumatische Fender vom Typ Yokohama mit Ketten- und Reifennetz sowie Sling-Fender in gängigen Größen auf Lager. Viele Standardgrößen sind kurzfristig verfügbar. Sondermaße liefern wir auf Anfrage.",
       "international_availability": "Wir liefern weltweit. Nennen Sie uns die gewünschten Abmessungen, die Stückzahl und den Lieferort. Wenn Sie einen festen Termin haben, teilen Sie uns diesen bitte mit. Wir prüfen dann, welche Fender verfügbar sind und wann sie bei Ihnen sein können.",
       "nl_intro": "Von unserem Lager in Papendrecht aus beliefern wir Kunden in den Niederlanden und weltweit. Viele gängige Größen sind kurzfristig verfügbar. Teilen Sie uns die benötigten Maße und den Liefertermin mit, damit wir die Verfügbarkeit prüfen können.",
-      "de_intro": "FenderTec verfügt über einen der größten Lagerbestände an pneumatischen Fendern vom Typ Yokohama in Europa und hat einen Standort in Oberhausen. Teilen Sie uns die benötigten Größen, die Stückzahl und den Lieferort mit. Wir prüfen, was verfügbar ist und wann wir liefern können.",
+      "de_intro": "FenderTec hält in Europa eine große Auswahl an pneumatischen Fendern vom Yokohama-Typ auf Lager und ist in Oberhausen vertreten. Teilen Sie uns die Maße, die Stückzahl und den Lieferort mit. Wir prüfen Verfügbarkeit und Liefertermin.",
       "photo_alt_1": "Pneumatische Fender mit Reifennetz im Lager",
       "photo_alt_2": "Pneumatische Sling-Fender auf Paletten",
       "photo_alt_3": "Pneumatischer Fender mit Ketten- und Reifennetz",
@@ -636,9 +636,9 @@
       "map_de_alt": "Karte von Deutschland mit dem FenderTec-Standort in Oberhausen"
     },
     "brochure": {
-      "brochure_heading": "Technische Broschüre",
+      "brochure_heading": "Technische Broschüre zu Yokohama-Fendern",
       "table_heading": "Abmessungen und Ausführungen",
-      "download_label": "BROSCHÜRE HERUNTERLADEN",
+      "download_label": "BROSCHÜRE HERUNTERLADEN (PDF)",
       "type_label": "Fenderausführung",
       "column_name": "Produkt",
       "column_sku": "Artikelnummer",
@@ -648,7 +648,7 @@
       "tab_tire": "Mit Reifennetz",
       "tab_sling": "Ohne Reifennetz",
       "tab_foam": "Schaumgefüllt",
-      "brochure_copy_html": "<p>In unserer englischsprachigen Produktbroschüre finden Sie Abmessungen, technische Zeichnungen und Angaben zu Aufbau, Energieaufnahme und Reaktionskraft. Weitere Broschüren und Produktunterlagen finden Sie im <a href=\"/pages/downloads\">Downloadbereich</a>.</p>",
+      "brochure_copy_html": "<p>Unsere englischsprachige Broschüre enthält technische Zeichnungen, Standardabmessungen und Angaben zu Aufbau, Energieaufnahme und Reaktionskraft von pneumatischen Fendern vom Yokohama-Typ. Sie stellt Fender mit Ketten- und Reifennetz, Sling-Fender ohne Netz und Fender mit Schutzrippen vor. Weitere Unterlagen finden Sie im <a href=\"/pages/downloads\">Downloadbereich</a>.</p>",
       "tire_heading": "Pneumatische Fender mit Ketten- und Reifennetz",
       "tire_copy_html": "<p>Bei <a href=\"/products/pneumatic-fenders-with-tire-net\">pneumatischen Fendern mit Ketten- und Reifennetz</a> schützt das Netz den luftgefüllten Fenderkörper vor Abrieb. Die Ausführung eignet sich für Einsätze zwischen zwei Schiffen und zwischen Schiff und Kai. Bei beengten Liegeplätzen sollten Sie die Außenmaße einschließlich Netz berücksichtigen.</p>",
       "tire_note_html": "<p>Die Tabelle zeigt eine Auswahl an Standardgrößen. Die Maße beziehen sich auf den Fenderkörper ohne Netz. Neben Länge und Durchmesser sind bei der Auswahl die benötigte Energieaufnahme, die Reaktionskraft, der Innendruck und die Einsatzbedingungen zu berücksichtigen. Der anfängliche Innendruck beträgt serienmäßig 50 kPa (0,5 bar). Andere Abmessungen und eine Ausführung mit 80 kPa sind auf Anfrage erhältlich.</p>",
@@ -667,14 +667,14 @@
       "foam_variant": "Schaumgefüllter PU-Fender"
     },
     "products": {
+      "detail_intro": "FenderTec liefert diesen Fender in verschiedenen Standardgrößen. Fragen Sie uns nach der aktuellen Verfügbarkeit oder nach Sondermaßen.",
       "heading": "Pneumatische Fender vom Typ Yokohama"
     },
     "navigation": {
-      "breadcrumb": "Brotkrümelnavigation",
-      "footer_badge": "ISO 9001-Zertifizierung"
+      "breadcrumb": "Brotkrümelnavigation"
     },
     "page": {
-      "definition_html": "<h2>Was sind Yokohama-Fender?</h2><p>Fender vom Typ Yokohama sind schwimmende, luftgefüllte Gummifender. Beim Anlegen drückt das Schiff den Fender zusammen. Die Luft im verstärkten Gummikörper wird verdichtet. So nimmt der Fender die Stoßenergie auf und schützt Schiffsrumpf und Kaianlage.</p><p>Der Name geht auf die Yokohama Rubber Company zurück, die diese Bauart entwickelt hat. FenderTec liefert eigene pneumatische Fender dieser Bauart.</p>",
+      "definition_html": "<h2>Was sind Yokohama-Fender?</h2><p>Fender vom Typ Yokohama sind schwimmende, luftgefüllte Gummifender. Beim Anlegen drückt das Schiff den Fender zusammen. Die Luft im verstärkten Gummikörper wird verdichtet. So nimmt der Fender die Stoßenergie auf und schützt Schiffsrumpf und Kaianlage.</p><p>Der Name geht auf die Yokohama Rubber Company zurück, die diese Bauart entwickelt hat. FenderTec liefert pneumatische Fender dieser Bauart von anderen Herstellern.</p>",
       "applications_html": "<h3>Wo werden pneumatische Fender eingesetzt?</h3><p>Typische Einsatzbereiche sind das Anlegen am Kai, der Ladungsumschlag oder das Bunkern zwischen zwei Schiffen sowie Arbeiten im Offshore- und Baggerbereich. Da die Fender schwimmen, folgen sie dem Wasserstand und lassen sich auch zeitweise einsetzen.</p>",
       "selection_html": "<h3>Welche Ausführung eignet sich für Ihren Einsatz?</h3><p>Bei regelmäßigem Kontakt bietet ein Ketten- und Reifennetz zusätzlichen Schutz für den Fenderkörper. Die Sling-Ausführung kommt ohne Außennetz aus. Schaumgefüllte Schwimmfender bieten eine Alternative, wenn Sie einen Fender ohne Luftdruck benötigen.</p>",
       "meta_description": "Pneumatische Fender vom Typ Yokohama mit Reifennetz oder in Sling-Ausführung ab Lager. Größen vergleichen, Sondermaße und Liefertermin bei FenderTec anfragen."

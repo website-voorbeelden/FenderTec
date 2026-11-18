@@ -1,3 +1,4 @@
+{%- assign catalog_sort_options = search.sort_options | reject: 'value', 'price-ascending' | reject: 'value', 'price-descending' -%}
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -165,7 +166,7 @@
                     id="SortBy"
                     aria-describedby="a11y-refresh-page-message"
                   >
-                    {%- for option in search.sort_options -%}
+                    {%- for option in catalog_sort_options -%}
                       <option
                         value="{{ option.value | escape }}"
                         {% if option.value == sort_by %}
